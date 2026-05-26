@@ -1,8 +1,9 @@
 package com.dwaragesh.insights.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
@@ -10,6 +11,8 @@ import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Canvas {
 
     @Id
@@ -21,6 +24,13 @@ public class Canvas {
     @CreationTimestamp
     private Instant createdAt;
 
-    private List<Node> nodes;
+    @OneToMany(mappedBy = "canvas", cascade = CascadeType.ALL)
+    private List<Node> nodes; //need to be changed to accomodate other components as well
+
+    @OneToMany(mappedBy = "canvas", cascade = CascadeType.ALL)
     private List<Edge> edges;
+
+    @ManyToOne
+    @JoinColumn(name = "wid", nullable = false)
+    private WorkSpace workSpace;
 }

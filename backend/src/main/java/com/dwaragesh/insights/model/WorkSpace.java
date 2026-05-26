@@ -1,9 +1,6 @@
 package com.dwaragesh.insights.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
@@ -20,5 +17,9 @@ public class WorkSpace {
     @JoinColumn(name = "uid", nullable = false)
     private User uid;
 
+    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL)
     private List<User> collaborators;
+
+    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL)
+    private List<Canvas> canvasList;
 }

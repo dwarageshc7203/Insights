@@ -15,11 +15,4 @@ public class UserController {
 
     @Autowired
     private UserRepository repository;
-
-    @GetMapping()
-    public ResponseEntity<UserRequest> getUser() {
-
-    }
-
-
 }

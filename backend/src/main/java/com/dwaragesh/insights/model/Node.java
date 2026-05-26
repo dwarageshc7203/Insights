@@ -1,7 +1,6 @@
 package com.dwaragesh.insights.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -19,5 +18,9 @@ public class Node {
 
     @CreationTimestamp
     private Instant createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "cid", nullable = false)
+    private Canvas canvas;
 
 }
