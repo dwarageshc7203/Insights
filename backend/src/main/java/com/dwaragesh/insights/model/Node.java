@@ -13,8 +13,10 @@ public class Node {
 
     @Id
     private int nid;
-    private String nName;
     private int uid;
+
+    private String contents;
+    private int[] position;
 
     @CreationTimestamp
     private Instant createdAt;

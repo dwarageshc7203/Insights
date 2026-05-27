@@ -1,5 +1,5 @@
-what to do
-1) Model Creation
+What to do
+1) Model Creation ⇒ **`Done`**
 2) Method ideation
 3) Controller method Creation
 4) Service layer

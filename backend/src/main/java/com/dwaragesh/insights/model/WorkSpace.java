@@ -15,10 +15,15 @@ public class WorkSpace {
 
     @ManyToOne
     @JoinColumn(name = "uid", nullable = false)
-    private User uid;
+    private User owner;
 
-    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL)
-    private List<User> collaborators;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "workspace_collaborators",
+//            joinColumns = @JoinColumn(name = "workspace_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id")
+//    )
+//    private List<User> collaborators;
 
     @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL)
     private List<Canvas> canvasList;

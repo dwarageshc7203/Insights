@@ -16,12 +16,11 @@ public class Edge {
 
     @Id
     private int eid;
-    private String eName;
     private int uid;
 
-    @ManyToOne
-    @JoinColumn(name = "node", nullable = false)
-    private List<Node> sources;
+//    @ManyToOne
+//    @JoinColumn(name = "node", nullable = false)
+//    private List<Node> sources;
 
     private List<Node> destinations;
 
