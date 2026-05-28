@@ -19,7 +19,7 @@ public class Canvas {
     private int cid;
     private String cName;
     private int uid;
-    private List<User> collaborators;
+//    private List<User> collaborators;
 
     @CreationTimestamp
     private Instant createdAt;
