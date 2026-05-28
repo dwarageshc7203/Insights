@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class WorkSpaceService {
 
@@ -20,7 +23,7 @@ public class WorkSpaceService {
     @Autowired
     private UserRepository userRepo;
 
-
+    //Create new WorkSpace => Done
     public WorkSpaceResponse createWorkSpace(int uid, WorkSpaceRequest request) {
         User user = userRepo.findById(uid)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
@@ -34,20 +37,40 @@ public class WorkSpaceService {
         return new WorkSpaceResponse(
                 workSpace.getWid(),
                 workSpace.getWName(),
-                workSpace.getWid()
+                workSpace.getOwner()
         );
     }
 
-    public HttpStatusCode getWorkSpace(int wid) {
-        return null;
+    //Get WorkSpace => done
+    public WorkSpaceResponse getWorkSpace(int wid) {
+        WorkSpace workSpace = repository.findById(wid)
+                .orElseThrow(() -> new EntityNotFoundException("WorkSpace not found"));
+
+        return new WorkSpaceResponse(
+                workSpace.getWid(),
+                workSpace.getWName(),
+                workSpace.getOwner()
+        );
     }
 
-    public HttpStatusCode getAllWorkSpace(int uid) {
+    //Get All WorkSpaces
+    public List<WorkSpaceResponse> getAllWorkSpace(int uid) {
+        List<WorkSpace> workSpaces = repository.findByOwner_UserId(uid);
+        return workSpaces.stream()
+                .map(workSpace -> new WorkSpaceResponse(
+                        workSpace.getWid(),
+                        workSpace.getWName(),
+                        workSpace.getOwner()
+                ))
+                .toList();
     }
+//
+//
+//    public void deleteWorkSpace(int wid) {
+//
+//    }
+//
+//    public HttpStatusCode updateWorkSpace(int wid) {
+//    }
 
-    public HttpStatusCode deleteWorkSpace(int wid) {
-    }
-
-    public HttpStatusCode updateWorkSpace(int wid) {
-    }
 }

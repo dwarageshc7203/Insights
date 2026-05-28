@@ -34,28 +34,28 @@ public class WorkSpaceController {
     @GetMapping
     public ResponseEntity<WorkSpaceResponse> getWorkSpace(int wid) {
         System.out.println("WorkSpace Get Controller called");
-        return new ResponseEntity<>(service.getWorkSpace(wid));
+        return new ResponseEntity<>(service.getWorkSpace(wid), HttpStatus.FOUND);
     }
 
     //Get all WorkSpace
     @GetMapping
     public ResponseEntity<List<WorkSpaceResponse>> getAllWorkSpaces(int uid) {
         System.out.println("WorkSpace GetAll Controller called");
-        return new ResponseEntity<>(service.getAllWorkSpace(uid));
+        return new ResponseEntity<>(service.getAllWorkSpace(uid), HttpStatus.FOUND);
     }
 
     //Update WorkSpace
-    @GetMapping
-    public ResponseEntity<WorkSpaceResponse> updateWorkSpace(int wid) {
-        System.out.println("WorkSpace Delete controller called");
-        return new ResponseEntity<>(service.updateWorkSpace(wid));
-    }
-
-    //Delete WorkSpace
-    @DeleteMapping
-    public ResponseEntity<Void> deleteWorkSpace(int wid) {
-        System.out.println("WorkSpace Delete controller called");
-        return new ResponseEntity<>(service.deleteWorkSpace(wid));
-    }
+//    @GetMapping
+//    public ResponseEntity<Void> updateWorkSpace(int wid) {
+//        System.out.println("WorkSpace Delete controller called");
+//        return new ResponseEntity<>(service.updateWorkSpace(wid), HttpStatus.ACCEPTED);
+//    }
+//
+//    //Delete WorkSpace
+//    @DeleteMapping
+//    public ResponseEntity<Void> deleteWorkSpace(int wid) {
+//        System.out.println("WorkSpace Delete controller called");
+//        return new ResponseEntity<>(service.deleteWorkSpace(wid));
+//    }
 
 }
