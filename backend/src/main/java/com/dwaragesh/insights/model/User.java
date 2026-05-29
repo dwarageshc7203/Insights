@@ -11,9 +11,9 @@ import java.util.List;
 @Entity
 public class User {
     @Id
-    private int uid;
+    private int userId;
 
-    private String uName;
+    private String userName;
     private String email;
 
     @CreationTimestamp

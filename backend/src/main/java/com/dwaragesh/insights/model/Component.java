@@ -5,15 +5,14 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
-import java.util.List;
 
 @Data
 @Entity
-public class Node {
+public class Component {
 
     @Id
-    private int nid;
-    private int uid;
+    private int componentId;
+    private int userId;
 
     private String contents;
     private int[] position;
@@ -22,7 +21,7 @@ public class Node {
     private Instant createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "cid", nullable = false)
+    @JoinColumn(name = "canvasId", nullable = false)
     private Canvas canvas;
 
 }

@@ -10,11 +10,11 @@ import java.util.List;
 public class WorkSpace {
 
     @Id
-    private int wid;
-    private String wName;
+    private int workSpaced;
+    private String workSpaceName;
 
     @ManyToOne
-    @JoinColumn(name = "uid", nullable = false)
+    @JoinColumn(name = "userId", nullable = false)
     private User owner;
 
 //    @ManyToMany

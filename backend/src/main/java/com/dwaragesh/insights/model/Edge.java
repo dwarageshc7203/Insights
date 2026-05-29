@@ -7,6 +7,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
+
 import java.time.Instant;
 import java.util.List;
 
@@ -15,20 +16,20 @@ import java.util.List;
 public class Edge {
 
     @Id
-    private int eid;
-    private int uid;
+    private int edgeId;
+    private int userId;
 
 //    @ManyToOne
 //    @JoinColumn(name = "node", nullable = false)
 //    private List<Node> sources;
 
-    private List<Node> destinations;
+    private List<Component> destinations;
 
     @CreationTimestamp
     private Instant createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "cid", nullable = false)
+    @JoinColumn(name = "canvasId", nullable = false)
     private Canvas canvas;
 
 }

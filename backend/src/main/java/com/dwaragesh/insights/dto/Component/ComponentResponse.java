@@ -1,10 +1,10 @@
-package com.dwaragesh.insights.dto.Node;
+package com.dwaragesh.insights.dto.Component;
 
 import com.dwaragesh.insights.model.Canvas;
 
 import java.time.Instant;
 
-public record NodeResponse(
+public record ComponentResponse(
 
     int nid,
     int uid,

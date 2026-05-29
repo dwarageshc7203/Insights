@@ -16,16 +16,16 @@ import java.util.List;
 public class Canvas {
 
     @Id
-    private int cid;
-    private String cName;
-    private int uid;
+    private int canvasId;
+    private String canvasName;
+    private int userId;
 //    private List<User> collaborators;
 
     @CreationTimestamp
     private Instant createdAt;
 
     @OneToMany(mappedBy = "canvas", cascade = CascadeType.ALL)
-    private List<Node> nodes; //need to be changed to accomodate other components as well
+    private List<Component> nodes; //need to be changed to accomodate other components as well
 
     @OneToMany(mappedBy = "canvas", cascade = CascadeType.ALL)
     private List<Edge> edges;
