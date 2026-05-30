@@ -8,10 +8,8 @@ import com.dwaragesh.insights.repository.UserRepository;
 import com.dwaragesh.insights.repository.WorkSpaceRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,53 +22,57 @@ public class WorkSpaceService {
     private UserRepository userRepo;
 
     //Create new WorkSpace => Done
-    public WorkSpaceResponse createWorkSpace(int uid, WorkSpaceRequest request) {
-        User user = userRepo.findById(uid)
+    public WorkSpaceResponse createWorkSpace(int userId, WorkSpaceRequest request) {
+        User user = userRepo.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         WorkSpace workSpace = new WorkSpace();
         workSpace.setOwner(user);
-        workSpace.setWName(request.wName());
+        workSpace.setWorkSpaceName(request.workSpaceName());
 
         WorkSpace savedWorkSpace = repository.save(workSpace);
 
         return new WorkSpaceResponse(
-                workSpace.getWid(),
-                workSpace.getWName(),
-                workSpace.getOwner()
+                workSpace.getWorkSpaceId(),
+                workSpace.getWorkSpaceName(),
+                userId,
+                workSpace.getCreatedAt()
         );
     }
 
     //Get WorkSpace => done
-    public WorkSpaceResponse getWorkSpace(int wid) {
-        WorkSpace workSpace = repository.findById(wid)
+    public WorkSpaceResponse getWorkSpace(int workSpaceId) {
+        WorkSpace workSpace = repository.findById(workSpaceId)
                 .orElseThrow(() -> new EntityNotFoundException("WorkSpace not found"));
 
         return new WorkSpaceResponse(
-                workSpace.getWid(),
-                workSpace.getWName(),
-                workSpace.getOwner()
+                workSpace.getWorkSpaceId(),
+                workSpace.getWorkSpaceName(),
+                workSpace.getOwner().getUserId(),
+                workSpace.getCreatedAt()
         );
     }
 
     //Get All WorkSpaces
-    public List<WorkSpaceResponse> getAllWorkSpace(int uid) {
-        List<WorkSpace> workSpaces = repository.findByOwner_UserId(uid);
+    public List<WorkSpaceResponse> getAllWorkSpace(int userId) {
+        List<WorkSpace> workSpaces = repository.findByOwner_UserId(userId);
         return workSpaces.stream()
                 .map(workSpace -> new WorkSpaceResponse(
-                        workSpace.getWid(),
-                        workSpace.getWName(),
-                        workSpace.getOwner()
+                        workSpace.getWorkSpaceId(),
+                        workSpace.getWorkSpaceName(),
+                        userId,
+                        workSpace.getCreatedAt()
                 ))
                 .toList();
     }
-//
-//
-//    public void deleteWorkSpace(int wid) {
-//
-//    }
-//
-//    public HttpStatusCode updateWorkSpace(int wid) {
-//    }
+
+    //delete WorkSpace
+    public void deleteWorkSpace(int workSpaceId) {
+        WorkSpace workSpace = repository.findById(workSpaceId)
+                .orElseThrow(() -> new EntityNotFoundException("WorkSpace not found"));
+
+        repository.delete(workSpace);
+        System.out.println("Workspace ID: " + workSpaceId + " deleted" );
+    }
 
 }

@@ -6,12 +6,14 @@ import java.time.Instant;
 
 public record ComponentResponse(
 
-    int nid,
-    int uid,
-    String contents,
-    int[] position,
-    Instant createedAt,
-    Canvas canvas
+    int componentId,
+    String componentName,
+    String componentType,
+    String textContent,
+    String imgUrl,
+    String color,
+    double positionX,
+    double positionY
 
 ) {
 }

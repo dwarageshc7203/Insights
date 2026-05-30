@@ -1,19 +1,13 @@
 package com.dwaragesh.insights.dto.Edge;
 
-import com.dwaragesh.insights.model.Canvas;
-import com.dwaragesh.insights.model.Node;
-
-import java.time.Instant;
-import java.util.List;
+import com.dwaragesh.insights.model.Component;
 
 public record EdgeResponse(
 
-    int eid,
-    int uid,
-    List<Node> sources,
-    List<Node> destinations,
-    Instant createdAt,
-    Canvas canvas
-
+    int edgeId,
+    String edgeName,
+    String color,
+    Component source,
+    Component target
 ) {
 }

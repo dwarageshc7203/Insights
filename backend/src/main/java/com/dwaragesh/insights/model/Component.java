@@ -11,17 +11,16 @@ import java.time.Instant;
 public class Component {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int componentId;
-    private int userId;
-
-    private String contents;
-    private int[] position;
-
-    @CreationTimestamp
-    private Instant createdAt;
-
+    private String componentName;
     @ManyToOne
-    @JoinColumn(name = "canvasId", nullable = false)
+    @JoinColumn(name = "canvasId")
     private Canvas canvas;
-
+    private String type;
+    private String textContent;
+    private String imgUrl;
+    private String color;
+    private double positionX;
+    private double positionY;
 }

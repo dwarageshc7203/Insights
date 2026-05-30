@@ -1,35 +1,22 @@
 package com.dwaragesh.insights.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-
-
-import java.time.Instant;
-import java.util.List;
 
 @Data
 @Entity
 public class Edge {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int edgeId;
-    private int userId;
-
-//    @ManyToOne
-//    @JoinColumn(name = "node", nullable = false)
-//    private List<Node> sources;
-
-    private List<Component> destinations;
-
-    @CreationTimestamp
-    private Instant createdAt;
-
+    private String edgeName;
     @ManyToOne
-    @JoinColumn(name = "canvasId", nullable = false)
+    @JoinColumn(name = "canvasEdgeId")
     private Canvas canvas;
-
+    private String color;
+    @OneToOne
+    private Component source;
+    @OneToOne
+    private Component target;
 }

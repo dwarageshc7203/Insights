@@ -4,10 +4,9 @@ import java.time.Instant;
 
 public record CanvasResponse(
 
-        int cid,
-        String cName,
-        int uid,
-        Instant createdAt
+        int canvasId,
+        String canvasName,
+        int workSpaceId
 
 ) {
 }

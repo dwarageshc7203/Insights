@@ -1,13 +1,13 @@
 package com.dwaragesh.insights.dto.Edge;
 
-import com.dwaragesh.insights.model.Node;
-
-import java.util.List;
+import com.dwaragesh.insights.model.Component;
 
 public record EdgeRequest(
 
-    List<Node> sources,
-    List<Node> destinations
+        String edgeName,
+        String color,
+        Component source,
+        Component target
 
 ) {
 }

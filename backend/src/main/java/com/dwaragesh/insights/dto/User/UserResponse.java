@@ -1,5 +1,7 @@
 package com.dwaragesh.insights.dto.User;
 
+import com.dwaragesh.insights.model.WorkSpace;
+
 import java.time.Instant;
 
 public record UserResponse(
@@ -7,7 +9,7 @@ public record UserResponse(
         int uid,
         String uname,
         String email,
-        String password,
+        WorkSpace workSpace,
         Instant createdAt
 
 ) {

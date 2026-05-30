@@ -1,255 +1,3 @@
-# Planning
-
-## Iteration 1
-
-## Modules
-
-1. User
-2. WorkSpace
-3. Canvas
-4. Component (Types: Node, Image, Text)
-5. Edge
-
----
-
-## Functions:
-
-1. User: for authentication, user data handling, sign up, log in
-2. WorkSpace: contains Canvas
-3. Canvas: contains Components and Edges
-4. Edge: connects source Components with final Components with arrow heads
-
----
-
-## Relations:
-
-- One User can have multiple WorkSpaces. The WorkSpace can be accessed only by the Owner [Further idea - Invite other Users as Collaborators]
-- One WorkSpace can have multiple Canvas
-- One Canvas can hold multiple Components and multiple Edges
-
----
-
-## Entity Design:
-
-### User
-
-```
-- int userId
-- String userName
-- String email
-- String password
-- List<WorkSpace> workspaces
-- Instant createdAt
-```
-
-### WorkSpace
-
-```
-- int workSpaceId
-- String workSpaceName
-- User owner
-- List<Canvas> canvas
-- Instant createdAt
-```
-
-### Canvas
-
-```
-- int canvasId
-- String canvasName
-- WorkSpace workSpace
-- List<Component> components
-- List<Edge> edges
-```
-
-
-### Component
-
-```
-- int componentId
-- String componentName
-- Canvas canvas
-- String type (using ENUM - Shape, Text, Image)
-- String textContent
-- String imageUrl
-- String color
-- double positionX
-- double positionY
-```
-
-### Edge
-
-```
-- int edgeId
-- String edgeName
-- Canvas canvas
-- String color (default: black)
-- Component source
-- Component target
-```
-
----
-
-## DTO Planning
-
-**User**
-
-*Request*
-- userName
-- email
-- password
-
-*Response*
-- userId
-- userName
-- email
-- workSpaces
-- createdAt
-
-(Password removed)
-
-
-**WorkSpace**
-
-*Request*
-- workSpaceName
-- userId
-
-*Response*
-- workSpaceId
-- workSpaceName
-- userId
-- createdAt
-
-[**WorkSpaceLoadDetailsResponse**
-- workSpaceId
-- workSpaceName
-- userId
-- canvas
-- createdAt]
-
-
-**Canvas**
-
-*Request*
-- canvasName
-- workSpaceId
-
-**Response**
-- canvasId
-- canvasName
-- workSpaceId
-
-[**CanvasLoadDetailsResponse**
-- canvasId
-- canvasName
-- workSpaceId
-- components
-- edges]
-
-
-**Component**
-
-*Request*
-- componentName
-- componentType
-- textContent
-- imageUrl
-- color
-- positionX
-- positionY
-
-**Response**
-- componentId
-- componentType
-- textContent
-- imageUrl
-- color
-- positionX
-- positionY
-
-
-**Edge**
-
-*Request*
-- edgeName
-- color
-- source
-- target
-
-*Response*
-- edgeId
-- edgeName
-- color
-- source
-- target
-
----
-
-## Method Implementation
-
-**User**
-
-- registerUser (UserRequest)
-- loginUser (UserRequest)
-
-**WorkSpace**
-
-- createWorkSpace (userId, WorkSpaceRequest)
-- getWorkSpace (workSpaceId)
-- getAllWorkSpaces (userId)
-- deleteWorkSpace (workSpaceId)
-
-**Canvas**
-
-- createCanvas (workSpaceId, CanvasRequest)
-- getCanvas (canvasId)
-- getAllCanvas (workSpaceId)
-- loadCanvas (canvasId)
-- deleteCanvas (canvasId)
-
-**Component**
-
-- createComponent (canvasId, ComponentRequest)
-- getComponent (componentId)
-- updateComponent(componentId, ComponentRequest)
-- deleteComponent (componentId)
-
-**Edge**
-
-- createEdge (canvasId, EdgeRequest)
-- deleteEdge (edgeId)
-
----
-
-## API routing
-
-```
-POST   /auth/register
-POST   /auth/login
-
-POST   /workspaces/{userId}
-GET    /workspaces/{workSpaceId}
-GET    /workspaces/user/{userId}
-DELETE /workspaces/{workSpaceId}
-
-POST   /canvases/{workSpaceId}
-GET    /canvases/{canvasId}
-GET    /canvases/workspace/{workSpaceId}
-GET    /canvases/{canvasId}/load
-DELETE /canvases/{canvasId}
-
-POST   /components/{canvasId}
-GET    /components/{componentId}
-PUT    /components/{componentId}
-DELETE /components/{componentId}
-
-POST   /edges/{canvasId}
-DELETE /edges/{edgeId}
-```
-
----
-
 # 📊 PROJECT STATUS ANALYSIS (As of 2026-05-30)
 
 ## Current Implementation Status
@@ -264,18 +12,18 @@ DELETE /edges/{edgeId}
 
 ### 🚧 PARTIALLY COMPLETED
 1. **Services Implemented**:
-   - ✅ WorkSpaceService (4 methods)
-   - ✅ CanvasService (4 methods)
-   - ✅ ComponentService (3 methods - missing update)
-   - ✅ EdgeService (2 methods)
-   - ❌ UserService (empty - 0 methods)
+    - ✅ WorkSpaceService (4 methods)
+    - ✅ CanvasService (4 methods)
+    - ✅ ComponentService (3 methods - missing update)
+    - ✅ EdgeService (2 methods)
+    - ❌ UserService (empty - 0 methods)
 
 2. **Controllers**:
-   - ✅ WorkSpaceController (basic routing)
-   - ✅ CanvasController (basic routing)
-   - ✅ ComponentController (basic routing - missing updateComponent)
-   - ✅ EdgeController (basic routing)
-   - ❌ UserController (empty)
+    - ✅ WorkSpaceController (basic routing)
+    - ✅ CanvasController (basic routing)
+    - ✅ ComponentController (basic routing - missing updateComponent)
+    - ✅ EdgeController (basic routing)
+    - ❌ UserController (empty)
 
 ### ❌ NOT COMPLETED / CRITICAL ISSUES
 
@@ -304,12 +52,12 @@ DELETE /edges/{edgeId}
    **Impact**: Relationship mapping will fail; can't load components and edges for canvas
 
 4. **Missing @GeneratedValue Annotations**:
-   - User.java: `@Id private int userId;` - ❌ no @GeneratedValue
-   - Canvas.java: `@Id private int canvasId;` - ❌ no @GeneratedValue
-   - Component.java: `@Id private int componentId;` - ❌ no @GeneratedValue
-   - Edge.java: `@Id private int edgeId;` - ❌ no @GeneratedValue
-   - WorkSpace.java: `@Id private int workSpaceId;` - ❌ no @GeneratedValue
-   
+    - User.java: `@Id private int userId;` - ❌ no @GeneratedValue
+    - Canvas.java: `@Id private int canvasId;` - ❌ no @GeneratedValue
+    - Component.java: `@Id private int componentId;` - ❌ no @GeneratedValue
+    - Edge.java: `@Id private int edgeId;` - ❌ no @GeneratedValue
+    - WorkSpace.java: `@Id private int workSpaceId;` - ❌ no @GeneratedValue
+
    **Impact**: Auto-increment IDs won't work; database won't auto-generate primary keys
 
 #### 🔴 CRITICAL SERVICE LAYER ISSUES
@@ -318,49 +66,49 @@ DELETE /edges/{edgeId}
    List<Canvas> canvasList = repository.findByUser_UserId(workSpaceId);
    ```
    **Problems**:
-   - Method doesn't exist in CanvasRepository
-   - Should use `findByWorkSpace_WorkSpaceId(workSpaceId)` instead
-   - Will throw NoSuchMethodError at runtime
+    - Method doesn't exist in CanvasRepository
+    - Should use `findByWorkSpace_WorkSpaceId(workSpaceId)` instead
+    - Will throw NoSuchMethodError at runtime
 
 2. **UserService**: Completely empty
-   - No registerUser implementation
-   - No loginUser implementation
-   - No password hashing
-   - No authentication logic
+    - No registerUser implementation
+    - No loginUser implementation
+    - No password hashing
+    - No authentication logic
 
 3. **CanvasService doesn't implement loadCanvas()** from API plan
-   - Should return CanvasLoadDetailsResponse with components and edges
+    - Should return CanvasLoadDetailsResponse with components and edges
 
 #### 🟡 MISSING IMPLEMENTATIONS
 1. **Authentication & Security**:
-   - No JWT implementation
-   - No password encryption (BCrypt)
-   - No auth middleware
-   - No role-based access control
-   - Spring Security added but not configured
+    - No JWT implementation
+    - No password encryption (BCrypt)
+    - No auth middleware
+    - No role-based access control
+    - Spring Security added but not configured
 
 2. **Missing Methods**:
-   - ComponentService: updateComponent (commented out in controller)
-   - WorkSpaceService: updateWorkSpace (commented out in controller)
-   - ComponentController: getAllComponent (commented out)
-   - CanvasService: loadCanvas with full details
+    - ComponentService: updateComponent (commented out in controller)
+    - WorkSpaceService: updateWorkSpace (commented out in controller)
+    - ComponentController: getAllComponent (commented out)
+    - CanvasService: loadCanvas with full details
 
 3. **Missing DTOs**:
-   - CanvasLoadDetailsResponse (needed for GET /canvases/{canvasId}/load)
-   - WorkSpaceLoadDetailsResponse (needed in getAllWorkSpaces)
+    - CanvasLoadDetailsResponse (needed for GET /canvases/{canvasId}/load)
+    - WorkSpaceLoadDetailsResponse (needed in getAllWorkSpaces)
 
 4. **Application Configuration**:
-   - application.properties: Only has `spring.application.name=backend`
-   - Missing:
-     - Database connection (PostgreSQL URL, username, password)
-     - JPA/Hibernate properties (DDL, dialect)
-     - Server port configuration
-     - Spring Security configuration
+    - application.properties: Only has `spring.application.name=backend`
+    - Missing:
+        - Database connection (PostgreSQL URL, username, password)
+        - JPA/Hibernate properties (DDL, dialect)
+        - Server port configuration
+        - Spring Security configuration
 
 5. **Testing**:
-   - No unit tests
-   - No integration tests
-   - Test dependency artifacts in pom.xml are incorrect
+    - No unit tests
+    - No integration tests
+    - Test dependency artifacts in pom.xml are incorrect
 
 #### 🟡 MINOR ISSUES
 1. **Console.out statements** instead of logging (ComponentService, etc.)
@@ -388,12 +136,12 @@ DELETE /edges/{edgeId}
 **Estimated Time: 4-5 hours**
 
 1. Implement UserService:
-   - registerUser with BCrypt password hashing
-   - loginUser with authentication
-   - getUserById
+    - registerUser with BCrypt password hashing
+    - loginUser with authentication
+    - getUserById
 2. Implement UserController endpoints:
-   - POST /auth/register
-   - POST /auth/login
+    - POST /auth/register
+    - POST /auth/login
 3. Configure Spring Security with JWT
 4. Add security filter for request authentication
 

@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CanvasRepository extends JpaRepository<Canvas, Integer> {
-    List<Canvas> findByUser_UserId(int uid);
+    List<Canvas> findByWorkSpace_WorkSpaceId(int workSpaceId);
+    List<Canvas> findByWorkSpace_Owner_UserId(int userId);
 }

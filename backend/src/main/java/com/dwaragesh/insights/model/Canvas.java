@@ -16,21 +16,14 @@ import java.util.List;
 public class Canvas {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int canvasId;
     private String canvasName;
-    private int userId;
-//    private List<User> collaborators;
-
-    @CreationTimestamp
-    private Instant createdAt;
-
-    @OneToMany(mappedBy = "canvas", cascade = CascadeType.ALL)
-    private List<Component> nodes; //need to be changed to accomodate other components as well
-
-    @OneToMany(mappedBy = "canvas", cascade = CascadeType.ALL)
-    private List<Edge> edges;
-
     @ManyToOne
-    @JoinColumn(name = "wid", nullable = false)
+    @JoinColumn(name = "workSpaceId")
     private WorkSpace workSpace;
+    @OneToMany(mappedBy = "canvas")
+    List<Component> components;
+    @OneToMany(mappedBy = "canvas")
+    List<Edge> edges;
 }

@@ -4,8 +4,10 @@ import com.dwaragesh.insights.dto.Canvas.CanvasRequest;
 import com.dwaragesh.insights.dto.Canvas.CanvasResponse;
 import com.dwaragesh.insights.model.Canvas;
 import com.dwaragesh.insights.model.User;
+import com.dwaragesh.insights.model.WorkSpace;
 import com.dwaragesh.insights.repository.CanvasRepository;
 import com.dwaragesh.insights.repository.UserRepository;
+import com.dwaragesh.insights.repository.WorkSpaceRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,48 +21,56 @@ public class CanvasService {
     private CanvasRepository repository;
 
     @Autowired
-    private UserRepository userRepo;
+    private WorkSpaceRepository workSpaceRepository;
 
-    public CanvasResponse createCanvas(int uid, CanvasRequest request) {
-        User user = userRepo.findById(uid)
+    //create Canvas
+    public CanvasResponse createCanvas(int workSpaceId, CanvasRequest request) {
+        WorkSpace workSpace = workSpaceRepository.findById(workSpaceId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         Canvas canvas = new Canvas();
-        canvas.setUid(uid);
-        canvas.setCName(request.cName());
+        canvas.setWorkSpace(workSpace);
+        canvas.setCanvasName(request.canvasName());
 
         Canvas savedCanvas = repository.save(canvas);
 
         return new CanvasResponse(
-                savedCanvas.getCid(),
-                savedCanvas.getCName(),
-                savedCanvas.getUid(),
-                savedCanvas.getCreatedAt()
+                savedCanvas.getCanvasId(),
+                savedCanvas.getCanvasName(),
+                workSpaceId
         );
     }
 
-    public CanvasResponse getCanvas(int cid) {
-        Canvas canvas = repository.findById(cid)
+    //get Canvas
+    public CanvasResponse getCanvas(int canvasId) {
+        Canvas canvas = repository.findById(canvasId)
                 .orElseThrow(() -> new EntityNotFoundException("Canvas not found"));
 
         return new CanvasResponse(
-                canvas.getCid(),
-                canvas.getCName(),
-                canvas.getUid(),
-                canvas.getCreatedAt()
+                canvas.getCanvasId(),
+                canvas.getCanvasName(),
+                canvas.getWorkSpace().getWorkSpaceId()
         );
     }
 
-    public List<CanvasResponse> getAllCanvas(int uid) {
-        List<Canvas> canvasList = repository.findByUser_UserId(uid);
+    //getAll Canvas
+    public List<CanvasResponse> getAllCanvas(int workSpaceId) {
+        List<Canvas> canvasList = repository.findByWorkSpace_WorkSpaceId(workSpaceId);
         return canvasList.stream()
                 .map(canvas -> new CanvasResponse(
-                        canvas.getCid(),
-                        canvas.getCName(),
-                        canvas.getUid(),
-                        canvas.getCreatedAt()
+                        canvas.getCanvasId(),
+                        canvas.getCanvasName(),
+                        canvas.getWorkSpace().getWorkSpaceId()
                 ))
                 .toList();
+    }
+
+    //delete Canvas
+    public void deleteCanvas(int canvasId) {
+        Canvas canvas = repository.findById(canvasId)
+                .orElseThrow(() -> new EntityNotFoundException("Canvas not found"));
+
+        repository.deleteById(canvasId);
     }
 
 
