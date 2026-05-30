@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class WorkSpaceService {
@@ -22,8 +23,8 @@ public class WorkSpaceService {
     private UserRepository userRepo;
 
     //Create new WorkSpace => Done
-    public WorkSpaceResponse createWorkSpace(int userId, WorkSpaceRequest request) {
-        User user = userRepo.findById(userId)
+    public WorkSpaceResponse createWorkSpace(UUID userId, WorkSpaceRequest request) {
+        User user = (User) userRepo.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         WorkSpace workSpace = new WorkSpace();
@@ -54,7 +55,7 @@ public class WorkSpaceService {
     }
 
     //Get All WorkSpaces
-    public List<WorkSpaceResponse> getAllWorkSpace(int userId) {
+    public List<WorkSpaceResponse> getAllWorkSpace(UUID userId) {
         List<WorkSpace> workSpaces = repository.findByOwner_UserId(userId);
         return workSpaces.stream()
                 .map(workSpace -> new WorkSpaceResponse(

@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface CanvasRepository extends JpaRepository<Canvas, Integer> {
     List<Canvas> findByWorkSpace_WorkSpaceId(int workSpaceId);
-    List<Canvas> findByWorkSpace_Owner_UserId(int userId);
 }

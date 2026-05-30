@@ -3,13 +3,13 @@ package com.dwaragesh.insights.dto.User;
 import com.dwaragesh.insights.model.WorkSpace;
 
 import java.time.Instant;
+import java.util.UUID;
 
 public record UserResponse(
 
-        int uid,
-        String uname,
+        UUID userId,
+        String userName,
         String email,
-        WorkSpace workSpace,
         Instant createdAt
 
 ) {

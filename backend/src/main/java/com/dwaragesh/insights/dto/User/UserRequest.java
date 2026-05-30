@@ -1,8 +1,10 @@
 package com.dwaragesh.insights.dto.User;
 
+import java.util.UUID;
+
 public record UserRequest (
-    String uname,
-    String email,
-    String password
+    UUID userId,
+    String userName,
+    String email
 ) {
 }

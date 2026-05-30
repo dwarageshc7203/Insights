@@ -7,16 +7,15 @@ import org.springframework.aot.generate.GeneratedTypeReference;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Entity(name = "appUser")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int userId;
+    private UUID userId;
     private String userName;
     private String email;
-    private String password;
     @CreationTimestamp
     private Instant createdAt;
     @OneToMany(mappedBy = "owner")
