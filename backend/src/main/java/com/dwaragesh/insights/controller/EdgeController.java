@@ -24,7 +24,7 @@ public class EdgeController {
     }
 
     //patch edgeConnection
-    @PatchMapping("/{edgeId}")
+    @PatchMapping("/{edgeId}/connection")
     public ResponseEntity<EdgeConnectionPatchResponse> patchEdgeConnection(@PathVariable int edgeId, @RequestBody EdgeConnectionPatchRequest request) {
         return new ResponseEntity<>(service.patchEdgeConnection(edgeId, request), HttpStatus.OK);
     }
