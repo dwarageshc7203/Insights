@@ -69,6 +69,5 @@ public class ComponentService {
     //delete Component
     public void deleteComponent(int componentId) {
         repository.deleteById(componentId);
-        System.out.println("Component deleted");
     }
 }

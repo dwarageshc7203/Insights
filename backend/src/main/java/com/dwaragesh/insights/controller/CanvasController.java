@@ -37,7 +37,7 @@ public class CanvasController {
     }
 
     //get Canvas Details - load Canvas
-    @GetMapping("canvas/{canvasId}")
+    @GetMapping("/{canvasId}/load")
     public ResponseEntity<CanvasDetailsResponse> loadCanvas(@PathVariable int canvasId) {
         return new ResponseEntity<>(service.loadCanvas(canvasId), HttpStatus.OK);
     }
