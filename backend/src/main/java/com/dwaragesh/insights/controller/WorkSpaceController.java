@@ -25,7 +25,6 @@ public class WorkSpaceController {
     //Create new WorkSpace
     @PostMapping("/user/{userId}")
     public ResponseEntity<WorkSpaceResponse> createWorkSpace(@PathVariable UUID userId, @RequestBody WorkSpaceRequest request) {
-        service.createWorkSpace(userId, request);
         return new ResponseEntity<>(service.createWorkSpace(userId, request), HttpStatus.CREATED);
     }
 
