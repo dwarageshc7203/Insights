@@ -65,7 +65,6 @@ public class EdgeService {
     //delete Edge
     public void deleteEdge(int edgeId) {
         repository.deleteById(edgeId);
-        System.out.println("Edge deleted");
     }
 
 }
