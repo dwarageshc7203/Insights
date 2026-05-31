@@ -1,13 +1,12 @@
 package com.dwaragesh.insights.service;
 
+import com.dwaragesh.insights.dto.Canvas.CanvasDetailsResponse;
 import com.dwaragesh.insights.dto.Canvas.CanvasRequest;
 import com.dwaragesh.insights.dto.Canvas.CanvasResponse;
-import com.dwaragesh.insights.model.Canvas;
-import com.dwaragesh.insights.model.User;
-import com.dwaragesh.insights.model.WorkSpace;
-import com.dwaragesh.insights.repository.CanvasRepository;
-import com.dwaragesh.insights.repository.UserRepository;
-import com.dwaragesh.insights.repository.WorkSpaceRepository;
+import com.dwaragesh.insights.dto.Component.ComponentResponse;
+import com.dwaragesh.insights.dto.Edge.EdgeResponse;
+import com.dwaragesh.insights.model.*;
+import com.dwaragesh.insights.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +21,12 @@ public class CanvasService {
 
     @Autowired
     private WorkSpaceRepository workSpaceRepository;
+
+    @Autowired
+    private ComponentRepository componentRepository;
+
+    @Autowired
+    private EdgeRepository edgeRepository;
 
     //create Canvas
     public CanvasResponse createCanvas(int workSpaceId, CanvasRequest request) {
@@ -63,6 +68,45 @@ public class CanvasService {
                         canvas.getWorkSpace().getWorkSpaceId()
                 ))
                 .toList();
+    }
+
+    //get canvasDetails
+    public CanvasDetailsResponse loadCanvas (int canvasId) {
+        Canvas canvas = repository.findById(canvasId)
+                .orElseThrow(() -> new EntityNotFoundException("Canvas not found"));
+
+        List<ComponentResponse> components = componentRepository.findByCanvas_CanvasId(canvasId)
+                .stream()
+                .map(c -> new ComponentResponse(
+                        c.getComponentId(),
+                        c.getComponentName(),
+                        c.getType(),
+                        c.getTextContent(),
+                        c.getImgUrl(),
+                        c.getColor(),
+                        c.getPositionX(),
+                        c.getPositionY()
+                ))
+                .toList();
+
+        List<EdgeResponse> edges = edgeRepository.findByCanvas_CanvasId(canvasId)
+                .stream()
+                .map(e -> new EdgeResponse(
+                        e.getEdgeId(),
+                        e.getEdgeName(),
+                        e.getColor(),
+                        e.getSourceId(),
+                        e.getTargetId()
+                ))
+                .toList();
+
+        return new CanvasDetailsResponse(
+                canvasId,
+                canvas.getCanvasName(),
+                canvas.getWorkSpace().getWorkSpaceId(),
+                components,
+                edges
+        );
     }
 
     //delete Canvas

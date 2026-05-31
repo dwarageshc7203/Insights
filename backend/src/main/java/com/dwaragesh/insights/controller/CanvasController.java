@@ -1,5 +1,6 @@
 package com.dwaragesh.insights.controller;
 
+import com.dwaragesh.insights.dto.Canvas.CanvasDetailsResponse;
 import com.dwaragesh.insights.dto.Canvas.CanvasRequest;
 import com.dwaragesh.insights.dto.Canvas.CanvasResponse;
 import com.dwaragesh.insights.service.CanvasService;
@@ -37,7 +38,7 @@ public class CanvasController {
 
     //get Canvas Details - load Canvas
     @GetMapping("canvas/{canvasId}")
-    public ResponseEntity<CanvasDetailsResponsne> loadCanvas(@PathVariable int canvasId) {
+    public ResponseEntity<CanvasDetailsResponse> loadCanvas(@PathVariable int canvasId) {
         return new ResponseEntity<>(service.loadCanvas(canvasId), HttpStatus.OK);
     }
 
