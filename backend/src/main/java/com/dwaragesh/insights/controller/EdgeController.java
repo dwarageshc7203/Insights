@@ -1,5 +1,7 @@
 package com.dwaragesh.insights.controller;
 
+import com.dwaragesh.insights.dto.Edge.EdgeConnectionPatchRequest;
+import com.dwaragesh.insights.dto.Edge.EdgeConnectionPatchResponse;
 import com.dwaragesh.insights.dto.Edge.EdgeRequest;
 import com.dwaragesh.insights.dto.Edge.EdgeResponse;
 import com.dwaragesh.insights.service.EdgeService;
@@ -19,6 +21,12 @@ public class EdgeController {
     @PostMapping("/canvas/{canvasId}")
     public ResponseEntity<EdgeResponse> createEdge(@PathVariable int canvasId, @RequestBody EdgeRequest request) {
         return new ResponseEntity<>(service.createEdge(canvasId, request), HttpStatus.CREATED);
+    }
+
+    //patch edgeConnection
+    @PatchMapping("/{edgeId}")
+    public ResponseEntity<EdgeConnectionPatchResponse> patchEdgeConnection(@PathVariable int edgeId, @RequestBody EdgeConnectionPatchRequest request) {
+        return new ResponseEntity<>(service.patchEdgeConnection(edgeId, request), HttpStatus.OK);
     }
 
     //delete edge

@@ -1,5 +1,7 @@
 package com.dwaragesh.insights.controller;
 
+import com.dwaragesh.insights.dto.Component.ComponentPositionPatchRequest;
+import com.dwaragesh.insights.dto.Component.ComponentPositionPatchResponse;
 import com.dwaragesh.insights.dto.Component.ComponentRequest;
 import com.dwaragesh.insights.dto.Component.ComponentResponse;
 import com.dwaragesh.insights.service.ComponentService;
@@ -29,25 +31,17 @@ public class ComponentController {
         return new ResponseEntity<>(service.getComponent(componentId), HttpStatus.OK);
     }
 
+    //patch componentPosition
+    @PatchMapping("/{componentId}/position")
+    public ResponseEntity<ComponentPositionPatchResponse> patchComponentPosition(@PathVariable int componentId, @RequestBody ComponentPositionPatchRequest request) {
+        return new ResponseEntity<>(service.patchComponentPosition(componentId, request), HttpStatus.OK);
+    }
+
     //delete Component
     @DeleteMapping("/{componentId}")
     public ResponseEntity<Void> deleteComponent(@PathVariable int componentId) {
         service.deleteComponent(componentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-    //getAll component
-//    @GetMapping
-//    public ResponseEntity<List<ComponentResponse>> getAllComponent(int userId) {
-//        System.out.println("Called getAllComponent method");
-//        return new ResponseEntity<>(service.getAllComponent(userId), HttpStatus.FOUND);
-//    }
-
-    //updateComponent
-//    @PutMapping
-//    public ResponseEntity<Void> updateComponent(int componentId, ComponentRequest request) {
-//        System.out.println("Called updateComponent method");
-//        return new ResponseEntity<>(service.updateComponent(componentId, request), HttpStatus.FOUND);
-//    }
 
 }

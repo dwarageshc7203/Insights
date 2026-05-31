@@ -1,5 +1,7 @@
 package com.dwaragesh.insights.service;
 
+import com.dwaragesh.insights.dto.Component.ComponentPositionPatchRequest;
+import com.dwaragesh.insights.dto.Component.ComponentPositionPatchResponse;
 import com.dwaragesh.insights.dto.Component.ComponentRequest;
 import com.dwaragesh.insights.dto.Component.ComponentResponse;
 import com.dwaragesh.insights.model.Canvas;
@@ -63,6 +65,22 @@ public class ComponentService {
                 component.getColor(),
                 component.getPositionX(),
                 component.getPositionY()
+        );
+    }
+
+    //patch componentPosition
+    public ComponentPositionPatchResponse patchComponentPosition(int componentId, ComponentPositionPatchRequest request) {
+        Component component = repository.findById(componentId)
+                .orElseThrow(() -> new EntityNotFoundException("Component not found"));
+
+        component.setPositionX(request.positionX());
+        component.setPositionY(request.positionY());
+
+        Component savedComponent = repository.save(component);
+
+        return new ComponentPositionPatchResponse(
+                savedComponent.getPositionX(),
+                savedComponent.getPositionY()
         );
     }
 

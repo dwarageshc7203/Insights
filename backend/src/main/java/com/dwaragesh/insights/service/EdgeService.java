@@ -1,5 +1,7 @@
 package com.dwaragesh.insights.service;
 
+import com.dwaragesh.insights.dto.Edge.EdgeConnectionPatchRequest;
+import com.dwaragesh.insights.dto.Edge.EdgeConnectionPatchResponse;
 import com.dwaragesh.insights.dto.Edge.EdgeRequest;
 import com.dwaragesh.insights.dto.Edge.EdgeResponse;
 import com.dwaragesh.insights.model.Canvas;
@@ -10,6 +12,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EdgeService {
 
@@ -19,6 +23,7 @@ public class EdgeService {
     @Autowired
     private CanvasRepository canvasRepository;
 
+    //create Edge
     public EdgeResponse createEdge(int canvasId, EdgeRequest request) {
         Canvas canvas = canvasRepository.findById(canvasId)
                 .orElseThrow(() -> new EntityNotFoundException("Canvas not found"));
@@ -41,6 +46,23 @@ public class EdgeService {
         );
     }
 
+    //patch edgeConnection
+    public EdgeConnectionPatchResponse patchEdgeConnection(int edgeId, EdgeConnectionPatchRequest request) {
+        Edge edge = repository.findById(edgeId)
+                .orElseThrow(() -> new EntityNotFoundException("Edge not Found"));
+
+        edge.setSourceId(request.sourceId());
+        edge.setTargetId(request.targetId());
+
+        Edge savedEdge = repository.save(edge);
+
+        return new EdgeConnectionPatchResponse(
+                savedEdge.getSourceId(),
+                savedEdge.getTargetId()
+        );
+    }
+
+    //delete Edge
     public void deleteEdge(int edgeId) {
         repository.deleteById(edgeId);
         System.out.println("Edge deleted");
