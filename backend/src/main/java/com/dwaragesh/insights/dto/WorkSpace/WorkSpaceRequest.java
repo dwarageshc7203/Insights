@@ -6,8 +6,6 @@ import java.util.UUID;
 
 public record WorkSpaceRequest(
 
-        String workSpaceName,
-        UUID userId
-
+        String workSpaceName
 ) {
 }

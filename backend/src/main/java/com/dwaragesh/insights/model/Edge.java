@@ -12,11 +12,9 @@ public class Edge {
     private int edgeId;
     private String edgeName;
     @ManyToOne
-    @JoinColumn(name = "canvasEdgeId")
+    @JoinColumn(name = "canvas_id")
     private Canvas canvas;
     private String color;
-    @OneToOne
-    private Component source;
-    @OneToOne
-    private Component target;
+    private int sourceId;
+    private int targetId;
 }

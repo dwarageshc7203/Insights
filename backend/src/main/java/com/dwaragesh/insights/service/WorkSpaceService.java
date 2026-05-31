@@ -24,7 +24,7 @@ public class WorkSpaceService {
 
     //Create new WorkSpace => Done
     public WorkSpaceResponse createWorkSpace(UUID userId, WorkSpaceRequest request) {
-        User user = (User) userRepo.findById(userId)
+        User user = (User) userRepo.findUserByUserId(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         WorkSpace workSpace = new WorkSpace();

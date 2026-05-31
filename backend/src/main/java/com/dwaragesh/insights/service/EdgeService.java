@@ -1,6 +1,7 @@
 package com.dwaragesh.insights.service;
 
 import com.dwaragesh.insights.dto.Edge.EdgeRequest;
+import com.dwaragesh.insights.dto.Edge.EdgeResponse;
 import com.dwaragesh.insights.model.Canvas;
 import com.dwaragesh.insights.model.Edge;
 import com.dwaragesh.insights.repository.CanvasRepository;
@@ -18,7 +19,7 @@ public class EdgeService {
     @Autowired
     private CanvasRepository canvasRepository;
 
-    public void createEdge(int canvasId, EdgeRequest request) {
+    public EdgeResponse createEdge(int canvasId, EdgeRequest request) {
         Canvas canvas = canvasRepository.findById(canvasId)
                 .orElseThrow(() -> new EntityNotFoundException("Canvas not found"));
 
@@ -26,11 +27,18 @@ public class EdgeService {
         edge.setEdgeName(request.edgeName());
         edge.setCanvas(canvas);
         edge.setColor(request.color());
-        edge.setSource(request.source());
-        edge.setTarget(request.target());
+        edge.setSourceId(request.sourceId());
+        edge.setTargetId(request.targetId());
 
-        repository.save(edge);
-        System.out.println("Edge created");
+        Edge savedEdge = repository.save(edge);
+
+        return new EdgeResponse(
+                savedEdge.getEdgeId(),
+                savedEdge.getEdgeName(),
+                savedEdge.getColor(),
+                savedEdge.getSourceId(),
+                savedEdge.getTargetId()
+        );
     }
 
     public void deleteEdge(int edgeId) {

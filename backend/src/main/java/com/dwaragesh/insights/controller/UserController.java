@@ -5,6 +5,8 @@ import com.dwaragesh.insights.dto.User.UserResponse;
 import com.dwaragesh.insights.repository.UserRepository;
 import com.dwaragesh.insights.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +23,9 @@ public class UserController {
     private UserRepository repository;
 
     @PostMapping("/sync")
-    public UserResponse syncUser(@RequestBody UserRequest request) {
-        return service.syncUser(request);
+    public ResponseEntity<UserResponse> syncUser(@RequestBody UserRequest request) {
+        UserResponse response = service.syncUser(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

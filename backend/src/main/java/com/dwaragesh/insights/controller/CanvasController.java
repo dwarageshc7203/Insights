@@ -6,11 +6,7 @@ import com.dwaragesh.insights.service.CanvasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,31 +18,33 @@ public class CanvasController {
     private CanvasService service;
 
     //create Canvas
-    @PostMapping
-    public ResponseEntity<CanvasResponse> createCanvas(int workSpaceId, CanvasRequest canvasRequest) {
-        System.out.println("Create Canvas Method called");
-        return new ResponseEntity<>(service.createCanvas(workSpaceId, canvasRequest), HttpStatus.ACCEPTED);
+    @PostMapping("/workspace/{workSpaceId}")
+    public ResponseEntity<CanvasResponse> createCanvas(@PathVariable int workSpaceId, @RequestBody CanvasRequest canvasRequest) {
+        return new ResponseEntity<>(service.createCanvas(workSpaceId, canvasRequest), HttpStatus.CREATED);
     }
 
     //get Canvas
     @GetMapping("/{canvasId}")
-    public ResponseEntity<CanvasResponse> getCanvas(int canvasId) {
-        System.out.println("Get Canvas Method called");
-        return new ResponseEntity<>(service.getCanvas(canvasId), HttpStatus.FOUND);
+    public ResponseEntity<CanvasResponse> getCanvas(@PathVariable int canvasId) {
+        return new ResponseEntity<>(service.getCanvas(canvasId), HttpStatus.OK);
     }
 
     //get all Canvas
     @GetMapping("/workspace/{workSpaceId}")
-    public ResponseEntity<List<CanvasResponse>> getAllCanvas(int workSpaceId) {
-        System.out.println("Get All Canvas Method called");
-        return new ResponseEntity<>(service.getAllCanvas(workSpaceId), HttpStatus.FOUND);
+    public ResponseEntity<List<CanvasResponse>> getAllCanvas(@PathVariable int workSpaceId) {
+        return new ResponseEntity<>(service.getAllCanvas(workSpaceId), HttpStatus.OK);
+    }
+
+    //get Canvas Details - load Canvas
+    @GetMapping("canvas/{canvasId}")
+    public ResponseEntity<CanvasDetailsResponsne> loadCanvas(@PathVariable int canvasId) {
+        return new ResponseEntity<>(service.loadCanvas(canvasId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{canvasId}")
-    public ResponseEntity<Void> deleteCanvas(int canvasId) {
-        System.out.println("delete Canvas Method called");
+    public ResponseEntity<Void> deleteCanvas(@PathVariable int canvasId) {
         service.deleteCanvas(canvasId);
-        return new ResponseEntity<>(HttpStatus.FOUND);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

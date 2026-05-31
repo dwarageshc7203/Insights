@@ -23,29 +23,29 @@ public class WorkSpaceController {
     private WorkSpaceRepository repository;
 
     //Create new WorkSpace
-    @PostMapping("/{userId}")
-    public ResponseEntity<Void> createWorkSpace(@RequestParam UUID userId, @RequestBody WorkSpaceRequest request) {
+    @PostMapping("/user/{userId}")
+    public ResponseEntity<WorkSpaceResponse> createWorkSpace(@PathVariable UUID userId, @RequestBody WorkSpaceRequest request) {
         service.createWorkSpace(userId, request);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(service.createWorkSpace(userId, request), HttpStatus.CREATED);
     }
 
     //Get WorkSpace
     @GetMapping("/{workSpaceId}")
-    public ResponseEntity<WorkSpaceResponse> getWorkSpace(int workSpaceId) {
-        return new ResponseEntity<>(service.getWorkSpace(workSpaceId), HttpStatus.FOUND);
+    public ResponseEntity<WorkSpaceResponse> getWorkSpace(@PathVariable int workSpaceId) {
+        return new ResponseEntity<>(service.getWorkSpace(workSpaceId), HttpStatus.OK);
     }
 
     //Get all WorkSpace
-    @GetMapping("/user/{uid}")
-    public ResponseEntity<List<WorkSpaceResponse>> getAllWorkSpaces(UUID userId) {
-        return new ResponseEntity<>(service.getAllWorkSpace(userId), HttpStatus.FOUND);
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<WorkSpaceResponse>> getAllWorkSpaces(@PathVariable UUID userId) {
+        return new ResponseEntity<>(service.getAllWorkSpace(userId), HttpStatus.OK);
     }
 
     //Delete WorkSpace
     @DeleteMapping("/{workSpaceId}")
-    public ResponseEntity<Void> deleteWorkSpace(int workSpaceId) {
+    public ResponseEntity<Void> deleteWorkSpace(@PathVariable int workSpaceId) {
         service.deleteWorkSpace(workSpaceId);
-        return new ResponseEntity<>(HttpStatus.FOUND);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 //Update WorkSpace

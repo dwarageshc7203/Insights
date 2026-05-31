@@ -7,7 +7,7 @@ public record EdgeResponse(
     int edgeId,
     String edgeName,
     String color,
-    Component source,
-    Component target
+    int sourceId,
+    int targetId
 ) {
 }

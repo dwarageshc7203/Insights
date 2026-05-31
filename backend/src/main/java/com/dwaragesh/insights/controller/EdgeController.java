@@ -1,14 +1,12 @@
 package com.dwaragesh.insights.controller;
 
 import com.dwaragesh.insights.dto.Edge.EdgeRequest;
+import com.dwaragesh.insights.dto.Edge.EdgeResponse;
 import com.dwaragesh.insights.service.EdgeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/edge")
@@ -18,19 +16,16 @@ public class EdgeController {
     private EdgeService service;
 
     //create edge
-    @PostMapping
-    public ResponseEntity<Void> createEdge(int canvasId, EdgeRequest request) {
-        System.out.println("Called createEdge method");
-        service.createEdge(canvasId, request);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PostMapping("/canvas/{canvasId}")
+    public ResponseEntity<EdgeResponse> createEdge(@PathVariable int canvasId, @RequestBody EdgeRequest request) {
+        return new ResponseEntity<>(service.createEdge(canvasId, request), HttpStatus.CREATED);
     }
 
     //delete edge
     @DeleteMapping("/{edgeId}")
-    public ResponseEntity<Void> deleteEdge(int edgeId) {
-        System.out.println("Called deleteEdge method");
+    public ResponseEntity<Void> deleteEdge(@PathVariable int edgeId) {
         service.deleteEdge(edgeId);
-        return new ResponseEntity<>(HttpStatus.FOUND);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

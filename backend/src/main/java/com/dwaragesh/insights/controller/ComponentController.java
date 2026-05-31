@@ -18,26 +18,22 @@ public class ComponentController {
     private ComponentService service;
 
     //create Component
-    @PostMapping
-    public ResponseEntity<Void> createComponent(int canvasId, ComponentRequest request) {
-        System.out.println("Called createComponent method");
-        service.createComponent(canvasId, request);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PostMapping("/canvas/{canvasId}")
+    public ResponseEntity<ComponentResponse> createComponent(@PathVariable int canvasId, @RequestBody ComponentRequest request) {
+        return new ResponseEntity<>(service.createComponent(canvasId, request), HttpStatus.CREATED);
     }
 
     //get Component
     @GetMapping("/{componentId}")
-    public ResponseEntity<ComponentResponse> getComponent(int componentId) {
-        System.out.println("Called getComponent method");
-        return new ResponseEntity<>(service.getComponent(componentId), HttpStatus.FOUND);
+    public ResponseEntity<ComponentResponse> getComponent(@PathVariable int componentId) {
+        return new ResponseEntity<>(service.getComponent(componentId), HttpStatus.OK);
     }
 
     //delete Component
     @DeleteMapping("/{componentId}")
-    public ResponseEntity<Void> deleteComponent(int componentId) {
-        System.out.println("Called getComponent method");
-        service.getComponent(componentId);
-        return new ResponseEntity<>(HttpStatus.FOUND);
+    public ResponseEntity<Void> deleteComponent(@PathVariable int componentId) {
+        service.deleteComponent(componentId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     //getAll component

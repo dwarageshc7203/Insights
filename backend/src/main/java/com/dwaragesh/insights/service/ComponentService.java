@@ -21,7 +21,7 @@ public class ComponentService {
     private CanvasRepository canvasRepository;
 
     //create Component
-    public void createComponent(int canvasId, ComponentRequest request) {
+    public ComponentResponse createComponent(int canvasId, ComponentRequest request) {
         Canvas canvas = canvasRepository.findById(canvasId)
                 .orElseThrow(() -> new EntityNotFoundException("Canvas not found"));
 
@@ -35,8 +35,18 @@ public class ComponentService {
         component.setPositionX(request.positionX());
         component.setPositionY(request.positionY());
 
-        repository.save(component);
-        System.out.println("Component created");
+        Component savedComponent = repository.save(component);
+
+        return new ComponentResponse(
+                savedComponent.getComponentId(),
+                savedComponent.getComponentName(),
+                savedComponent.getType(),
+                savedComponent.getTextContent(),
+                savedComponent.getImgUrl(),
+                savedComponent.getColor(),
+                savedComponent.getPositionX(),
+                savedComponent.getPositionY()
+        );
     }
 
     //get Component

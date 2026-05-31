@@ -21,14 +21,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> cors.configure(http))
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/sync").permitAll()  // only this is public
+                        .requestMatchers("/auth/sync",
+                                "/workspace/**",
+                                "/canvas/**",
+                                "/component/**",
+                                "/edge/**")
+                        .permitAll()  // only this is public
                         .anyRequest().authenticated()               // everything else needs JWT
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
     }

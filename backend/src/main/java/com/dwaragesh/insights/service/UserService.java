@@ -14,7 +14,7 @@ public class UserService {
     private UserRepository repository;
 
     public UserResponse syncUser(UserRequest request) {
-        return repository.findById(request.userId())
+        return repository.findUserByUserId(request.userId())
                 .map(existingUser -> new UserResponse(
                         existingUser.getUserId(),
                         existingUser.getUserName(),
