@@ -1,0 +1,11 @@
+/* CanvasArea.css */
+.canvas-area-container {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  background-color: var(--canvas-bg);
+  border: 1px solid var(--tab-border);
+  border-top-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}

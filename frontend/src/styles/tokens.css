@@ -1,0 +1,28 @@
+/* src/styles/tokens.css */
+/* Defines the core design tokens for the application's UI. */
+:root {
+  --bg-primary: #f0f0f0;
+  --bg-card: #d9d9d9;
+  --text-primary: #3d3d3d;
+  --text-secondary: #6b6b6b;
+  --accent: #4285f4;
+  --btn-google-bg: #ffffff;
+  --btn-google-text: #3d3d3d;
+  --note-bg: #e8e8e8;
+  --note-border: #b0b0b0;
+  --illustration-bg: #e0e0e0;
+  --illustration-border: #cccccc;
+  --illustration-text: #888888;
+  --btn-google-shadow: rgba(0, 0, 0, 0.1);
+  --card-shadow: rgba(0, 0, 0, 0.08);
+  
+  /* Canvas application specific tokens */
+  --topbar-profile: #d68989;
+  --tab-active-bg: #d9d9d9;
+  --tab-inactive-bg: #e6e6e6;
+  --tab-border: #cccccc;
+  --canvas-bg: #ffffff;
+  --toolbar-bg: #c4c4c4;
+  --icon-color: #333333;
+  --border-light: #dcdcdc;
+}

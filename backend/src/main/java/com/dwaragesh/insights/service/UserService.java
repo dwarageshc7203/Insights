@@ -22,19 +22,30 @@ public class UserService {
                         existingUser.getCreatedAt()
                 ))
                 .orElseGet(() -> {
-                    User newUser = new User();
-                    newUser.setUserId(request.userId());
-                    newUser.setUserName(request.userName());
-                    newUser.setEmail(request.email());
+                    try {
+                        User newUser = new User();
+                        newUser.setUserId(request.userId());
+                        newUser.setUserName(request.userName());
+                        newUser.setEmail(request.email());
 
-                    User saved = repository.save(newUser);
-                    return new UserResponse(
-                            saved.getUserId(),
-                            saved.getUserName(),
-                            saved.getEmail(),
-                            saved.getCreatedAt()
-                    );
+                        User saved = repository.save(newUser);
+                        return new UserResponse(
+                                saved.getUserId(),
+                                saved.getUserName(),
+                                saved.getEmail(),
+                                saved.getCreatedAt()
+                        );
+                    }
+                    catch(Exception e) {
+                        return repository.findUserByUserId(request.userId())
+                                .map(u -> new UserResponse(
+                                        u.getUserId(),
+                                        u.getUserName(),
+                                        u.getEmail(),
+                                        u.getCreatedAt()
+                                ))
+                                .orElseThrow(() -> new RuntimeException("User sync failed"));
+                    }
                 });
     }
-
 }

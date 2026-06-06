@@ -1,0 +1,39 @@
+/* TopBar.css */
+.topbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 0 20px;
+  background-color: var(--bg-primary);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.topbar-left {
+  width: 180px; /* Aligns with sidebar width approximately */
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.topbar-grid-icon {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.topbar-profile-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--topbar-profile);
+  cursor: pointer;
+}

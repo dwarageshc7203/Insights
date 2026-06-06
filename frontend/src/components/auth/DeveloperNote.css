@@ -1,0 +1,25 @@
+/* DeveloperNote.css */
+.developer-note-container {
+  border: 1px solid var(--note-border);
+  border-radius: 8px;
+  padding: 15px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--note-bg);
+}
+
+.developer-note-text {
+  font-family: "Comic Sans MS", "Chalkboard SE", "Comic Neue", cursive, sans-serif;
+  font-size: 14px;
+  color: var(--text-primary);
+  margin: 0 0 10px 0;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.developer-note-signature {
+  font-family: "Comic Sans MS", "Chalkboard SE", "Comic Neue", cursive, sans-serif;
+  font-size: 13px;
+  color: var(--text-primary);
+  text-align: right;
+}

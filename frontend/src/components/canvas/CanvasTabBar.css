@@ -1,0 +1,23 @@
+/* CanvasTabBar.css */
+.canvas-tab-bar {
+  display: flex;
+  align-items: center;
+  background-color: var(--tab-inactive-bg);
+  border-bottom: 1px solid var(--tab-border);
+  padding-left: 20px;
+  height: 40px;
+  overflow-x: auto;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.canvas-add-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

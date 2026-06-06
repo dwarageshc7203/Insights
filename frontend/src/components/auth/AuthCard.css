@@ -1,0 +1,30 @@
+/* AuthCard.css */
+.auth-card-container {
+  background-color: var(--bg-card);
+  border-radius: 16px;
+  padding: 40px;
+  width: 420px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 16px var(--card-shadow), 0 1px 4px var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-card-title {
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin: 0 0 30px 0;
+}
+
+.auth-card-signup-text {
+  font-size: 14px;
+  color: var(--text-primary);
+  margin: 0 0 25px 0;
+}
+
+.auth-card-signup-link {
+  color: var(--accent);
+  text-decoration: underline;
+}
