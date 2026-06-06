@@ -35,3 +35,5 @@ build/
 ABOUT.md
 
 .env
+
+.docs/
