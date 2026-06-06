@@ -1,8 +1,9 @@
 /* AuthCard.css */
 .auth-card-container {
+  margin-top: auto;
   background-color: var(--bg-card);
   border-radius: 16px;
-  padding: 40px;
+  padding: 40px 40px 0 40px;
   width: 420px;
   box-sizing: border-box;
   box-shadow: 0 4px 16px var(--card-shadow), 0 1px 4px var(--card-shadow);
@@ -21,7 +22,7 @@
 .auth-card-signup-text {
   font-size: 14px;
   color: var(--text-primary);
-  margin: 0 0 25px 0;
+  margin: 0 0 15px 0;
 }
 
 .auth-card-signup-link {

@@ -1,4 +1,5 @@
 /* LoginPage.css */
+
 .login-page-wrapper {
   display: flex;
   min-height: 100vh;
@@ -11,10 +12,10 @@
 
 .login-page-content {
   display: flex;
+  padding-top: 80px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
 }
 
 .login-page-title {
@@ -22,6 +23,7 @@
   font-weight: 500;
   color: var(--text-primary);
   margin: 0 0 20px 0;
+  padding-bottom: 50px;
   line-height: 1;
   letter-spacing: -2px;
 }

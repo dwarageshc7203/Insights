@@ -42,7 +42,7 @@ export default function SignUpPage() {
 
   return (
     <div className="login-page-wrapper">
-      <IllustrationSide alt="Left Suit Figure Illustration" />
+      {/*<IllustrationSide alt="Left Suit Figure Illustration" />*/}
       
       <div className="login-page-content">
         <h1 className="login-page-title">Heya!</h1>
@@ -55,7 +55,7 @@ export default function SignUpPage() {
         />
       </div>
 
-      <IllustrationSide alt="Right Suit Figure Illustration" />
+      {/*<IllustrationSide alt="Right Suit Figure Illustration" />*/}
     </div>
   );
 }
