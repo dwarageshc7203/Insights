@@ -14,7 +14,7 @@ export default function Sidebar({
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredWorkspaces = workspaces.filter(ws => 
-    ws.name.toLowerCase().includes(searchQuery.toLowerCase())
+    ws.workSpaceName?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (

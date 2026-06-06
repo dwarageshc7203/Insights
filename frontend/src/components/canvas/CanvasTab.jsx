@@ -6,7 +6,7 @@ import './CanvasTab.css';
 export default function CanvasTab({ canvas, isSelected, onClick, onDelete }) {
   return (
     <div className={`canvas-tab ${isSelected ? 'selected' : ''}`} onClick={onClick}>
-      <span className="canvas-tab-name">{canvas.name}</span>
+      <span className="canvas-tab-name">{canvas.canvasName}</span>
       <button 
         className="canvas-tab-delete" 
         onClick={(e) => {

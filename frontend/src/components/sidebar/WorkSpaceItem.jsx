@@ -6,7 +6,7 @@ import './WorkSpaceItem.css';
 export default function WorkSpaceItem({ workspace, isSelected, onClick, onDelete }) {
   return (
     <div className={`workspace-item ${isSelected ? 'selected' : ''}`} onClick={onClick}>
-      <span className="workspace-name">{workspace.name}</span>
+      <span className="workspace-name">{workspace.workSpaceName}</span>
       {isSelected && (
         <button 
           className="workspace-delete-btn" 
