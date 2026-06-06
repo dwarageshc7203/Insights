@@ -26,12 +26,13 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/sync"
-                                /*,
+                        .requestMatchers("/auth/sync",
+
                                 "/workspace/**",
                                 "/canvas/**",
                                 "/component/**",
-                                "/edge/**"*/
+                                "/edge/**"
+
                         )
                         .permitAll()  // only this is public
                         .anyRequest().authenticated()               // everything else needs JWT

@@ -73,7 +73,6 @@ public class WorkSpaceService {
                 .orElseThrow(() -> new EntityNotFoundException("WorkSpace not found"));
 
         repository.delete(workSpace);
-        System.out.println("Workspace ID: " + workSpaceId + " deleted" );
     }
 
 }
