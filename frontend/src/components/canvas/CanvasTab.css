@@ -2,44 +2,58 @@
 .canvas-tab {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 8px 16px;
+  gap: 8px;
+  padding: 8px 12px;
   background-color: var(--tab-inactive-bg);
   border: 1px solid var(--tab-border);
-  border-bottom: none;
+  border-radius: 6px;
   cursor: pointer;
-  min-width: 120px;
-  color: var(--color-text-canvas-tab);
-  font-family: var(--font-primary);
-  font-size: var(--font-size-small);
-  position: relative;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-.canvas-tab:first-child {
-  border-top-left-radius: 8px;
+.canvas-tab:hover {
+  background-color: #e0e0e0;
 }
 
 .canvas-tab.selected {
   background-color: var(--tab-active-bg);
-  border-bottom: 1px solid var(--tab-active-bg); /* to blend with canvas area below */
-  z-index: 2;
+  border-color: #999;
+  font-weight: 500;
 }
 
 .canvas-tab-name {
-  margin-right: 15px;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-small);
+  color: var(--color-text-canvas-tab);
+  font-weight: var(--font-weight-regular);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+.canvas-tab.selected .canvas-tab-name {
+  color: var(--color-text-primary);
 }
 
 .canvas-tab-delete {
   background: none;
   border: none;
-  padding: 0;
+  padding: 2px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
+  border-radius: 2px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.canvas-tab-delete:hover {
+  transform: scale(1.1);
+}
+
+.canvas-tab-delete:active {
+  transform: scale(0.95);
 }

@@ -19,8 +19,9 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 16px 20px;
   background-color: var(--bg-primary);
+  overflow: hidden;
 }
 
 .canvas-inner {
@@ -28,6 +29,9 @@
   flex-direction: column;
   height: 100%;
   position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .empty-canvas {
@@ -35,10 +39,44 @@
   align-items: center;
   justify-content: center;
   flex: 1;
-  color: var(--text-secondary);
+  color: var(--color-text-muted);
   background-color: var(--canvas-bg);
   border: 1px solid var(--tab-border);
   border-top: none;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 24px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--border-light);
+  border-top-color: var(--color-accent-link);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-container p {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  margin: 0;
 }

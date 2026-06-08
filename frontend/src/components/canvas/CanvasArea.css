@@ -5,7 +5,8 @@
   position: relative;
   background-color: var(--canvas-bg);
   border: 1px solid var(--tab-border);
-  border-top-right-radius: 12px;
+  border-top: none;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
+  overflow: hidden;
 }

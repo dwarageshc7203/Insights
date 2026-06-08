@@ -4,20 +4,59 @@
   align-items: center;
   background-color: var(--tab-inactive-bg);
   border-bottom: 1px solid var(--tab-border);
-  padding-left: 20px;
-  height: 40px;
+  height: 48px;
   overflow-x: auto;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
+  padding: 0 12px;
+  gap: 8px;
+}
+
+.canvas-tab-bar::-webkit-scrollbar {
+  height: 4px;
+}
+
+.canvas-tab-bar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.canvas-tab-bar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+
+.canvas-tab-bar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.canvas-tabs-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  flex: 1;
+}
+
+.canvas-tabs-scroll::-webkit-scrollbar {
+  display: none;
 }
 
 .canvas-add-btn {
   background: none;
   border: none;
-  padding: 0;
-  margin-left: 10px;
+  padding: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.canvas-add-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.canvas-add-btn:active {
+  transform: scale(0.95);
 }

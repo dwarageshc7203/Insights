@@ -187,12 +187,20 @@ export default function MainPage() {
   };
 
   if (loading) {
-    return <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>Loading Workspaces...</div>;
+    return (
+      <div className="main-layout">
+        <TopBar user={user} />
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <p>Loading Workspaces...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="main-layout">
-      <TopBar />
+      <TopBar user={user} />
       <div className="main-content">
         <Sidebar 
           workspaces={workspaces}

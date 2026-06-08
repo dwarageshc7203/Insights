@@ -1,0 +1,47 @@
+/* InputField.css */
+.input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.input-label {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+}
+
+.input-control {
+  padding: 12px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-small);
+  color: var(--color-text-primary);
+  background-color: var(--bg-primary);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-control:focus {
+  outline: none;
+  border-color: var(--color-accent-link);
+  box-shadow: 0 0 0 3px rgba(26, 105, 162, 0.1);
+}
+
+.input-control:disabled {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.input-control.error {
+  border-color: #e85c5c;
+}
+
+.input-error {
+  font-family: var(--font-primary);
+  font-size: 13px;
+  color: #e85c5c;
+}
