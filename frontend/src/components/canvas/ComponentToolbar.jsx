@@ -22,7 +22,7 @@ export default function ComponentToolbar({ onAddText, onAddImage, onAddShape }) 
         title="Add Image (I)"
         aria-label="Add image component"
       >
-        <span className="toolbar-icon">🖼️</span>
+        <span className="toolbar-icon toolbar-image-icon"></span>
         <span className="toolbar-label">Image</span>
       </button>
       <div className="toolbar-divider"></div>
@@ -32,7 +32,7 @@ export default function ComponentToolbar({ onAddText, onAddImage, onAddShape }) 
         title="Add Shape (S)"
         aria-label="Add shape component"
       >
-        <span className="toolbar-icon">⬜</span>
+        <span className="toolbar-icon toolbar-shape-icon"></span>
         <span className="toolbar-label">Shape</span>
       </button>
     </div>

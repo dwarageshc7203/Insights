@@ -19,11 +19,8 @@ export default function Sidebar({
 }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [newWorkspaceName, setNewWorkspaceName] = useState('');
-  const [workspaceToDelete, setWorkspaceToDelete] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
 
   const filteredWorkspaces = workspaces.filter(ws => 
     ws.workSpaceName?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -43,23 +40,6 @@ export default function Sidebar({
       setNewWorkspaceName('');
     } finally {
       setIsCreating(false);
-    }
-  };
-
-  const handleDeleteClick = (workspace) => {
-    setWorkspaceToDelete(workspace);
-    setShowDeleteModal(true);
-  };
-
-  const handleDeleteConfirm = async () => {
-    if (!workspaceToDelete) return;
-    setIsDeleting(true);
-    try {
-      await onDeleteWorkspace(workspaceToDelete.workSpaceId);
-      setShowDeleteModal(false);
-      setWorkspaceToDelete(null);
-    } finally {
-      setIsDeleting(false);
     }
   };
 
@@ -91,7 +71,6 @@ export default function Sidebar({
                 workspace={ws}
                 isSelected={selectedWorkspace?.workSpaceId === ws.workSpaceId}
                 onClick={() => onSelectWorkspace(ws)}
-                onDelete={handleDeleteClick}
               />
               {selectedWorkspace?.workSpaceId === ws.workSpaceId && canvases && canvases.length > 0 && (
                 <div className="sidebar-canvas-list">
@@ -147,33 +126,6 @@ export default function Sidebar({
             disabled={isCreating || !newWorkspaceName.trim()}
           >
             {isCreating ? 'Creating...' : 'Create'}
-          </Button>
-        </div>
-      </Modal>
-
-      <Modal 
-        isOpen={showDeleteModal}
-        onClose={() => !isDeleting && setShowDeleteModal(false)}
-        title="Delete Work Space"
-        size="sm"
-      >
-        <p className="modal-message">
-          Are you sure you want to delete "<strong>{workspaceToDelete?.workSpaceName}</strong>"? This action cannot be undone.
-        </p>
-        <div className="modal-actions">
-          <Button 
-            variant="secondary" 
-            onClick={() => !isDeleting && setShowDeleteModal(false)}
-            disabled={isDeleting}
-          >
-            Cancel
-          </Button>
-          <Button 
-            variant="danger"
-            onClick={handleDeleteConfirm}
-            disabled={isDeleting}
-          >
-            {isDeleting ? 'Deleting...' : 'Delete'}
           </Button>
         </div>
       </Modal>

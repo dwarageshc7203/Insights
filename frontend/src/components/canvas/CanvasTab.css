@@ -4,8 +4,8 @@
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  background-color: var(--tab-inactive-bg);
-  border: 1px solid var(--tab-border);
+  background-color: #e8e8e8;
+  border: 1px solid #ccc;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s;
@@ -18,15 +18,15 @@
 }
 
 .canvas-tab.selected {
-  background-color: var(--tab-active-bg);
-  border-color: #999;
+  background-color: #e3f2fd;
+  border-color: #90caf9;
   font-weight: 500;
 }
 
 .canvas-tab-name {
   font-family: var(--font-primary);
   font-size: var(--font-size-small);
-  color: var(--color-text-canvas-tab);
+  color: #444;
   font-weight: var(--font-weight-regular);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -34,7 +34,7 @@
 }
 
 .canvas-tab.selected .canvas-tab-name {
-  color: var(--color-text-primary);
+  color: #1a69a2;
 }
 
 .canvas-tab-delete {

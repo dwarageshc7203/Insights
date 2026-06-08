@@ -17,19 +17,6 @@ export default function WorkSpaceItem({ workspace, isSelected, onClick, onDelete
       }}
     >
       <span className="workspace-name">{workspace.workSpaceName}</span>
-      {isSelected && (
-        <button 
-          className="workspace-delete-btn" 
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete(workspace);
-          }}
-          title="Delete Workspace"
-          aria-label={`Delete ${workspace.workSpaceName}`}
-        >
-          ⋯
-        </button>
-      )}
     </div>
   );
 }

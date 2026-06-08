@@ -29,21 +29,10 @@
   background: rgba(0, 0, 0, 0.3);
 }
 
-.canvas-tabs-scroll {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  flex: 1;
-}
-
-.canvas-tabs-scroll::-webkit-scrollbar {
-  display: none;
-}
-
 .canvas-add-btn {
   background: none;
   border: none;
-  padding: 8px;
+  padding: 8px 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -51,6 +40,11 @@
   border-radius: 6px;
   transition: all 0.2s;
   flex-shrink: 0;
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+  height: 32px;
+  min-width: 32px;
 }
 
 .canvas-add-btn:hover {

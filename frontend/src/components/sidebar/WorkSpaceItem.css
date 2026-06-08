@@ -7,6 +7,7 @@
   margin-bottom: 8px;
   border-radius: 6px;
   border: 1px solid transparent;
+  border-left: 4px solid transparent;
   cursor: pointer;
   color: var(--color-text-primary);
   font-family: var(--font-primary);
@@ -17,12 +18,12 @@
 
 .workspace-item:hover {
   background-color: rgba(0, 0, 0, 0.05);
-  border-color: var(--border-light);
 }
 
 .workspace-item.selected {
-  background-color: var(--border-light);
-  border-color: #999;
+  background-color: transparent;
+  border-color: transparent;
+  border-left-color: var(--color-accent-link);
   font-weight: 500;
 }
 
@@ -31,20 +32,4 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.workspace-delete-btn {
-  background: none;
-  border: none;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  font-size: 18px;
-  line-height: 1;
-  padding: 4px 2px;
-  transition: color 0.2s;
-  flex-shrink: 0;
-}
-
-.workspace-delete-btn:hover {
-  color: #e85c5c;
 }

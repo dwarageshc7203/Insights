@@ -20,6 +20,8 @@ export default function TopBar({ user }) {
     .join('')
     .toUpperCase() || 'U';
 
+  const avatarUrl = user?.user_metadata?.avatar_url;
+
   return (
     <div className="topbar-container">
       <div className="topbar-left">
@@ -30,7 +32,7 @@ export default function TopBar({ user }) {
       </div>
       <div className="topbar-right">
         <div className="topbar-grid-icon" title="Apps">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--icon-color)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#333">
             <circle cx="4" cy="4" r="2" />
             <circle cx="12" cy="4" r="2" />
             <circle cx="20" cy="4" r="2" />
@@ -48,12 +50,22 @@ export default function TopBar({ user }) {
             onClick={() => setShowProfileMenu(!showProfileMenu)}
             title={user?.email}
           >
-            {userInitials}
+            {avatarUrl ? (
+              <img src={avatarUrl} alt="User avatar" className="profile-avatar-img" />
+            ) : (
+              userInitials
+            )}
           </div>
           {showProfileMenu && (
             <div className="profile-dropdown">
               <div className="profile-dropdown-header">
-                <div className="profile-avatar">{userInitials}</div>
+                <div className="profile-avatar">
+                  {avatarUrl ? (
+                    <img src={avatarUrl} alt="User avatar" className="profile-avatar-img" />
+                  ) : (
+                    userInitials
+                  )}
+                </div>
                 <div className="profile-info">
                   <div className="profile-name">{user?.user_metadata?.full_name || 'User'}</div>
                   <div className="profile-email">{user?.email}</div>
