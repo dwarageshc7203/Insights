@@ -1,17 +1,49 @@
-/* src/styles/tokens.css */
-/* Defines the core design tokens for the application's UI. */
 :root {
+  /* Fonts */
+  --font-primary: 'Nunito', sans-serif;
+  --font-handwritten: 'Shadows Into Light', cursive;
+  --font-cursive: 'Satisfy', cursive;
+
+  /* Colors from design */
+  --color-text-heading: #474545;
+  --color-text-primary: #2B2A2A;
+  --color-text-secondary: #4C4C4C;
+  --color-text-muted: #606060;
+  --color-text-workspace: #474343;
+  --color-text-canvas-tab: #414141;
+  --color-text-planning: #3A3A3A;
+  --color-accent-link: #1A69A2;
+
+  /* Typography scale */
+  --font-size-heading-xl: 350px;   /* Hola!, Heya! */
+  --font-size-heading-lg: 64px;    /* Planning cursive */
+  --font-size-heading-md: 48px;    /* Login here!, Sign up here! */
+  --font-size-btn: 36px;           /* Continue with Google */
+  --font-size-workspace: 24px;     /* Work Spaces label */
+  --font-size-body: 20px;          /* WS items, body text */
+  --font-size-small: 16px;         /* Canvas items, Search, etc */
+  --font-size-note-small: 15px;    /* Developer signature */
+
+  /* Font weights */
+  --font-weight-light: 200;
+  --font-weight-thin: 300;
+  --font-weight-regular: 400;
+
+  /* Letter spacing */
+  --letter-spacing-heading: 2.4px;
+  --letter-spacing-workspace: 0.12px;
+  --letter-spacing-body: 0.08px;
+  --letter-spacing-ws-item: 0.10px;
+
+  /* Other layout/structural variables from before */
   --bg-primary: #f0f0f0;
   --bg-card: #d9d9d9;
-  --text-primary: #3d3d3d;
-  --text-secondary: #6b6b6b;
   --accent: #4285f4;
   --btn-google-bg: #ffffff;
-  --btn-google-text: #3d3d3d;
-  --note-bg: #e8e8e8;
-  --note-border: #b0b0b0;
-  --illustration-bg: #e0e0e0;
-  --illustration-border: #cccccc;
+  --btn-google-text: #757575;
+  --note-bg: rgba(255, 255, 255, 0.5);
+  --note-border: #cccccc;
+  --illustration-border: #aaaaaa;
   --illustration-text: #888888;
   --btn-google-shadow: rgba(0, 0, 0, 0.1);
   --card-shadow: rgba(0, 0, 0, 0.08);

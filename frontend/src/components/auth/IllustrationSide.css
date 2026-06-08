@@ -7,12 +7,10 @@
 }
 
 .illustration-placeholder {
-  padding: 40px;
-  border: 2px dashed var(--illustration-border);
-  color: var(--illustration-text);
-  background-color: var(--illustration-bg);
+  background-color: #d0d0d0;
+  width: 180px;
+  height: 300px;
   border-radius: 12px;
-  text-align: center;
 }
 
 .illustration-image {

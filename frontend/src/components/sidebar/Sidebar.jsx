@@ -7,6 +7,9 @@ import './Sidebar.css';
 export default function Sidebar({ 
   workspaces, 
   selectedWorkspace, 
+  canvases,
+  selectedCanvas,
+  onSelectCanvas,
   onSelectWorkspace, 
   onCreateWorkspace, 
   onDeleteWorkspace 
@@ -42,13 +45,27 @@ export default function Sidebar({
 
       <div className="sidebar-list">
         {filteredWorkspaces.map(ws => (
-          <WorkSpaceItem 
-            key={ws.workSpaceId}
-            workspace={ws}
-            isSelected={selectedWorkspace?.workSpaceId === ws.workSpaceId}
-            onClick={() => onSelectWorkspace(ws)}
-            onDelete={onDeleteWorkspace}
-          />
+          <React.Fragment key={ws.workSpaceId}>
+            <WorkSpaceItem 
+              workspace={ws}
+              isSelected={selectedWorkspace?.workSpaceId === ws.workSpaceId}
+              onClick={() => onSelectWorkspace(ws)}
+              onDelete={onDeleteWorkspace}
+            />
+            {selectedWorkspace?.workSpaceId === ws.workSpaceId && canvases && canvases.length > 0 && (
+              <div className="sidebar-canvas-list">
+                {canvases.map(canvas => (
+                  <div 
+                    key={canvas.canvasId} 
+                    className={`sidebar-canvas-item ${selectedCanvas?.canvasId === canvas.canvasId ? 'selected' : ''}`}
+                    onClick={() => onSelectCanvas(canvas)}
+                  >
+                    {canvas.canvasName}
+                  </div>
+                ))}
+              </div>
+            )}
+          </React.Fragment>
         ))}
       </div>
 

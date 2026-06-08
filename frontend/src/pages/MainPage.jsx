@@ -197,6 +197,9 @@ export default function MainPage() {
         <Sidebar 
           workspaces={workspaces}
           selectedWorkspace={selectedWorkspace}
+          canvases={canvases}
+          selectedCanvas={selectedCanvas}
+          onSelectCanvas={handleSelectCanvas}
           onSelectWorkspace={handleSelectWorkspace}
           onCreateWorkspace={handleCreateWorkspace}
           onDeleteWorkspace={handleDeleteWorkspace}

@@ -9,17 +9,17 @@
 }
 
 .developer-note-text {
-  font-family: "Comic Sans MS", "Chalkboard SE", "Comic Neue", cursive, sans-serif;
-  font-size: 14px;
-  color: var(--text-primary);
+  font-family: var(--font-handwritten);
+  font-size: var(--font-size-note-small);
+  color: var(--color-text-muted);
   margin: 0 0 10px 0;
   line-height: 1.6;
   text-align: center;
 }
 
 .developer-note-signature {
-  font-family: "Comic Sans MS", "Chalkboard SE", "Comic Neue", cursive, sans-serif;
-  font-size: 13px;
-  color: var(--text-primary);
+  font-family: var(--font-handwritten);
+  font-size: var(--font-size-note-small);
+  color: var(--color-text-muted);
   text-align: right;
 }

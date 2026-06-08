@@ -9,8 +9,9 @@
   border-bottom: none;
   cursor: pointer;
   min-width: 120px;
-  color: var(--text-primary);
-  font-size: 13px;
+  color: var(--color-text-canvas-tab);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-small);
   position: relative;
   transition: background-color 0.2s;
 }

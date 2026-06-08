@@ -10,7 +10,6 @@ export default function IllustrationSide({ src, alt }) {
         <img src={src} alt={alt} className="illustration-image" />
       ) : (
         <div className="illustration-placeholder">
-          {alt || 'Illustration Placeholder'}
         </div>
       )}
     </div>

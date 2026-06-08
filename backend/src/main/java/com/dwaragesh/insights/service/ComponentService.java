@@ -91,6 +91,22 @@ public class ComponentService {
         );
     }
 
+    //patch componentTextContent
+    public ComponentPositionPatchResponse patchComponentTextContent(int componentId, ComponentPositionPatchRequest request) {
+        Component component = repository.findById(componentId)
+                .orElseThrow(() -> new EntityNotFoundException("Component not found"));
+
+        component.setPositionX(request.positionX());
+        component.setPositionY(request.positionY());
+
+        Component savedComponent = repository.save(component);
+
+        return new ComponentPositionPatchResponse(
+                savedComponent.getPositionX(),
+                savedComponent.getPositionY()
+        );
+    }
+
     public void deleteComponent(int componentId) {
         Component component = repository.findById(componentId)
                 .orElseThrow(() -> new EntityNotFoundException("Component not found"));
