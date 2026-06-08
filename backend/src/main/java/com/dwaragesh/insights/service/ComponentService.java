@@ -1,9 +1,6 @@
 package com.dwaragesh.insights.service;
 
-import com.dwaragesh.insights.dto.Component.ComponentPositionPatchRequest;
-import com.dwaragesh.insights.dto.Component.ComponentPositionPatchResponse;
-import com.dwaragesh.insights.dto.Component.ComponentRequest;
-import com.dwaragesh.insights.dto.Component.ComponentResponse;
+import com.dwaragesh.insights.dto.Component.*;
 import com.dwaragesh.insights.model.Canvas;
 import com.dwaragesh.insights.model.Component;
 import com.dwaragesh.insights.model.Edge;
@@ -92,18 +89,16 @@ public class ComponentService {
     }
 
     //patch componentTextContent
-    public ComponentPositionPatchResponse patchComponentTextContent(int componentId, ComponentPositionPatchRequest request) {
+    public ComponentTextPatchResponse patchComponentTextContent(int componentId, ComponentTextPatchRequest request) {
         Component component = repository.findById(componentId)
                 .orElseThrow(() -> new EntityNotFoundException("Component not found"));
 
-        component.setPositionX(request.positionX());
-        component.setPositionY(request.positionY());
+        component.setTextContent(request.textContent());
 
         Component savedComponent = repository.save(component);
 
-        return new ComponentPositionPatchResponse(
-                savedComponent.getPositionX(),
-                savedComponent.getPositionY()
+        return new ComponentTextPatchResponse(
+                savedComponent.getTextContent()
         );
     }
 
