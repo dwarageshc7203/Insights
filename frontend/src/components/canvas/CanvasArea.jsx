@@ -58,6 +58,7 @@ function CanvasFlow({
       nodes={nodes}
       edges={edges}
       nodeTypes={nodeTypes}
+      {/**/}
       connectionMode={ConnectionMode.Loose}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
