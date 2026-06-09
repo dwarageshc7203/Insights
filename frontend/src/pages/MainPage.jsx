@@ -11,6 +11,7 @@ import TopBar from '../components/common/TopBar';
 import CanvasTabBar from '../components/canvas/CanvasTabBar';
 import CanvasArea from '../components/canvas/CanvasArea';
 import ComponentToolbar from '../components/canvas/ComponentToolbar';
+import { mapComponentToNode } from '../components/canvas/nodes';
 import '../styles/tokens.css';
 import './MainPage.css';
 
@@ -26,6 +27,7 @@ export default function MainPage() {
   const [selectedCanvas, setSelectedCanvas] = useState(null);
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
+  const [pendingEditNodeId, setPendingEditNodeId] = useState(null);
 
   // Auth and init
   useEffect(() => {
@@ -77,17 +79,15 @@ export default function MainPage() {
   const handleSelectCanvas = async (canvas) => {
     setSelectedCanvas(canvas);
     const data = await api.loadCanvas(canvas.canvasId);
-    setNodes(data.components.map(c => ({
-      id: String(c.componentId),
-      position: { x: c.positionX, y: c.positionY },
-      data: { label: c.textContent || c.componentName },
-      type: 'default'
-    })));
+    setNodes(data.components.map(mapComponentToNode));
     setEdges(data.edges.map(e => ({
       id: String(e.edgeId),
       source: String(e.sourceId),
-      target: String(e.targetId)
+      target: String(e.targetId),
+      selectable: true,
+      focusable: true,
     })));
+    setPendingEditNodeId(null);
   };
 
   const handleCreateWorkspace = async (name) => {
@@ -140,7 +140,7 @@ export default function MainPage() {
   const onConnect = useCallback(async (params) => {
     if (!selectedCanvas) return;
     // Set UI optimistically
-    setEdges((eds) => addEdge(params, eds));
+    setEdges((eds) => addEdge({ ...params, selectable: true, focusable: true }, eds));
     // Persist
     await api.createEdge(selectedCanvas.canvasId, {
       edgeName: 'connection',
@@ -166,30 +166,71 @@ export default function MainPage() {
     }
   };
 
-  // Toolbar actions
-  const handleAddComponent = async (type) => {
+  const handleTextSave = useCallback(async (nodeId, textContent) => {
+    setNodes((nds) =>
+      nds.map((n) =>
+        n.id === nodeId
+          ? { ...n, data: { ...n.data, textContent, label: textContent } }
+          : n
+      )
+    );
+    try {
+      await api.updateComponentTextContent(parseInt(nodeId, 10), textContent);
+    } catch (err) {
+      console.error('Failed to save text content:', err);
+    }
+  }, []);
+
+  const handleAddComponent = async (type, position = null) => {
     if (!selectedCanvas) return;
+    const offset = nodes.length * 30;
+    const positionX = position?.x ?? 100 + offset;
+    const positionY = position?.y ?? 100 + offset;
     const compData = {
       componentName: type === 'TEXT' ? 'Text' : type === 'IMAGE' ? 'Image' : 'Shape',
       componentType: type,
       textContent: type === 'TEXT' ? 'New Text' : '',
-      color: '#ffffff',
-      positionX: 100,
-      positionY: 100
+      color: type === 'NODE' ? '#e2f048' : '#ffffff',
+      positionX,
+      positionY,
     };
     const newComp = await api.createComponent(selectedCanvas.canvasId, compData);
-    setNodes((nds) => [...nds, {
-      id: String(newComp.componentId),
-      position: { x: newComp.positionX, y: newComp.positionY },
-      data: { label: newComp.textContent || newComp.componentName },
-      type: 'default'
-    }]);
+    const newNode = { ...mapComponentToNode(newComp), selected: true };
+    setNodes((nds) => [
+      ...nds.map((n) => ({ ...n, selected: false })),
+      newNode,
+    ]);
+    setEdges((eds) => eds.map((e) => ({ ...e, selected: false })));
+    if (type === 'TEXT') {
+      setPendingEditNodeId(newNode.id);
+    }
   };
+
+  const handleCreateTextAt = useCallback(
+    (position) => handleAddComponent('TEXT', position),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selectedCanvas, nodes.length]
+  );
+
+  const handleNodeEditRequest = useCallback((nodeId) => {
+    setPendingEditNodeId(nodeId);
+    setNodes((nds) =>
+      nds.map((n) => ({
+        ...n,
+        selected: n.id === nodeId,
+      }))
+    );
+    setEdges((eds) => eds.map((e) => ({ ...e, selected: false })));
+  }, []);
+
+  const handleClearPendingEdit = useCallback(() => {
+    setPendingEditNodeId(null);
+  }, []);
 
   if (loading) {
     return (
       <div className="main-layout">
-        <TopBar user={user} />
+        <TopBar user={user} workspaceName={selectedWorkspace?.workSpaceName} />
         <div className="loading-container">
           <div className="spinner"></div>
           <p>Loading Workspaces...</p>
@@ -200,7 +241,7 @@ export default function MainPage() {
 
   return (
     <div className="main-layout">
-      <TopBar user={user} />
+      <TopBar user={user} workspaceName={selectedWorkspace?.workSpaceName} />
       <div className="main-content">
         <Sidebar 
           workspaces={workspaces}
@@ -213,18 +254,28 @@ export default function MainPage() {
           onDeleteWorkspace={handleDeleteWorkspace}
         />
         <div className="canvas-wrapper">
-          {selectedWorkspace && (
+          {!selectedWorkspace ? (
+            <div className="canvas-inner canvas-inner--standalone">
+              <div className="canvas-empty-state">
+                <div className="canvas-empty-state-visual" aria-hidden="true" />
+                <h2 className="canvas-empty-state-title">No workspace selected</h2>
+                <p className="canvas-empty-state-description">
+                  Create or select a workspace from the sidebar to begin
+                </p>
+              </div>
+            </div>
+          ) : (
             <div className="canvas-inner">
-              <CanvasTabBar 
+              <CanvasTabBar
                 canvases={canvases}
                 selectedCanvas={selectedCanvas}
                 onSelectCanvas={handleSelectCanvas}
                 onCreateCanvas={handleCreateCanvas}
                 onDeleteCanvas={handleDeleteCanvas}
               />
-              {selectedCanvas ? (
-                <>
-                  <CanvasArea 
+              <div className="canvas-body">
+                {selectedCanvas ? (
+                  <CanvasArea
                     nodes={nodes}
                     edges={edges}
                     onNodesChange={onNodesChange}
@@ -233,16 +284,29 @@ export default function MainPage() {
                     onNodeDragStop={onNodeDragStop}
                     onNodesDelete={onNodesDelete}
                     onEdgesDelete={onEdgesDelete}
+                    onTextSave={handleTextSave}
+                    onPaneCreateText={handleCreateTextAt}
+                    onNodeEditRequest={handleNodeEditRequest}
+                    pendingEditNodeId={pendingEditNodeId}
+                    onClearPendingEdit={handleClearPendingEdit}
+                    toolbar={
+                      <ComponentToolbar
+                        onAddText={() => handleAddComponent('TEXT')}
+                        onAddImage={() => handleAddComponent('IMAGE')}
+                        onAddShape={() => handleAddComponent('NODE')}
+                      />
+                    }
                   />
-                  <ComponentToolbar 
-                    onAddText={() => handleAddComponent('TEXT')}
-                    onAddImage={() => handleAddComponent('IMAGE')}
-                    onAddShape={() => handleAddComponent('NODE')}
-                  />
-                </>
-              ) : (
-                <div className="empty-canvas">Select or create a canvas to get started</div>
-              )}
+                ) : (
+                  <div className="canvas-empty-state">
+                    <div className="canvas-empty-state-visual" aria-hidden="true" />
+                    <h2 className="canvas-empty-state-title">No canvas open</h2>
+                    <p className="canvas-empty-state-description">
+                      Select a canvas from the tabs above or create a new one with +
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>

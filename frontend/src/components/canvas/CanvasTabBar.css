@@ -1,19 +1,18 @@
 /* CanvasTabBar.css */
 .canvas-tab-bar {
   display: flex;
-  align-items: center;
-  background-color: var(--tab-inactive-bg);
-  border-bottom: 1px solid var(--tab-border);
-  height: 48px;
+  align-items: flex-end;
+  background-color: var(--color-gray-100);
+  border-bottom: 1px solid var(--border-default);
+  min-height: var(--space-10);
   overflow-x: auto;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  padding: 0 12px;
-  gap: 8px;
+  padding: var(--space-2) var(--space-3) 0;
+  gap: var(--space-1);
+  flex-shrink: 0;
 }
 
 .canvas-tab-bar::-webkit-scrollbar {
-  height: 4px;
+  height: var(--space-1);
 }
 
 .canvas-tab-bar::-webkit-scrollbar-track {
@@ -21,34 +20,37 @@
 }
 
 .canvas-tab-bar::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 2px;
+  background: var(--surface-scrollbar);
+  border-radius: var(--radius-xs);
 }
 
 .canvas-tab-bar::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--surface-scrollbar-hover);
 }
 
 .canvas-add-btn {
-  background: none;
-  border: none;
-  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: var(--space-2) var(--space-3);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  transition: all 0.2s;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  transition: background-color var(--transition-normal), color var(--transition-normal), transform var(--transition-fast);
   flex-shrink: 0;
-  font-size: 18px;
-  color: #333;
-  font-weight: bold;
-  height: 32px;
-  min-width: 32px;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-muted);
+  height: var(--space-8);
+  min-width: var(--space-8);
+  margin-bottom: -1px;
 }
 
 .canvas-add-btn:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: var(--surface-hover);
+  color: var(--color-text-primary);
 }
 
 .canvas-add-btn:active {
