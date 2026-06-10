@@ -5,18 +5,13 @@ import './WorkSpaceItem.css';
 
 export default function WorkSpaceItem({ workspace, isSelected, onClick, onDelete }) {
   return (
-    <div 
-      className={`workspace-item ${isSelected ? 'selected' : ''}`} 
+    <button
+      type="button"
+      className={`workspace-item${isSelected ? ' selected' : ''}`}
       onClick={onClick}
-      role="button"
-      tabIndex={0}
-      onKeyPress={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          onClick();
-        }
-      }}
     >
+      <span className="workspace-marker" aria-hidden="true" />
       <span className="workspace-name">{workspace.workSpaceName}</span>
-    </div>
+    </button>
   );
 }

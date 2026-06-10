@@ -1,0 +1,294 @@
+/* ─── Reset React Flow default node chrome ───────────────────────────────── */
+
+.canvas-area-container .react-flow__node {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  font-family: var(--font-primary);
+}
+
+.canvas-area-container .react-flow__node.selectable:focus,
+.canvas-area-container .react-flow__node.selectable:focus-visible {
+  outline: none;
+}
+
+/* ─── Shared node shell ──────────────────────────────────────────────────── */
+
+.canvas-node {
+  position: relative;
+  transition:
+    box-shadow var(--transition-normal),
+    transform var(--transition-fast);
+}
+
+.canvas-node:hover {
+  transform: translateY(-1px);
+}
+
+.canvas-node.is-selected {
+  transform: translateY(-1px);
+}
+
+/* ─── Connection handles ─────────────────────────────────────────────────── */
+
+.canvas-handle {
+  width: var(--space-2) !important;
+  height: var(--space-2) !important;
+  min-width: var(--space-2) !important;
+  min-height: var(--space-2) !important;
+  background: var(--accent-primary) !important;
+  border: 2px solid var(--surface-raised) !important;
+  border-radius: var(--radius-full) !important;
+  opacity: 0;
+  transition: opacity var(--transition-normal), transform var(--transition-fast);
+}
+
+.canvas-node:hover .canvas-handle,
+.canvas-node.is-selected .canvas-handle {
+  opacity: 1;
+}
+
+.canvas-handle:hover {
+  transform: scale(1.25);
+  background: var(--accent-primary-hover) !important;
+}
+
+/* ─── TEXT — note card ───────────────────────────────────────────────────── */
+
+.canvas-node--text {
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.canvas-node-text-inner {
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.canvas-node-text-inner::before {
+  content: '';
+  position: absolute;
+  top: var(--space-3);
+  bottom: var(--space-3);
+  left: 0;
+  width: 3px;
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  background: var(--accent-primary);
+  opacity: 0.7;
+}
+
+.canvas-node--text:hover .canvas-node-text-inner {
+  border-color: var(--color-gray-300);
+  box-shadow: var(--shadow-md);
+}
+
+.canvas-node--text.is-selected .canvas-node-text-inner {
+  border-color: var(--accent-primary);
+  box-shadow:
+    var(--shadow-md),
+    0 0 0 2px var(--accent-focus-ring);
+}
+
+.canvas-node-text-content {
+  margin: 0;
+  padding-left: var(--space-2);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.canvas-node-text-content.is-placeholder {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.canvas-node--text.is-editing .canvas-node-text-inner {
+  border-color: var(--accent-primary);
+  box-shadow:
+    var(--shadow-md),
+    0 0 0 2px var(--accent-focus-ring);
+}
+
+.canvas-node-text-editor {
+  display: block;
+  width: 100%;
+  min-width: 180px;
+  min-height: 72px;
+  margin: 0;
+  padding: 0 0 0 var(--space-2);
+  border: none;
+  outline: none;
+  resize: vertical;
+  background: transparent;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-primary);
+}
+
+.canvas-node--text.is-editing {
+  transform: none;
+}
+
+.canvas-node--text.is-editing:hover {
+  transform: none;
+}
+
+/* ─── IMAGE — media frame ────────────────────────────────────────────────── */
+
+.canvas-node--image {
+  width: 260px;
+}
+
+.canvas-node-image-frame {
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.canvas-node--image:hover .canvas-node-image-frame {
+  border-color: var(--color-gray-300);
+  box-shadow: var(--shadow-md);
+}
+
+.canvas-node--image.is-selected .canvas-node-image-frame {
+  border-color: var(--accent-primary);
+  box-shadow:
+    var(--shadow-md),
+    0 0 0 2px var(--accent-focus-ring);
+}
+
+.canvas-node-image-preview {
+  display: block;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  background: var(--color-gray-100);
+}
+
+.canvas-node-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 200px;
+  background:
+    linear-gradient(145deg, var(--color-gray-100) 0%, var(--color-gray-150) 100%);
+  position: relative;
+}
+
+.canvas-node-image-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: var(--space-6);
+  border: 2px dashed var(--border-default);
+  border-radius: var(--radius-lg);
+}
+
+.canvas-node-image-placeholder-label {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  letter-spacing: var(--letter-spacing-widest);
+  text-transform: uppercase;
+}
+
+/* ─── SHAPE — visual object ──────────────────────────────────────────────── */
+
+.canvas-node--shape {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvas-node-shape-body {
+  background: var(--shape-fill);
+  box-shadow: var(--shadow-sm);
+  transition:
+    box-shadow var(--transition-normal),
+    transform var(--transition-fast);
+}
+
+.canvas-node--shape-circle .canvas-node-shape-body {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-full);
+}
+
+.canvas-node--shape-pill .canvas-node-shape-body {
+  width: 180px;
+  height: 72px;
+  border-radius: var(--radius-nav);
+}
+
+.canvas-node--shape-rounded .canvas-node-shape-body {
+  width: 140px;
+  height: 140px;
+  border-radius: var(--radius-2xl);
+}
+
+.canvas-node--shape:hover .canvas-node-shape-body {
+  box-shadow: var(--shadow-md);
+  transform: scale(1.02);
+}
+
+.canvas-node--shape.is-selected .canvas-node-shape-body {
+  box-shadow:
+    var(--shadow-md),
+    0 0 0 3px var(--surface-raised),
+    0 0 0 5px var(--accent-primary);
+}
+
+.canvas-node--shape.is-selected:hover .canvas-node-shape-body {
+  transform: scale(1.02);
+}
+
+/* ─── Edges — soft connectors, not flowchart wires ───────────────────────── */
+
+.canvas-area-container .react-flow__edge-path {
+  stroke: var(--color-gray-300);
+  stroke-width: 1.5;
+  transition: stroke var(--transition-normal);
+}
+
+.canvas-area-container .react-flow__edge:hover .react-flow__edge-path {
+  stroke: var(--color-gray-500);
+}
+
+.canvas-area-container .react-flow__edge.selected .react-flow__edge-path {
+  stroke: var(--accent-primary);
+  stroke-width: 2.5;
+}
+
+.canvas-area-container .react-flow__edge.selected {
+  filter: drop-shadow(0 0 2px var(--accent-focus-ring));
+}
+
+.canvas-area-container .react-flow__edge.selectable:focus .react-flow__edge-path,
+.canvas-area-container .react-flow__edge.selectable:focus-visible .react-flow__edge-path {
+  stroke: var(--accent-primary);
+}
+
+.canvas-area-container .react-flow__connection-path {
+  stroke: var(--accent-primary);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 4;
+  opacity: 0.6;
+}

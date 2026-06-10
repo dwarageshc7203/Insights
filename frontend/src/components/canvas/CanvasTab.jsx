@@ -38,16 +38,13 @@ export default function CanvasTab({ canvas, isSelected, onClick, onDelete }) {
         }}
       >
         <span className="canvas-tab-name">{canvas.canvasName}</span>
-        <button 
-          className="canvas-tab-delete" 
+        <button
+          className="canvas-tab-delete"
           onClick={handleDeleteClick}
           title="Close Canvas"
           aria-label={`Close ${canvas.canvasName}`}
         >
-          <svg width="12" height="12" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="5" cy="5" r="5" fill="#e85c5c" />
-            <path d="M3 3L7 7M7 3L3 7" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
+          ×
         </button>
       </div>
 

@@ -74,6 +74,17 @@ export const api = {
     })
     return res.json()
   },
+  updateComponentTextContent: async (componentId, textContent) => {
+    const headers = await getHeaders()
+    const res = await fetch(`${BASE_URL}/component/${componentId}/text`, {
+      method: 'PATCH', headers,
+      body: JSON.stringify({ textContent })
+    })
+    if (!res.ok) {
+      throw new Error(`Failed to update text: ${res.status}`)
+    }
+    return res.json()
+  },
   deleteComponent: async (componentId) => {
     const headers = await getHeaders()
     await fetch(`${BASE_URL}/component/${componentId}`, {

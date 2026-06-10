@@ -7,22 +7,22 @@ import Button from '../common/Button';
 import WorkSpaceItem from './WorkSpaceItem';
 import './Sidebar.css';
 
-export default function Sidebar({ 
-  workspaces, 
-  selectedWorkspace, 
+export default function Sidebar({
+  workspaces,
+  selectedWorkspace,
   canvases,
   selectedCanvas,
   onSelectCanvas,
-  onSelectWorkspace, 
-  onCreateWorkspace, 
-  onDeleteWorkspace 
+  onSelectWorkspace,
+  onCreateWorkspace,
+  onDeleteWorkspace
 }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newWorkspaceName, setNewWorkspaceName] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 
-  const filteredWorkspaces = workspaces.filter(ws => 
+  const filteredWorkspaces = workspaces.filter(ws =>
     ws.workSpaceName?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -45,67 +45,69 @@ export default function Sidebar({
 
   return (
     <>
-      <div className="sidebar-container">
+      <aside className="sidebar-container">
         <div className="sidebar-header">
-          <h2 className="sidebar-title">Work Spaces</h2>
-          
-          <button className="sidebar-btn" onClick={handleCreateClick}>
-            <span className="sidebar-btn-icon">+</span> New Work Space
-          </button>
-          
+          <div className="sidebar-header-row">
+            <h2 className="sidebar-title">Workspaces</h2>
+            <button
+              type="button"
+              className="sidebar-btn-new"
+              onClick={handleCreateClick}
+              title="New workspace"
+            >
+              +
+            </button>
+          </div>
+
           <div className="sidebar-search">
-            <span className="sidebar-search-icon">🔍</span>
-            <input 
-              type="text" 
-              placeholder="Search" 
+            <input
+              type="text"
+              placeholder="Search workspaces…"
+              aria-label="Search workspaces"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
         </div>
 
-        <div className="sidebar-list">
+        <nav className="sidebar-list" aria-label="Workspaces">
           {filteredWorkspaces.map(ws => (
-            <React.Fragment key={ws.workSpaceId}>
-              <WorkSpaceItem 
+            <div key={ws.workSpaceId} className="sidebar-workspace-group">
+              <WorkSpaceItem
                 workspace={ws}
                 isSelected={selectedWorkspace?.workSpaceId === ws.workSpaceId}
                 onClick={() => onSelectWorkspace(ws)}
               />
               {selectedWorkspace?.workSpaceId === ws.workSpaceId && canvases && canvases.length > 0 && (
-                <div className="sidebar-canvas-list">
-                  {canvases.map(canvas => (
-                    <div 
-                      key={canvas.canvasId} 
-                      className={`sidebar-canvas-item ${selectedCanvas?.canvasId === canvas.canvasId ? 'selected' : ''}`}
-                      onClick={() => onSelectCanvas(canvas)}
-                    >
-                      {canvas.canvasName}
-                    </div>
-                  ))}
+                <div className="sidebar-canvas-group">
+                  <span className="sidebar-section-label">Canvases</span>
+                  <ul className="sidebar-canvas-list">
+                    {canvases.map(canvas => (
+                      <li key={canvas.canvasId}>
+                        <button
+                          type="button"
+                          className={`sidebar-canvas-item${selectedCanvas?.canvasId === canvas.canvasId ? ' selected' : ''}`}
+                          onClick={() => onSelectCanvas(canvas)}
+                        >
+                          {canvas.canvasName}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               )}
-            </React.Fragment>
+            </div>
           ))}
-        </div>
+        </nav>
+      </aside>
 
-        <div className="sidebar-footer">
-          <div className="sidebar-footer-item">
-            <span className="sidebar-footer-icon">?</span> Need Help?
-          </div>
-          <div className="sidebar-footer-item">
-            <span className="sidebar-footer-icon">⚙️</span> Settings
-          </div>
-        </div>
-      </div>
-
-      <Modal 
+      <Modal
         isOpen={showCreateModal}
         onClose={() => !isCreating && setShowCreateModal(false)}
         title="Create New Work Space"
         size="sm"
       >
-        <InputField 
+        <InputField
           label="Work Space Name"
           placeholder="e.g., My Project"
           value={newWorkspaceName}
@@ -113,14 +115,14 @@ export default function Sidebar({
           disabled={isCreating}
         />
         <div className="modal-actions">
-          <Button 
-            variant="secondary" 
+          <Button
+            variant="secondary"
             onClick={() => !isCreating && setShowCreateModal(false)}
             disabled={isCreating}
           >
             Cancel
           </Button>
-          <Button 
+          <Button
             variant="primary"
             onClick={handleCreateSubmit}
             disabled={isCreating || !newWorkspaceName.trim()}

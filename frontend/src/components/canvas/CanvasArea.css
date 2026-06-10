@@ -2,11 +2,104 @@
 .canvas-area-container {
   flex: 1;
   width: 100%;
+  min-height: 0;
   position: relative;
   background-color: var(--canvas-bg);
-  border: 1px solid var(--tab-border);
-  border-top: none;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
   overflow: hidden;
+}
+
+/* React Flow — design token overrides */
+.canvas-area-container .react-flow {
+  --xy-background-pattern-dots-color-default: var(--color-gray-200);
+  --xy-controls-button-background-color-default: var(--surface-raised);
+  --xy-controls-button-background-color-hover-default: var(--surface-hover);
+  --xy-controls-button-border-color-default: var(--border-default);
+  --xy-controls-box-shadow-default: var(--shadow-sm);
+  --xy-controls-button-color-default: var(--icon-default);
+  --xy-controls-button-color-hover-default: var(--accent-primary);
+}
+
+.canvas-area-container .canvas-controls {
+  margin: var(--space-3);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.canvas-area-container .canvas-controls button {
+  border-bottom: 1px solid var(--border-default);
+  width: var(--space-8);
+  height: var(--space-8);
+  transition: background-color var(--transition-normal);
+}
+
+.canvas-area-container .canvas-controls button:last-child {
+  border-bottom: none;
+}
+
+.canvas-area-container .canvas-controls button:hover {
+  background-color: var(--surface-accent-subtle);
+}
+
+.canvas-area-container .canvas-controls button svg {
+  max-width: var(--space-3);
+  max-height: var(--space-3);
+}
+
+/* Toolbar slot — anchored to canvas, not viewport */
+.canvas-toolbar-slot {
+  position: absolute;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-toolbar);
+  pointer-events: none;
+}
+
+.canvas-toolbar-slot > * {
+  pointer-events: auto;
+}
+
+/* Empty canvas overlay */
+.canvas-empty-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-8);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.canvas-empty-overlay-visual {
+  width: var(--space-12);
+  height: var(--space-12);
+  border: 2px dashed var(--border-default);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--space-2);
+  background-color: var(--surface-accent-subtle);
+}
+
+.canvas-empty-overlay-title {
+  margin: 0;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.canvas-empty-overlay-description {
+  margin: 0;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-muted);
+  text-align: center;
+  max-width: 280px;
+  line-height: var(--line-height-relaxed);
 }
