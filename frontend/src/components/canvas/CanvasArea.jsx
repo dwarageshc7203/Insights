@@ -58,7 +58,7 @@ function CanvasFlow({
       nodes={nodes}
       edges={edges}
       nodeTypes={nodeTypes}
-      {/**/}
+
       connectionMode={ConnectionMode.Loose}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
@@ -79,7 +79,7 @@ function CanvasFlow({
       selectionOnDrag={false}
       fitView
     >
-      <Background variant="dots" gap={24} size={1} />
+      <Background variant="dots" gap={24} size={2} color="#cfcfcf" />
       <Controls
         position="top-right"
         className="canvas-controls"
