@@ -51,7 +51,9 @@ public class ComponentService {
                 savedComponent.getImgUrl(),
                 savedComponent.getColor(),
                 savedComponent.getPositionX(),
-                savedComponent.getPositionY()
+                savedComponent.getPositionY(),
+                savedComponent.getWidth(),
+                savedComponent.getHeight()
         );
     }
 
@@ -68,7 +70,9 @@ public class ComponentService {
                 component.getImgUrl(),
                 component.getColor(),
                 component.getPositionX(),
-                component.getPositionY()
+                component.getPositionY(),
+                component.getWidth(),
+                component.getHeight()
         );
     }
 
@@ -102,6 +106,50 @@ public class ComponentService {
         );
     }
 
+    //patch componentSize
+    public ComponentSizePatchResponse patchComponentSize(int componentId, ComponentSizePatchRequest request) {
+        Component component = repository.findById(componentId)
+                .orElseThrow(() -> new EntityNotFoundException("Component not found"));
+
+        component.setWidth(request.width());
+        component.setHeight(request.height());
+
+        Component savedComponent = repository.save(component);
+
+        return new ComponentSizePatchResponse(
+                savedComponent.getWidth(),
+                savedComponent.getHeight()
+        );
+    }
+
+    //patch componentColor
+    public ComponentColorPatchResponse patchComponentColor(int componentId, ComponentColorPatchRequest request) {
+        Component component = repository.findById(componentId)
+                .orElseThrow(() -> new EntityNotFoundException("Component not found"));
+
+        component.setColor(request.color());
+
+        Component savedComponent = repository.save(component);
+
+        return new ComponentColorPatchResponse(
+                savedComponent.getColor()
+        );
+    }
+
+    //patch imageComponent
+    public ComponentImagePatchResponse patchImageComponent(int componentId, ComponentImagePatchRequest request) {
+        Component component = repository.findById(componentId)
+                .orElseThrow(() -> new EntityNotFoundException("Component not found"));
+
+        component.setColor(request.imgUrl());
+
+        Component savedComponent = repository.save(component);
+
+        return new ComponentImagePatchResponse(
+                savedComponent.getImgUrl()
+        );
+    }
+
     public void deleteComponent(int componentId) {
         Component component = repository.findById(componentId)
                 .orElseThrow(() -> new EntityNotFoundException("Component not found"));
@@ -109,22 +157,5 @@ public class ComponentService {
         edgeRepository.deleteByComponentId(componentId);
         repository.delete(component);
     }
-
-    //    public void deleteComponent(int componentId) {
-//        Component component = repository.findById(componentId)
-//                .orElseThrow(() -> new EntityNotFoundException("Component not found"));
-//
-//        int canvasId = component.getCanvas().getCanvasId();
-//
-//        Canvas canvas = canvasRepository.findById(canvasId)
-//                .orElseThrow(() -> new EntityNotFoundException("Canvas not found"));
-//
-//        List<Edge> edges = edgeRepository.findByCanvas_CanvasId(canvasId);
-//        edges.stream()
-//                .filter(e -> e.getSourceId() == componentId || e.getTargetId() == componentId)
-//                .forEach(e -> edgeRepository.deleteById(e.getEdgeId()));
-//
-//        repository.deleteById(componentId);
-//    }
 
 }

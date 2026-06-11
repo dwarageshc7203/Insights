@@ -1,9 +1,6 @@
 package com.dwaragesh.insights.controller;
 
-import com.dwaragesh.insights.dto.Component.ComponentPositionPatchRequest;
-import com.dwaragesh.insights.dto.Component.ComponentPositionPatchResponse;
-import com.dwaragesh.insights.dto.Component.ComponentRequest;
-import com.dwaragesh.insights.dto.Component.ComponentResponse;
+import com.dwaragesh.insights.dto.Component.*;
 import com.dwaragesh.insights.service.ComponentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +32,24 @@ public class ComponentController {
     @PatchMapping("/{componentId}/position")
     public ResponseEntity<ComponentPositionPatchResponse> patchComponentPosition(@PathVariable int componentId, @RequestBody ComponentPositionPatchRequest request) {
         return new ResponseEntity<>(service.patchComponentPosition(componentId, request), HttpStatus.OK);
+    }
+
+    //patch componentSize
+    @PatchMapping("/{componentId}/size")
+    public ResponseEntity<ComponentSizePatchResponse> patchComponentSize(@PathVariable int componentId, @RequestBody ComponentSizePatchRequest request) {
+        return new ResponseEntity<>(service.patchComponentSize(componentId, request), HttpStatus.OK);
+    }
+
+    //patch componentColor
+    @PatchMapping("/{componentId}/color")
+    public ResponseEntity<ComponentColorPatchResponse> patchComponentSize(@PathVariable int componentId, @RequestBody ComponentColorPatchRequest request) {
+        return new ResponseEntity<>(service.patchComponentColor(componentId, request), HttpStatus.OK);
+    }
+
+    //patch imageComponent
+    @PatchMapping("/{componentId}/image")
+    public ResponseEntity<ComponentImagePatchResponse> patchComponentSize(@PathVariable int componentId, @RequestBody ComponentImagePatchRequest request) {
+        return new ResponseEntity<>(service.patchImageComponent(componentId, request), HttpStatus.OK);
     }
 
     //delete Component

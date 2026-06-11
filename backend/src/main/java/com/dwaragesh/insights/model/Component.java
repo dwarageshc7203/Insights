@@ -23,4 +23,6 @@ public class Component {
     private String color;
     private double positionX;
     private double positionY;
+    private double width;
+    private double height;
 }

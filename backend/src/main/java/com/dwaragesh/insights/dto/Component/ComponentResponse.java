@@ -13,7 +13,9 @@ public record ComponentResponse(
     String imgUrl,
     String color,
     double positionX,
-    double positionY
+    double positionY,
+    double width,
+    double height
 
 ) {
 }

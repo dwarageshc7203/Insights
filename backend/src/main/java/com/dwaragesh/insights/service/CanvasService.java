@@ -85,7 +85,9 @@ public class CanvasService {
                         c.getImgUrl(),
                         c.getColor(),
                         c.getPositionX(),
-                        c.getPositionY()
+                        c.getPositionY(),
+                        c.getWidth(),
+                        c.getHeight()
                 ))
                 .toList();
 
