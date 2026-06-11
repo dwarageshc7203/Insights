@@ -128,8 +128,24 @@ export default function MainPage() {
 
   // Canvas Actions
   const onNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    []
+      async (changes) => {
+        setNodes((nds) => applyNodeChanges(changes, nds));
+
+        for (const change of changes) {
+          if (change.type === 'dimensions' && change.dimensions) {
+            try {
+              await api.updateComponentSize(
+                  parseInt(change.id, 10),
+                  change.dimensions.width,
+                  change.dimensions.height
+              );
+            } catch (err) {
+              console.error(err);
+            }
+          }
+        }
+      },
+      []
   );
 
   const onEdgesChange = useCallback(
@@ -180,6 +196,50 @@ export default function MainPage() {
       console.error('Failed to save text content:', err);
     }
   }, []);
+
+  const handleColorChange = useCallback(
+      async (nodeId, color) => {
+        setNodes((nds) =>
+            nds.map((n) =>
+                n.id === nodeId
+                    ? { ...n, data: { ...n.data, color } }
+                    : n
+            )
+        )
+
+        try {
+          await api.updateComponentColor(
+              parseInt(nodeId, 10),
+              color
+          )
+        } catch (err) {
+          console.error(err)
+        }
+      },
+      []
+  );
+
+  const handleImageChange = useCallback(
+      async (nodeId, imgUrl) => {
+        setNodes((nds) =>
+            nds.map((n) =>
+                n.id === nodeId
+                    ? { ...n, data: { ...n.data, imgUrl } }
+                    : n
+            )
+        )
+
+        try {
+          await api.updateComponentImage(
+              parseInt(nodeId, 10),
+              imgUrl
+          )
+        } catch (err) {
+          console.error(err)
+        }
+      },
+      []
+  );
 
   const handleAddComponent = async (type, position = null) => {
     if (!selectedCanvas) return;
@@ -285,6 +345,8 @@ export default function MainPage() {
                     onNodesDelete={onNodesDelete}
                     onEdgesDelete={onEdgesDelete}
                     onTextSave={handleTextSave}
+                    onColorChange={handleColorChange}
+                    onImageChange={handleImageChange}
                     onPaneCreateText={handleCreateTextAt}
                     onNodeEditRequest={handleNodeEditRequest}
                     pendingEditNodeId={pendingEditNodeId}

@@ -103,5 +103,58 @@ export const api = {
     await fetch(`${BASE_URL}/edge/${edgeId}`, {
       method: 'DELETE', headers
     })
-  }
+  },
+  updateComponentSize: async (componentId, width, height) => {
+    const headers = await getHeaders();
+
+    const res = await fetch(
+        `${BASE_URL}/component/${componentId}/size`,
+        {
+          method: 'PATCH',
+          headers,
+          body: JSON.stringify({
+            width,
+            height,
+          }),
+        }
+    );
+
+    return res.json();
+  },
+
+  updateComponentColor: async (componentId, color) => {
+    const headers = await getHeaders();
+
+    const res = await fetch(
+        `${BASE_URL}/component/${componentId}/color`,
+        {
+          method: 'PATCH',
+          headers,
+          body: JSON.stringify({
+            color,
+          }),
+        }
+    );
+
+    return res.json();
+  },
+
+  updateComponentImage: async (componentId, imgUrl) => {
+    const headers = await getHeaders();
+
+    const res = await fetch(
+        `${BASE_URL}/component/${componentId}/image`,
+        {
+          method: 'PATCH',
+          headers,
+          body: JSON.stringify({
+            imgUrl,
+          }),
+        }
+    );
+
+    return res.json();
+  },
+
+
 }

@@ -38,6 +38,10 @@ export function mapComponentToNode(component) {
     id: String(component.componentId),
     position: { x: component.positionX, y: component.positionY },
     type: componentTypeToNodeType(component.componentType),
+    style: {
+      width: component.width > 0 ? component.width : undefined,
+      height: component.height > 0 ? component.height : undefined,
+    },
     data: {
       label: component.textContent || component.componentName,
       textContent: component.textContent,
@@ -45,6 +49,8 @@ export function mapComponentToNode(component) {
       componentType: component.componentType,
       imgUrl: component.imgUrl,
       color: component.color,
+      width: component.width,
+      height: component.height
     },
   };
 }
