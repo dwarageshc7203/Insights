@@ -9,15 +9,26 @@ const HANDLE_POSITIONS = [
 
 export default function CanvasHandles() {
   return (
-    <>
-      {HANDLE_POSITIONS.map((position) => (
-        <Handle
-          key={position}
-          type="source"
-          position={position}
-          className="canvas-handle"
-        />
-      ))}
-    </>
+      <>
+        {HANDLE_POSITIONS.map((position) => (
+            <Handle
+                key={`source-${position}`}
+                id={`source-${position}`}
+                type="source"
+                position={position}
+                className="canvas-handle"
+            />
+        ))}
+
+        {HANDLE_POSITIONS.map((position) => (
+            <Handle
+                key={`target-${position}`}
+                id={`target-${position}`}
+                type="target"
+                position={position}
+                className="canvas-handle"
+            />
+        ))}
+      </>
   );
 }
