@@ -241,7 +241,7 @@ export default function MainPage() {
       []
   );
 
-  const handleAddComponent = async (type, position = null) => {
+  const handleAddComponent = async (type, position = null, shapeType = null) => {
     if (!selectedCanvas) return;
     const offset = nodes.length * 30;
     const positionX = position?.x ?? 100 + offset;
@@ -253,6 +253,7 @@ export default function MainPage() {
       color: type === 'NODE' ? '#e2f048' : '#ffffff',
       positionX,
       positionY,
+      ...(type === 'NODE' && shapeType ? { shapeType } : {}),
     };
     const newComp = await api.createComponent(selectedCanvas.canvasId, compData);
     const newNode = { ...mapComponentToNode(newComp), selected: true };
@@ -355,7 +356,7 @@ export default function MainPage() {
                       <ComponentToolbar
                         onAddText={() => handleAddComponent('TEXT')}
                         onAddImage={() => handleAddComponent('IMAGE')}
-                        onAddShape={() => handleAddComponent('NODE')}
+                        onAddShape={(shape) => handleAddComponent('NODE', null, shape)}
                       />
                     }
                   />

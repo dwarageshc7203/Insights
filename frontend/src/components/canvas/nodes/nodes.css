@@ -237,25 +237,23 @@
     box-shadow var(--transition-normal),
     transform var(--transition-fast);
 }
-
-.canvas-node--shape-circle .canvas-node-shape-body {
-  width: 120px;
-  height: 120px;
-  border-radius: var(--radius-full);
-}
-
-.canvas-node--shape-pill .canvas-node-shape-body {
-  width: 180px;
-  height: 72px;
-  border-radius: var(--radius-nav);
-}
-
-.canvas-node--shape-rounded .canvas-node-shape-body {
+.canvas-node--shape-square .canvas-node-shape-body {
   width: 140px;
   height: 140px;
-  border-radius: var(--radius-2xl);
+  border-radius: 12px;
 }
 
+.canvas-node--shape-oval .canvas-node-shape-body {
+  width: 180px;
+  height: 110px;
+  border-radius: 999px;
+}
+
+.canvas-node--shape-rhombus .canvas-node-shape-body {
+  width: 140px;
+  height: 140px;
+  transform: rotate(45deg);
+}
 .canvas-node--shape:hover .canvas-node-shape-body {
   box-shadow: var(--shadow-md);
   transform: scale(1.02);

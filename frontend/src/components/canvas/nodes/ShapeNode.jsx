@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import CanvasHandles from './CanvasHandles';
-import { resolveShapeColor, getShapeVariant } from './nodeUtils';
+import { resolveShapeColor } from './nodeUtils';
 import {NodeResizer} from "@xyflow/react";
 
 export default function ShapeNode({ id, data, selected }) {
@@ -8,7 +8,12 @@ export default function ShapeNode({ id, data, selected }) {
     () => resolveShapeColor(data.color, id),
     [data.color, id],
   );
-  const variant = useMemo(() => getShapeVariant(id), [id]);
+  const variant = useMemo(() => {
+    const shape = data.shapeType?.toLowerCase();
+    if (shape === 'oval') return 'oval';
+    if (shape === 'rhombus') return 'rhombus';
+    return 'square';
+  }, [data.shapeType]);
 
   return (
     <div

@@ -38,9 +38,9 @@ export default function ComponentToolbar({ onAddText, onAddImage, onAddShape }) 
       </button>
       {showShapeMenu && (
         <div className="shape-popup">
-          <button className="popup-item" onClick={() => { setShowShapeMenu(false); onAddShape(); }}>Square</button>
-          <button className="popup-item" onClick={() => { setShowShapeMenu(false); onAddShape(); }}>Oval</button>
-          <button className="popup-item" onClick={() => { setShowShapeMenu(false); onAddShape(); }}>Rhombus</button>
+          <button className="popup-item" onClick={() => { setShowShapeMenu(false); onAddShape('square'); }}>Square</button>
+          <button className="popup-item" onClick={() => { setShowShapeMenu(false); onAddShape('oval'); }}>Oval</button>
+          <button className="popup-item" onClick={() => { setShowShapeMenu(false); onAddShape('rhombus'); }}>Rhombus</button>
         </div>
       )}
     </div>

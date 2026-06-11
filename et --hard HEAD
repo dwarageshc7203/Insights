@@ -1,0 +1,36 @@
+[33m7e96a77[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Canvas feat fixes
+[33m2f12b6e[m bug fix
+[33m4246a45[m Merge branch 'main' of https://github.com/dwarageshc7203/Insights
+[33mc75f6a1[m New Patch route implementation
+[33m6008982[m Merge pull request #3 from dwarageshc7203/UI-fixes
+[33m53cb423[m[33m ([m[1;31morigin/UI-fixes[m[33m, [m[1;32mUI-fixes[m[33m)[m Canvas UI fixes
+[33m4b44805[m Merge pull request #2 from dwarageshc7203/UI-fixes
+[33mad46068[m canvas UI fix
+[33me0d83fd[m UI fixes
+[33m741ecea[m phase-0-design-foundation
+[33m64eb802[m Landing page fixes
+[33m0d04e5b[m UI refinement
+[33m27b50ed[m UI feats and fixes
+[33m3228711[m feat: update component textContent
+[33m744ed14[m UI fixes
+[33m429b74f[m Refactored directories
+[33mb343a5b[m Delete workspace.xml
+[33m7210db7[m removed .idea in project main folder
+[33m8b8d46b[m fixes
+[33m33057b6[m CSS fixes
+[33mcb6ef39[m feat and fixes
+[33m962cb23[m Front End boilerplate
+[33m521e29f[m Update WorkSpaceController.java
+[33mce6fef4[m Implemented DeleteComponent method
+[33m56b916b[m Update EdgeController.java
+[33mef5e11a[m Implemented Patch methods
+[33mee689ee[m Added Global Exception Handlers
+[33me1e96a1[m Added loadCanvaas method
+[33ma9e4e92[m Local Testing done
+[33m8974039[m Connected with Supabase
+[33ma4faa5a[m Auth and User module pending
+[33mcd03878[m Planning done
+[33m0ac2bf2[m Renaming of variables
+[33m0e3dcb3[m WorkSpace, Canvas Module done (28/05)
+[33m49d2eae[m .
+[33mc4f9ffc[m .

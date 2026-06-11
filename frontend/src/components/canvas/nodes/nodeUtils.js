@@ -29,7 +29,7 @@ export function resolveShapeColor(color, id) {
 }
 
 export function getShapeVariant(id) {
-  const variants = ['circle', 'pill', 'rounded'];
+  const variants = ['square', 'oval', 'rhombus'];
   return variants[Math.abs(parseInt(id, 10) || 0) % variants.length];
 }
 
@@ -50,7 +50,8 @@ export function mapComponentToNode(component) {
       imgUrl: component.imgUrl,
       color: component.color,
       width: component.width,
-      height: component.height
+      height: component.height,
+      shapeType: component.shapeType,
     },
   };
 }

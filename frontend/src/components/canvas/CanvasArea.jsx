@@ -82,7 +82,7 @@ function CanvasFlow({
           onPaneClick={handlePaneClick}
           zoomOnDoubleClick={false}
           panOnDrag
-          nodesDraggable={false}
+          nodesDraggable={!editingNodeId}
           nodesConnectable={!editingNodeId}
           elementsSelectable
           edgesFocusable

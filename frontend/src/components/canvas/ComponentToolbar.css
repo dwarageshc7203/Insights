@@ -129,11 +129,11 @@
   text-align: left;
   font-family: var(--font-primary);
   font-size: var(--font-size-sm);
-  color: var(--color-text);
+  /*color: var(--color-text);*/
   transition: background-color var(--transition-normal);
 }
 
 .popup-item:hover {
   background-color: var(--surface-accent-subtle);
 }
-}
+
