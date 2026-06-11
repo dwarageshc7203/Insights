@@ -102,3 +102,38 @@
   background-color: var(--border-default);
   margin: 0 var(--space-1);
 }
+
+/* Shape popup menu */
+.shape-popup {
+  position: absolute;
+  top: -120px; /* place above toolbar */
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface-toolbar);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  z-index: 10;
+}
+
+.popup-item {
+  background: transparent;
+  border: none;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  transition: background-color var(--transition-normal);
+}
+
+.popup-item:hover {
+  background-color: var(--surface-accent-subtle);
+}
+}

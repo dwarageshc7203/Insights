@@ -16,69 +16,81 @@ import './nodes/nodes.css';
 import './CanvasArea.css';
 
 function CanvasFlow({
-  nodes,
-  edges,
-  onNodesChange,
-  onEdgesChange,
-  onConnect,
-  onNodeDragStop,
-  onNodesDelete,
-  onEdgesDelete,
-  onNodeDoubleClick,
-  onPaneCreateText,
-  editingNodeId,
-}) {
+                      nodes,
+                      edges,
+                      onNodesChange,
+                      onEdgesChange,
+                      onConnect,
+                      onNodeDragStop,
+                      onNodesDelete,
+                      onEdgesDelete,
+                      onNodeDoubleClick,
+                      onPaneCreateText,
+                      editingNodeId,
+                      onNodeClick,
+                      onPaneDeselect,
+                    }) {
   const { screenToFlowPosition } = useReactFlow();
   const lastPaneClick = useRef(null);
 
   const handlePaneClick = useCallback(
-    (event) => {
-      const now = Date.now();
-      const { clientX, clientY } = event;
+      (event) => {
+        onPaneDeselect?.();
 
-      if (
-        lastPaneClick.current &&
-        now - lastPaneClick.current.time < 350 &&
-        Math.abs(clientX - lastPaneClick.current.x) < 10 &&
-        Math.abs(clientY - lastPaneClick.current.y) < 10
-      ) {
-        const position = screenToFlowPosition({ x: clientX, y: clientY });
-        onPaneCreateText(position);
-        lastPaneClick.current = null;
-        return;
-      }
+        const now = Date.now();
+        const { clientX, clientY } = event;
 
-      lastPaneClick.current = { time: now, x: clientX, y: clientY };
-    },
-    [screenToFlowPosition, onPaneCreateText],
+        if (
+            lastPaneClick.current &&
+            now - lastPaneClick.current.time < 350 &&
+            Math.abs(clientX - lastPaneClick.current.x) < 10 &&
+            Math.abs(clientY - lastPaneClick.current.y) < 10
+        ) {
+          const position = screenToFlowPosition({
+            x: clientX,
+            y: clientY,
+          });
+
+          onPaneCreateText(position);
+          lastPaneClick.current = null;
+          return;
+        }
+
+        lastPaneClick.current = {
+          time: now,
+          x: clientX,
+          y: clientY,
+        };
+      },
+      [screenToFlowPosition, onPaneCreateText, onPaneDeselect]
   );
 
   return (
-    <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      nodeTypes={nodeTypes}
-
-      connectionMode={ConnectionMode.Strict}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      onConnect={onConnect}
-      onNodeDragStop={onNodeDragStop}
-      onNodesDelete={onNodesDelete}
-      onEdgesDelete={onEdgesDelete}
-      onNodeDoubleClick={onNodeDoubleClick}
-      onPaneClick={handlePaneClick}
-      zoomOnDoubleClick={false}
-      panOnDrag
-      nodesDraggable={!editingNodeId}
-      nodesConnectable={!editingNodeId}
-      elementsSelectable
-      edgesFocusable
-      deleteKeyCode={editingNodeId ? null : ['Backspace', 'Delete']}
-      defaultEdgeOptions={{ selectable: true, focusable: true }}
-      selectionOnDrag={false}
-      fitView
-    >
+      <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          nodeTypes={nodeTypes}
+          connectionMode={ConnectionMode.Strict}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          onNodeDragStop={onNodeDragStop}
+          onNodesDelete={onNodesDelete}
+          onEdgesDelete={onEdgesDelete}
+          onNodeDoubleClick={onNodeDoubleClick}
+          onNodeClick={onNodeClick}
+          onPaneClick={handlePaneClick}
+          zoomOnDoubleClick={false}
+          panOnDrag
+          nodesDraggable={false}
+          nodesConnectable={!editingNodeId}
+          elementsSelectable
+          edgesFocusable
+          deleteKeyCode={editingNodeId ? null : ['Backspace', 'Delete']}
+          defaultEdgeOptions={{ selectable: true, focusable: true }}
+          selectionOnDrag={false}
+          fitView
+      >
       <Background variant="dots" gap={24} size={2} color="#cfcfcf" />
       <Controls
         position="top-right"
@@ -106,6 +118,7 @@ export default function CanvasArea({
   toolbar,
 }) {
   const [editingNodeId, setEditingNodeId] = useState(null);
+  const [selectedNodeId, setSelectedNodeId] = useState(null);
   const isEmpty = nodes.length === 0;
 
   const handleNodeDoubleClick = useCallback(
@@ -117,6 +130,18 @@ export default function CanvasArea({
     },
     [onNodeEditRequest],
   );
+  const handleNodeClick = useCallback((event, node) => {
+    event.stopPropagation();
+    setSelectedNodeId(node.id);
+  }, []);
+
+  // Compute per‑node draggable flag based on selection
+  const nodesForFlow = nodes.map(n => ({
+    ...n,
+    draggable: n.id === selectedNodeId,
+    resizable: n.id === selectedNodeId,
+    selected: n.id === selectedNodeId,
+  }));
 
   const interactionValue = {
     pendingEditNodeId,
@@ -130,7 +155,7 @@ export default function CanvasArea({
       <CanvasInteractionProvider value={interactionValue}>
         <ReactFlowProvider>
           <CanvasFlow
-            nodes={nodes}
+            nodes={nodesForFlow}
             edges={edges}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
@@ -141,6 +166,8 @@ export default function CanvasArea({
             onNodeDoubleClick={handleNodeDoubleClick}
             onPaneCreateText={onPaneCreateText}
             editingNodeId={editingNodeId}
+            onNodeClick={handleNodeClick}
+            onPaneDeselect={() => setSelectedNodeId(null)}
           />
         </ReactFlowProvider>
       </CanvasInteractionProvider>
