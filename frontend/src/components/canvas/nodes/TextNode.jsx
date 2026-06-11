@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useCanvasInteraction } from '../CanvasInteractionContext';
+import { NodeResizer } from '@xyflow/react';
 import CanvasHandles from './CanvasHandles';
 
 export default function TextNode({ id, data, selected }) {
@@ -82,6 +83,11 @@ export default function TextNode({ id, data, selected }) {
       data-component-type="TEXT"
       onDoubleClick={startEditing}
     >
+      <NodeResizer
+          isVisible={selected}
+          minWidth={100}
+          minHeight={100}
+      />
       <CanvasHandles />
       <div className="canvas-node-text-inner">
         {isEditing ? (

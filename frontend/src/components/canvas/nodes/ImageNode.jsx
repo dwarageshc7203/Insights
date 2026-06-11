@@ -1,4 +1,5 @@
 import CanvasHandles from './CanvasHandles';
+import {NodeResizer} from "@xyflow/react";
 
 export default function ImageNode({ data, selected }) {
   const hasImage = Boolean(data.imgUrl);
@@ -8,6 +9,11 @@ export default function ImageNode({ data, selected }) {
       className={`canvas-node canvas-node--image${selected ? ' is-selected' : ''}`}
       data-component-type="IMAGE"
     >
+      <NodeResizer
+          isVisible={selected}
+          minWidth={100}
+          minHeight={100}
+      />
       <CanvasHandles />
       <div className="canvas-node-image-frame">
         {hasImage ? (

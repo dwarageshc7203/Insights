@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import CanvasHandles from './CanvasHandles';
 import { resolveShapeColor, getShapeVariant } from './nodeUtils';
+import {NodeResizer} from "@xyflow/react";
 
 export default function ShapeNode({ id, data, selected }) {
   const fillColor = useMemo(
@@ -15,6 +16,11 @@ export default function ShapeNode({ id, data, selected }) {
       data-component-type="NODE"
       style={{ '--shape-fill': fillColor }}
     >
+      <NodeResizer
+          isVisible={selected}
+          minWidth={100}
+          minHeight={100}
+      />
       <CanvasHandles />
       <div className="canvas-node-shape-body" aria-hidden="true" />
     </div>

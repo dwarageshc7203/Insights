@@ -33,22 +33,34 @@
 
 /* ─── Connection handles ─────────────────────────────────────────────────── */
 
+/*.canvas-handle {*/
+/*  width: var(--space-4) !important;*/
+/*  height: var(--space-4) !important;*/
+/*  min-width: var(--space-2) !important;*/
+/*  min-height: var(--space-2) !important;*/
+/*  background: var(--accent-primary) !important;*/
+/*  border: 2px solid var(--surface-raised) !important;*/
+/*  border-radius: var(--radius-full) !important;*/
+/*  opacity: 0;*/
+/*  transition: opacity var(--transition-normal), transform var(--transition-fast);*/
+/*}*/
 .canvas-handle {
-  width: var(--space-2) !important;
-  height: var(--space-2) !important;
-  min-width: var(--space-2) !important;
-  min-height: var(--space-2) !important;
+  width: 18px !important;
+  height: 18px !important;
   background: var(--accent-primary) !important;
   border: 2px solid var(--surface-raised) !important;
-  border-radius: var(--radius-full) !important;
-  opacity: 0;
-  transition: opacity var(--transition-normal), transform var(--transition-fast);
+  border-radius: 999px !important;
+  cursor: crosshair;
+  opacity: 0.75;
+}
+.canvas-handle:hover {
+  cursor: crosshair;
 }
 
-.canvas-node:hover .canvas-handle,
-.canvas-node.is-selected .canvas-handle {
-  opacity: 1;
-}
+/*.canvas-node:hover .canvas-handle,*/
+/*.canvas-node.is-selected .canvas-handle {*/
+/*  opacity: 1;*/
+/*}*/
 
 .canvas-handle:hover {
   transform: scale(1.25);
@@ -149,7 +161,7 @@
 /* ─── IMAGE — media frame ────────────────────────────────────────────────── */
 
 .canvas-node--image {
-  width: 260px;
+  min-width: 260px;
 }
 
 .canvas-node-image-frame {
