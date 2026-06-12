@@ -8,7 +8,8 @@ public record ComponentResponse(
 
     int componentId,
     String componentName,
-    String componentType,
+    String type,
+    String shapeType,
     String textContent,
     String imgUrl,
     String color,

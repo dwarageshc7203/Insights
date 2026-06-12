@@ -18,6 +18,7 @@ public class Component {
     @JoinColumn(name = "canvasId")
     private Canvas canvas;
     private String type;
+    private String shapeType;
     private String textContent;
     private String imgUrl;
     private String color;

@@ -238,25 +238,28 @@
     transform var(--transition-fast);
 }
 .canvas-node--shape-square .canvas-node-shape-body {
-  width: 140px;
-  height: 140px;
+  width: 100%;
+  height: 100%;
   border-radius: 12px;
 }
 
 .canvas-node--shape-oval .canvas-node-shape-body {
-  width: 180px;
-  height: 110px;
+  width: 100%;
+  height: 100%;
   border-radius: 999px;
 }
 
 .canvas-node--shape-rhombus .canvas-node-shape-body {
-  width: 140px;
-  height: 140px;
+  width: 100%;
+  height: 100%;
   transform: rotate(45deg);
 }
-.canvas-node--shape:hover .canvas-node-shape-body {
-  box-shadow: var(--shadow-md);
+.canvas-node--shape-square:hover .canvas-node-shape-body,
+.canvas-node--shape-oval:hover .canvas-node-shape-body {
   transform: scale(1.02);
+}
+.canvas-node--shape-rhombus:hover .canvas-node-shape-body {
+  transform: rotate(45deg) scale(1.02);
 }
 
 .canvas-node--shape.is-selected .canvas-node-shape-body {
@@ -266,8 +269,13 @@
     0 0 0 5px var(--accent-primary);
 }
 
-.canvas-node--shape.is-selected:hover .canvas-node-shape-body {
+.canvas-node--shape-square.is-selected:hover .canvas-node-shape-body,
+.canvas-node--shape-oval.is-selected:hover .canvas-node-shape-body {
   transform: scale(1.02);
+}
+
+.canvas-node--shape-rhombus.is-selected:hover .canvas-node-shape-body {
+  transform: rotate(45deg) scale(1.02);
 }
 
 /* ─── Edges — soft connectors, not flowchart wires ───────────────────────── */

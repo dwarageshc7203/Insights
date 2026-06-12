@@ -34,7 +34,8 @@ public class ComponentService {
         Component component = new Component();
         component.setComponentName(request.componentName());
         component.setCanvas(canvas);
-        component.setType(request.componentType());
+        component.setType(request.type());
+        component.setShapeType(request.shapeType());
         component.setTextContent(request.textContent());
         component.setImgUrl(request.imgUrl());
         component.setColor(request.color());
@@ -47,6 +48,7 @@ public class ComponentService {
                 savedComponent.getComponentId(),
                 savedComponent.getComponentName(),
                 savedComponent.getType(),
+                savedComponent.getShapeType(),
                 savedComponent.getTextContent(),
                 savedComponent.getImgUrl(),
                 savedComponent.getColor(),
@@ -66,6 +68,7 @@ public class ComponentService {
                 component.getComponentId(),
                 component.getComponentName(),
                 component.getType(),
+                component.getShapeType(),
                 component.getTextContent(),
                 component.getImgUrl(),
                 component.getColor(),

@@ -81,6 +81,7 @@ public class CanvasService {
                         c.getComponentId(),
                         c.getComponentName(),
                         c.getType(),
+                        c.getShapeType(),
                         c.getTextContent(),
                         c.getImgUrl(),
                         c.getColor(),

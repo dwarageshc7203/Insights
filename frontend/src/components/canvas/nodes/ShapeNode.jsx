@@ -14,12 +14,21 @@ export default function ShapeNode({ id, data, selected }) {
     if (shape === 'rhombus') return 'rhombus';
     return 'square';
   }, [data.shapeType]);
+  console.log(
+      id,
+      data.shapeType,
+      variant
+  );
 
   return (
     <div
       className={`canvas-node canvas-node--shape canvas-node--shape-${variant}${selected ? ' is-selected' : ''}`}
       data-component-type="NODE"
-      style={{ '--shape-fill': fillColor }}
+      style={{
+        '--shape-fill': fillColor,
+        width: data.width || 140,
+        height: data.height || 140,
+      }}
     >
       <NodeResizer
           isVisible={selected}
