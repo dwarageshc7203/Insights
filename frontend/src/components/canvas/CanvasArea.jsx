@@ -116,9 +116,11 @@ export default function CanvasArea({
   pendingEditNodeId,
   onClearPendingEdit,
   toolbar,
+    selectedNodeId,
+    onSelectedNodeChange,
 }) {
   const [editingNodeId, setEditingNodeId] = useState(null);
-  const [selectedNodeId, setSelectedNodeId] = useState(null);
+  // const [selectedNodeId, setSelectedNodeId] = useState(null);
   const isEmpty = nodes.length === 0;
 
   const handleNodeDoubleClick = useCallback(
@@ -132,7 +134,7 @@ export default function CanvasArea({
   );
   const handleNodeClick = useCallback((event, node) => {
     event.stopPropagation();
-    setSelectedNodeId(node.id);
+      onSelectedNodeChange(node.id);
   }, []);
 
   // Compute per‑node draggable flag based on selection
@@ -167,7 +169,7 @@ export default function CanvasArea({
             onPaneCreateText={onPaneCreateText}
             editingNodeId={editingNodeId}
             onNodeClick={handleNodeClick}
-            onPaneDeselect={() => setSelectedNodeId(null)}
+            onPaneDeselect={() => onSelectedNodeChange(null)}
           />
         </ReactFlowProvider>
       </CanvasInteractionProvider>

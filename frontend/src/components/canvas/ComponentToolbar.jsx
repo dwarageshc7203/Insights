@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import './ComponentToolbar.css';
 
-export default function ComponentToolbar({ onAddText, onAddImage, onAddShape }) {
+export default function ComponentToolbar({ onAddText, onAddImage, onAddShape,onShapeColorSelect }) {
   const [showShapeMenu, setShowShapeMenu] = useState(false);
     const [selectedColor, setSelectedColor] = useState('#39FF14');
   return (
@@ -81,25 +81,37 @@ export default function ComponentToolbar({ onAddText, onAddImage, onAddShape }) 
                   <button
                       className="color-option"
                       style={{ background: '#39FF14' }}
-                      onClick={() => setSelectedColor('#39FF14')}
+                      onClick={() => {
+                          setSelectedColor('#39FF14');
+                          onShapeColorSelect?.('#39FF14');
+                      }}
                   />
 
                   <button
                       className="color-option"
                       style={{ background: '#FF1493' }}
-                      onClick={() => setSelectedColor('#FF1493')}
+                      onClick={() => {
+                          setSelectedColor('#FF1493');
+                          onShapeColorSelect?.('#FF1493');
+                      }}
                   />
 
                   <button
                       className="color-option"
                       style={{ background: '#FF3131' }}
-                      onClick={() => setSelectedColor('#FF3131')}
+                      onClick={() => {
+                          setSelectedColor('#FF3131');
+                          onShapeColorSelect?.('#FF3131');
+                  }}
                   />
 
                   <button
                       className="color-option"
                       style={{ background: '#FFFF33' }}
-                      onClick={() => setSelectedColor('#FFFF33')}
+                      onClick={() => {
+                          setSelectedColor('#FFFF33');
+                          onShapeColorSelect?.('#FFFF33');
+                      }}
                   />
 
               </div>

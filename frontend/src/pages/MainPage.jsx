@@ -28,6 +28,7 @@ export default function MainPage() {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [pendingEditNodeId, setPendingEditNodeId] = useState(null);
+  const [selectedNodeId, setSelectedNodeId] = useState(null);
 
   // Auth and init
   useEffect(() => {
@@ -241,7 +242,7 @@ export default function MainPage() {
       []
   );
 
-  const handleAddComponent = async (type, position = null, shapeType = null) => {
+  const handleAddComponent = async (type, position = null, shapeType = null, color = null) => {
     if (!selectedCanvas) return;
     const offset = nodes.length * 30;
     const positionX = position?.x ?? 100 + offset;
@@ -250,7 +251,10 @@ export default function MainPage() {
       componentName: type === 'TEXT' ? 'Text' : type === 'IMAGE' ? 'Image' : 'Shape',
       componentType: type,
       textContent: type === 'TEXT' ? 'New Text' : '',
-      color: type === 'NODE' ? '#e2f048' : '#ffffff',
+      color:
+          type === 'NODE'
+              ? color || '#39FF14'
+              : '#ffffff',
       positionX,
       positionY,
       ...(type === 'NODE' && shapeType ? { shapeType } : {}),
@@ -287,7 +291,27 @@ export default function MainPage() {
   const handleClearPendingEdit = useCallback(() => {
     setPendingEditNodeId(null);
   }, []);
+const handleShapePaletteClick = useCallback(
+      async (color) => {
+        console.log('PALETTE RECEIVED', color);
 
+        if (selectedNodeId) {
+          await handleColorChange(selectedNodeId, color);
+          return;
+        }
+
+        await handleAddComponent(
+            'NODE',
+            null,
+            'square',
+            color
+        );
+      },
+      [
+        selectedNodeId,
+        handleColorChange
+      ]
+  );
   if (loading) {
     return (
       <div className="main-layout">
@@ -356,9 +380,14 @@ export default function MainPage() {
                       <ComponentToolbar
                         onAddText={() => handleAddComponent('TEXT')}
                         onAddImage={() => handleAddComponent('IMAGE')}
-                        onAddShape={(shape) => handleAddComponent('NODE', null, shape)}
+                        onAddShape={(shape, color) =>
+                            handleAddComponent('NODE', null, shape, color)
+                        }
+                        onShapeColorSelect={handleShapePaletteClick}
                       />
                     }
+                    selectedNodeId={selectedNodeId}
+                    onSelectedNodeChange={setSelectedNodeId}
                   />
                 ) : (
                   <div className="canvas-empty-state">
