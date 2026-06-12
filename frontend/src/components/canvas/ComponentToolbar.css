@@ -106,18 +106,67 @@
 /* Shape popup menu */
 .shape-popup {
   position: absolute;
-  top: -120px; /* place above toolbar */
+  top: -80px;
   left: 50%;
   transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px 16px;
+
   background: var(--surface-toolbar);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
+  border-radius: 24px;
+
   box-shadow: var(--shadow-lg);
-  padding: var(--space-2);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
   z-index: 10;
+}
+.shape-popup-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--border-default);
+}
+.shape-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.shape-option {
+  width: 36px;
+  height: 36px;
+
+  border: none;
+  background: transparent;
+
+  cursor: pointer;
+
+  font-size: 22px;
+
+  border-radius: 8px;
+}
+.shape-option:hover {
+  background: var(--surface-accent-subtle);
+}
+.color-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.color-option {
+  width: 24px;
+  height: 24px;
+
+  border-radius: 50%;
+
+  border: 2px solid rgba(255,255,255,0.2);
+
+  cursor: pointer;
+}
+.color-option.active {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 2px white;
 }
 
 .popup-item {

@@ -5,6 +5,7 @@ import './ComponentToolbar.css';
 
 export default function ComponentToolbar({ onAddText, onAddImage, onAddShape }) {
   const [showShapeMenu, setShowShapeMenu] = useState(false);
+    const [selectedColor, setSelectedColor] = useState('#39FF14');
   return (
     <div className="component-toolbar">
       <button
@@ -37,11 +38,73 @@ export default function ComponentToolbar({ onAddText, onAddImage, onAddShape }) 
         <span className="toolbar-label">Shape</span>
       </button>
       {showShapeMenu && (
-        <div className="shape-popup">
-          <button className="popup-item" onClick={() => { setShowShapeMenu(false); onAddShape('square'); }}>Square</button>
-          <button className="popup-item" onClick={() => { setShowShapeMenu(false); onAddShape('oval'); }}>Oval</button>
-          <button className="popup-item" onClick={() => { setShowShapeMenu(false); onAddShape('rhombus'); }}>Rhombus</button>
-        </div>
+          <div className="shape-popup">
+
+              <div className="shape-section">
+
+                  <button
+                      className="shape-option"
+                      onClick={() => {
+                          setShowShapeMenu(false);
+                          onAddShape('rhombus', selectedColor);
+                      }}
+                  >
+                      ◇
+                  </button>
+
+                  <button
+                      className="shape-option"
+                      onClick={() => {
+                          setShowShapeMenu(false);
+                          onAddShape('square', selectedColor);
+                      }}
+                  >
+                      ▭
+                  </button>
+
+                  <button
+                      className="shape-option"
+                      onClick={() => {
+                          setShowShapeMenu(false);
+                          onAddShape('oval', selectedColor);
+                      }}
+                  >
+                      ◯
+                  </button>
+
+              </div>
+
+              <div className="shape-popup-divider" />
+
+              <div className="color-section">
+
+                  <button
+                      className="color-option"
+                      style={{ background: '#39FF14' }}
+                      onClick={() => setSelectedColor('#39FF14')}
+                  />
+
+                  <button
+                      className="color-option"
+                      style={{ background: '#FF1493' }}
+                      onClick={() => setSelectedColor('#FF1493')}
+                  />
+
+                  <button
+                      className="color-option"
+                      style={{ background: '#FF3131' }}
+                      onClick={() => setSelectedColor('#FF3131')}
+                  />
+
+                  <button
+                      className="color-option"
+                      style={{ background: '#FFFF33' }}
+                      onClick={() => setSelectedColor('#FFFF33')}
+                  />
+
+              </div>
+
+          </div>
       )}
     </div>
   );
