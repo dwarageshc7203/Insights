@@ -34,6 +34,12 @@ public class ComponentController {
         return new ResponseEntity<>(service.patchComponentPosition(componentId, request), HttpStatus.OK);
     }
 
+    //patch componentTextContent
+    @PatchMapping("/{componentId}/text")
+    public ResponseEntity<ComponentTextPatchResponse> patchComponentTextContent(@PathVariable int componentId, @RequestBody ComponentTextPatchRequest request) {
+        return new ResponseEntity<>(service.patchComponentTextContent(componentId, request), HttpStatus.OK);
+    }
+
     //patch componentSize
     @PatchMapping("/{componentId}/size")
     public ResponseEntity<ComponentSizePatchResponse> patchComponentSize(@PathVariable int componentId, @RequestBody ComponentSizePatchRequest request) {
@@ -42,13 +48,17 @@ public class ComponentController {
 
     //patch componentColor
     @PatchMapping("/{componentId}/color")
-    public ResponseEntity<ComponentColorPatchResponse> patchComponentSize(@PathVariable int componentId, @RequestBody ComponentColorPatchRequest request) {
+    public ResponseEntity<ComponentColorPatchResponse> patchComponentColor(@PathVariable int componentId, @RequestBody ComponentColorPatchRequest request) {
         return new ResponseEntity<>(service.patchComponentColor(componentId, request), HttpStatus.OK);
     }
 
     //patch imageComponent
     @PatchMapping("/{componentId}/image")
-    public ResponseEntity<ComponentImagePatchResponse> patchComponentSize(@PathVariable int componentId, @RequestBody ComponentImagePatchRequest request) {
+    public ResponseEntity<ComponentImagePatchResponse> patchImageComponent(@PathVariable int componentId, @RequestBody ComponentImagePatchRequest request) {
+        System.out.println("IMAGE PATCH HIT");
+        System.out.println("ID = " + componentId);
+        System.out.println("URL LENGTH = " +
+                (request.imgUrl() == null ? 0 : request.imgUrl().length()));
         return new ResponseEntity<>(service.patchImageComponent(componentId, request), HttpStatus.OK);
     }
 

@@ -20,6 +20,7 @@ public class Component {
     private String type;
     private String shapeType;
     private String textContent;
+    @Column(columnDefinition = "TEXT")
     private String imgUrl;
     private String color;
     private double positionX;

@@ -1,3 +1,5 @@
+import {nodeTypes} from "./index.js";
+
 const SHAPE_PALETTE = [
   '#e2f048',
   '#8ac97a',
@@ -34,13 +36,29 @@ export function getShapeVariant(id) {
 }
 
 export function mapComponentToNode(component) {
+  const nodeType = componentTypeToNodeType(component.type);
+
+  const defaultWidth = nodeType === 'text' ? 200 : nodeType === 'image' ? 260 : 140;
+  const defaultHeight = nodeType === 'text' ? 80 : nodeType === 'image' ? 200 : 140;
+
+  const w = component.width > 0 ? component.width : defaultWidth;
+  const h = component.height > 0 ? component.height : defaultHeight;
+
+  console.log(
+      "MAPPING",
+      component.componentId,
+      "backend:",
+      component.type,
+      "reactflow:",
+      nodeType
+  );
   return {
     id: String(component.componentId),
     position: { x: component.positionX, y: component.positionY },
-    type: componentTypeToNodeType(component.componentType),
+    type: nodeType,
     style: {
-      width: component.width > 0 ? component.width : undefined,
-      height: component.height > 0 ? component.height : undefined,
+      width: w,
+      height: h,
     },
     data: {
       label: component.textContent || component.componentName,

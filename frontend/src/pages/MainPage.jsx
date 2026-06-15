@@ -80,6 +80,18 @@ export default function MainPage() {
   const handleSelectCanvas = async (canvas) => {
     setSelectedCanvas(canvas);
     const data = await api.loadCanvas(canvas.canvasId);
+    console.log("LOADED COMPONENTS", data.components);
+    const mapped = data.components.map(mapComponentToNode);
+
+    console.log(
+        "FINAL NODES",
+        mapped.map(n => ({
+          id: n.id,
+          type: n.type
+        }))
+    );
+
+    setNodes(mapped);
     setNodes(data.components.map(mapComponentToNode));
     setEdges(data.edges.map(e => ({
       id: String(e.edgeId),
@@ -133,12 +145,12 @@ export default function MainPage() {
         setNodes((nds) => applyNodeChanges(changes, nds));
 
         for (const change of changes) {
-          if (change.type === 'dimensions' && change.dimensions) {
+          if (change.type === 'dimensions' && change.dimensions && !change.resizing) {
             try {
               await api.updateComponentSize(
                   parseInt(change.id, 10),
-                  change.dimensions.width,
-                  change.dimensions.height
+                  Math.round(change.dimensions.width),
+                  Math.round(change.dimensions.height)
               );
             } catch (err) {
               console.error(err);
@@ -249,7 +261,7 @@ export default function MainPage() {
     const positionY = position?.y ?? 100 + offset;
     const compData = {
       componentName: type === 'TEXT' ? 'Text' : type === 'IMAGE' ? 'Image' : 'Shape',
-      componentType: type,
+      type: type,
       textContent: type === 'TEXT' ? 'New Text' : '',
       color:
           type === 'NODE'
@@ -260,6 +272,7 @@ export default function MainPage() {
       ...(type === 'NODE' && shapeType ? { shapeType } : {}),
     };
     const newComp = await api.createComponent(selectedCanvas.canvasId, compData);
+    console.log("CREATED COMPONENT", newComp);
     const newNode = { ...mapComponentToNode(newComp), selected: true };
     setNodes((nds) => [
       ...nds.map((n) => ({ ...n, selected: false })),
@@ -269,6 +282,38 @@ export default function MainPage() {
     if (type === 'TEXT') {
       setPendingEditNodeId(newNode.id);
     }
+  };
+
+  const handleDropImage = async (position, imgUrl) => {
+    if (!selectedCanvas) return;
+    const compData = {
+      componentName: 'Image',
+      type: 'IMAGE',
+      textContent: '',
+      color: '#ffffff',
+      positionX: position.x,
+      positionY: position.y,
+    };
+    
+    // Create the component first
+    const newComp = await api.createComponent(selectedCanvas.canvasId, compData);
+    
+    // Then upload the image
+    try {
+      await api.updateComponentImage(newComp.componentId, imgUrl);
+    } catch (err) {
+      console.error('Failed to update image after drop:', err);
+    }
+    
+    // Optimistically update the UI
+    newComp.imgUrl = imgUrl;
+    
+    const newNode = { ...mapComponentToNode(newComp), selected: true };
+    setNodes((nds) => [
+      ...nds.map((n) => ({ ...n, selected: false })),
+      newNode,
+    ]);
+    setEdges((eds) => eds.map((e) => ({ ...e, selected: false })));
   };
 
   const handleCreateTextAt = useCallback(
@@ -376,6 +421,7 @@ const handleShapePaletteClick = useCallback(
                     onNodeEditRequest={handleNodeEditRequest}
                     pendingEditNodeId={pendingEditNodeId}
                     onClearPendingEdit={handleClearPendingEdit}
+                    onPaneDropImage={handleDropImage}
                     toolbar={
                       <ComponentToolbar
                         onAddText={() => handleAddComponent('TEXT')}

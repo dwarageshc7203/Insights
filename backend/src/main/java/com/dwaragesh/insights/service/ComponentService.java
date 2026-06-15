@@ -144,7 +144,7 @@ public class ComponentService {
         Component component = repository.findById(componentId)
                 .orElseThrow(() -> new EntityNotFoundException("Component not found"));
 
-        component.setColor(request.imgUrl());
+        component.setImgUrl(request.imgUrl());
 
         Component savedComponent = repository.save(component);
 

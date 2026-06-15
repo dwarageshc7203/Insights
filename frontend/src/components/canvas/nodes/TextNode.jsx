@@ -81,13 +81,17 @@ export default function TextNode({ id, data, selected }) {
     <div
       className={`canvas-node canvas-node--text${selected ? ' is-selected' : ''}${isEditing ? ' is-editing' : ''}`}
       data-component-type="TEXT"
+      style={{
+        width: data.width > 0 ? data.width : 200,
+        height: data.height > 0 ? data.height : 'auto',
+      }}
       onDoubleClick={startEditing}
     >
-      {/*<NodeResizer*/}
-      {/*    isVisible={selected}*/}
-      {/*    minWidth={100}*/}
-      {/*    minHeight={100}*/}
-      {/*/>*/}
+      <NodeResizer
+          isVisible={selected}
+          minWidth={150}
+          minHeight={60}
+      />
       <CanvasHandles />
       <div className="canvas-node-text-inner">
         {isEditing ? (

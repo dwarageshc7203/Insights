@@ -29,9 +29,35 @@ function CanvasFlow({
                       editingNodeId,
                       onNodeClick,
                       onPaneDeselect,
+                      onPaneDropImage,
                     }) {
   const { screenToFlowPosition } = useReactFlow();
   const lastPaneClick = useRef(null);
+
+  const handleDragOver = useCallback((event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'copy';
+  }, []);
+
+  const handleDrop = useCallback(async (event) => {
+    event.preventDefault();
+    const file = event.dataTransfer.files?.[0];
+    if (!file) return;
+
+    const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif'];
+    if (!validTypes.includes(file.type)) return;
+
+    const position = screenToFlowPosition({
+      x: event.clientX,
+      y: event.clientY,
+    });
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      onPaneDropImage(position, reader.result);
+    };
+    reader.readAsDataURL(file);
+  }, [screenToFlowPosition, onPaneDropImage]);
 
   const handlePaneClick = useCallback(
       (event) => {
@@ -82,6 +108,8 @@ function CanvasFlow({
           onPaneClick={handlePaneClick}
           zoomOnDoubleClick={false}
           panOnDrag
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
           nodesDraggable={!editingNodeId}
           nodesConnectable={!editingNodeId}
           elementsSelectable
@@ -118,6 +146,8 @@ export default function CanvasArea({
   toolbar,
     selectedNodeId,
     onSelectedNodeChange,
+    onPaneDropImage,
+    onImageChange,
 }) {
   const [editingNodeId, setEditingNodeId] = useState(null);
   // const [selectedNodeId, setSelectedNodeId] = useState(null);
@@ -150,6 +180,7 @@ export default function CanvasArea({
     clearPendingEditNodeId: onClearPendingEdit,
     setEditingNodeId,
     onTextSave,
+    onImageChange,
   };
 
   return (
@@ -170,6 +201,7 @@ export default function CanvasArea({
             editingNodeId={editingNodeId}
             onNodeClick={handleNodeClick}
             onPaneDeselect={() => onSelectedNodeChange(null)}
+            onPaneDropImage={onPaneDropImage}
           />
         </ReactFlowProvider>
       </CanvasInteractionProvider>

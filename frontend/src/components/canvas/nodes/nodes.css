@@ -10,8 +10,11 @@
 }
 
 .canvas-area-container .react-flow__node.selectable:focus,
-.canvas-area-container .react-flow__node.selectable:focus-visible {
-  outline: none;
+.canvas-area-container .react-flow__node.selectable:focus-visible,
+.canvas-area-container .react-flow__node.selected {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 /* ─── Shared node shell ──────────────────────────────────────────────────── */
@@ -52,6 +55,7 @@
   border-radius: 999px !important;
   cursor: crosshair;
   opacity: 0.75;
+  z-index: 10;
 }
 .canvas-handle:hover {
   cursor: crosshair;
@@ -70,8 +74,8 @@
 /* ─── TEXT — note card ───────────────────────────────────────────────────── */
 
 .canvas-node--text {
-  min-width: 200px;
-  max-width: 300px;
+  width: 100%;
+  height: 100%;
 }
 
 .canvas-node-text-inner {
@@ -82,6 +86,8 @@
   box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 .canvas-node-text-inner::before {
@@ -161,7 +167,8 @@
 /* ─── IMAGE — media frame ────────────────────────────────────────────────── */
 
 .canvas-node--image {
-  min-width: 260px;
+  width: 100%;
+  height: 100%;
 }
 
 .canvas-node-image-frame {
@@ -170,6 +177,8 @@
   border-radius: var(--radius-xl);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
+  width: 100%;
+  height: 100%;
 }
 
 .canvas-node--image:hover .canvas-node-image-frame {
@@ -232,6 +241,7 @@
 
 .canvas-node-shape-body {
   background: var(--shape-fill);
+  border: 2px solid color-mix(in srgb, var(--shape-fill) 80%, black);
   box-shadow: var(--shadow-sm);
   transition:
     box-shadow var(--transition-normal),
@@ -252,14 +262,14 @@
 .canvas-node--shape-rhombus .canvas-node-shape-body {
   width: 100%;
   height: 100%;
-  transform: rotate(45deg);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
 }
 .canvas-node--shape-square:hover .canvas-node-shape-body,
 .canvas-node--shape-oval:hover .canvas-node-shape-body {
   transform: scale(1.02);
 }
 .canvas-node--shape-rhombus:hover .canvas-node-shape-body {
-  transform: rotate(45deg) scale(1.02);
+  transform: scale(1.02);
 }
 
 .canvas-node--shape.is-selected .canvas-node-shape-body {
@@ -275,7 +285,7 @@
 }
 
 .canvas-node--shape-rhombus.is-selected:hover .canvas-node-shape-body {
-  transform: rotate(45deg) scale(1.02);
+  transform: scale(1.02);
 }
 
 /* ─── Edges — soft connectors, not flowchart wires ───────────────────────── */
