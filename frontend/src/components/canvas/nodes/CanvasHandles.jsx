@@ -19,7 +19,6 @@ export default function CanvasHandles() {
                 className="canvas-handle"
             />
         ))}
-
         {HANDLE_POSITIONS.map((position) => (
             <Handle
                 key={`target-${position}`}

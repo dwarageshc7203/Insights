@@ -96,7 +96,7 @@ function CanvasFlow({
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
-          connectionMode={ConnectionMode.Strict}
+          connectionMode={ConnectionMode.Loose}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
@@ -175,6 +175,25 @@ export default function CanvasArea({
     selected: n.id === selectedNodeId,
   }));
 
+  // Migrate edge handle IDs from old format to new format
+  const edgesForFlow = edges.map(edge => {
+    const migrateHandleId = (handleId, type) => {
+      if (!handleId) return null;
+      // If already in new format, return as-is
+      if (handleId.startsWith('source-') || handleId.startsWith('target-')) {
+        return handleId;
+      }
+      // Migrate old format (e.g., "top") to new format (e.g., "source-top" or "target-top")
+      return `${type}-${handleId}`;
+    };
+
+    return {
+      ...edge,
+      sourceHandle: migrateHandleId(edge.sourceHandle, 'source') || 'source-right',
+      targetHandle: migrateHandleId(edge.targetHandle, 'target') || 'target-left',
+    };
+  });
+
   const interactionValue = {
     pendingEditNodeId,
     clearPendingEditNodeId: onClearPendingEdit,
@@ -189,7 +208,7 @@ export default function CanvasArea({
         <ReactFlowProvider>
           <CanvasFlow
             nodes={nodesForFlow}
-            edges={edges}
+            edges={edgesForFlow}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
