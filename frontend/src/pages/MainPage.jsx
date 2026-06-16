@@ -171,12 +171,19 @@ export default function MainPage() {
     // Set UI optimistically
     setEdges((eds) => addEdge({ ...params, selectable: true, focusable: true }, eds));
     // Persist
-    await api.createEdge(selectedCanvas.canvasId, {
-      edgeName: 'connection',
-      color: '#000000',
-      sourceId: params.source,
-      targetId: params.target
-    });
+    try {
+      const edge = await api.createEdge(selectedCanvas.canvasId, {
+        edgeName: 'connection',
+        color: '#000000',
+        sourceId: params.source,
+        targetId: params.target
+      });
+      console.log('Edge created successfully:', edge);
+    } catch (error) {
+      console.error('Failed to create edge:', error);
+      // Remove the optimistically added edge if creation failed
+      setEdges((eds) => eds.filter(e => e.id !== params.id));
+    }
   }, [selectedCanvas]);
 
   const onNodeDragStop = async (event, node) => {
