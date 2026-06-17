@@ -46,11 +46,12 @@
   opacity: 0;
   pointer-events: none;
   z-index: 10;
-  transition: opacity var(--transition-normal), transform var(--transition-fast);
+  transition: opacity var(--transition-normal), transform var(--transition-fast), background-color var(--transition-fast);
 }
 
-.canvas-node:hover .canvas-handle,
-.canvas-node.is-selected .canvas-handle {
+/* By default, show source handles on hover/select of non-text nodes */
+.canvas-node:not(.canvas-node--text):hover .canvas-handle--source,
+.canvas-node:not(.canvas-node--text).is-selected .canvas-handle--source {
   opacity: 0.75;
   pointer-events: auto;
 }
@@ -59,13 +60,50 @@
   cursor: crosshair;
   transform: scale(1.25);
   background: var(--accent-primary-hover) !important;
+  opacity: 1 !important;
+}
+
+/* Target handles are kept visually transparent at all times to prevent duplicate circle rendering */
+.canvas-handle--target {
+  background: transparent !important;
+  border: 2px solid transparent !important;
+  box-shadow: none !important;
+  opacity: 0 !important;
+  pointer-events: auto !important;
+}
+
+/* Hovering on target handle should not scale or change visual state */
+.canvas-handle--target:hover {
+  background: transparent !important;
+  border: 2px solid transparent !important;
+  transform: none !important;
+  opacity: 0 !important;
 }
 
 /* ─── TEXT — note card ───────────────────────────────────────────────────── */
 
 .canvas-node--text {
-  width: 100%;
-  height: 100%;
+  width: fit-content;
+  height: auto;
+  min-width: 50px;
+  min-height: 20px;
+  border: 1px solid transparent;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background-color: transparent;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+/* Show dashed selection border and light background highlight only when selected */
+.canvas-node--text.is-selected {
+  border: 1px dashed var(--accent-primary);
+  background-color: var(--surface-accent-subtle);
+}
+
+/* For text nodes, connection handles are only shown when selected */
+.canvas-node--text.is-selected .canvas-handle--source {
+  opacity: 0.75 !important;
+  pointer-events: auto !important;
 }
 
 .canvas-node-text-inner {
@@ -75,23 +113,13 @@
   padding: 0;
   box-shadow: none;
   position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
+  overflow: visible;
+  width: auto;
+  height: auto;
 }
 
 .canvas-node-text-inner::before {
   display: none;
-}
-
-.canvas-node--text:hover .canvas-node-text-inner {
-  border-color: transparent;
-  box-shadow: none;
-}
-
-.canvas-node--text.is-selected .canvas-node-text-inner {
-  border-color: transparent;
-  box-shadow: none;
 }
 
 .canvas-node-text-content {

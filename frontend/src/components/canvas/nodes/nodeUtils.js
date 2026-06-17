@@ -56,7 +56,7 @@ export function mapComponentToNode(component) {
     id: String(component.componentId),
     position: { x: component.positionX, y: component.positionY },
     type: nodeType,
-    style: {
+    style: nodeType === 'text' ? {} : {
       width: w,
       height: h,
     },

@@ -2,7 +2,7 @@
 // The main application container that holds global state, wiring up the API, sidebar, tab bar, and canvas components.
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { applyNodeChanges, applyEdgeChanges, addEdge } from '@xyflow/react';
+import { applyNodeChanges, applyEdgeChanges, addEdge, MarkerType } from '@xyflow/react';
 import { supabase } from '../supabaseClient';
 import { api } from '../services/api';
 
@@ -99,7 +99,7 @@ export default function MainPage() {
       target: String(e.targetId),
       selectable: true,
       focusable: true,
-      markerEnd: { type: 'arrowclosed' },
+      markerEnd: { type: MarkerType.ArrowClosed },
       label: e.edgeName || '',
       labelStyle: { fontSize: 12, fill: '#333' },
       labelBgStyle: { fill: '#ffffff', fillOpacity: 0.8 },
@@ -188,8 +188,9 @@ export default function MainPage() {
 
   const onConnect = useCallback(async (params) => {
     if (!selectedCanvas) return;
+    const tempId = `temp-${Date.now()}`;
     // Set UI optimistically
-    setEdges((eds) => addEdge({ ...params, selectable: true, focusable: true, markerEnd: { type: 'arrowclosed' }, label: '', labelStyle: { fontSize: 12, fill: '#333' }, labelBgStyle: { fill: '#ffffff', fillOpacity: 0.8 }, labelShow: true }, eds));
+    setEdges((eds) => addEdge({ ...params, id: tempId, selectable: true, focusable: true, markerEnd: { type: MarkerType.ArrowClosed }, label: '', labelStyle: { fontSize: 12, fill: '#333' }, labelBgStyle: { fill: '#ffffff', fillOpacity: 0.8 }, labelShow: true }, eds));
     // Persist
     try {
       const edge = await api.createEdge(selectedCanvas.canvasId, {
@@ -202,13 +203,13 @@ export default function MainPage() {
       // Update the edge ID with the one from the backend
       setEdges((eds) =>
         eds.map((e) =>
-          e.id === params.id ? { ...e, id: String(edge.edgeId) } : e
+          e.id === tempId ? { ...e, id: String(edge.edgeId) } : e
         )
       );
     } catch (error) {
       console.error('Failed to create edge:', error);
       // Remove the optimistically added edge if creation failed
-      setEdges((eds) => eds.filter(e => e.id !== params.id));
+      setEdges((eds) => eds.filter(e => e.id !== tempId));
     }
   }, [selectedCanvas]);
 

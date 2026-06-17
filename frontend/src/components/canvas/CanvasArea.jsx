@@ -8,6 +8,7 @@ import {
   ConnectionMode,
   ReactFlowProvider,
   useReactFlow,
+  MarkerType,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { nodeTypes } from './nodes';
@@ -199,6 +200,7 @@ export default function CanvasArea({
       type: 'editable',
       sourceHandle: migrateHandleId(edge.sourceHandle, 'source') || 'source-right',
       targetHandle: migrateHandleId(edge.targetHandle, 'target') || 'target-left',
+      markerEnd: edge.markerEnd || { type: MarkerType.ArrowClosed },
       data: {
         ...edge.data,
         onLabelChange: onEdgeLabelChange,

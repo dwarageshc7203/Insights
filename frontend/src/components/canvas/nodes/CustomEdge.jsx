@@ -7,16 +7,37 @@ import {
 } from '@xyflow/react';
 
 const CustomEdge = memo(
-  ({ id, source, target, selected, data, style }) => {
+  ({
+    id,
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+    sourcePosition,
+    targetPosition,
+    selected,
+    label,
+    data,
+    style,
+    markerEnd,
+  }) => {
     const { setEdges } = useReactFlow();
     const [isEditing, setIsEditing] = useState(false);
-    const [draft, setDraft] = useState(data?.label || '');
+    const [draft, setDraft] = useState(label || '');
     const inputRef = useRef(null);
 
     const [edgePath, labelX, labelY] = getBezierPath({
-      source,
-      target,
+      sourceX,
+      sourceY,
+      sourcePosition,
+      targetX,
+      targetY,
+      targetPosition,
     });
+
+    useEffect(() => {
+      setDraft(label || '');
+    }, [label]);
 
     useEffect(() => {
       if (isEditing) {
@@ -32,33 +53,38 @@ const CustomEdge = memo(
 
     const handleBlur = useCallback(() => {
       setIsEditing(false);
-      setEdges((edges) =>
-        edges.map((edge) =>
-          edge.id === id
-            ? { ...edge, data: { ...edge.data, label: draft.trim() } }
-            : edge
-        )
-      );
-    }, [draft, id, setEdges]);
+      const nextLabel = draft.trim();
+      if (data?.onLabelChange) {
+        data.onLabelChange(id, nextLabel);
+      } else {
+        setEdges((edges) =>
+          edges.map((edge) =>
+            edge.id === id
+              ? { ...edge, label: nextLabel }
+              : edge
+          )
+        );
+      }
+    }, [draft, id, data, setEdges]);
 
     const handleKeyDown = useCallback((e) => {
       e.stopPropagation();
       if (e.key === 'Escape') {
         setIsEditing(false);
-        setDraft(data?.label || '');
+        setDraft(label || '');
       }
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         handleBlur();
       }
-    }, [data?.label, handleBlur]);
+    }, [label, handleBlur]);
 
     // Validate labelX and labelY before using in transform
     const isValidPosition = typeof labelX === 'number' && typeof labelY === 'number' && !isNaN(labelX) && !isNaN(labelY);
 
     return (
       <>
-        <BaseEdge id={id} path={edgePath} style={style} />
+        <BaseEdge id={id} path={edgePath} style={style} markerEnd={markerEnd} />
         {isValidPosition && (
           <EdgeLabelRenderer>
             <div
@@ -102,7 +128,7 @@ const CustomEdge = memo(
                     whiteSpace: 'nowrap',
                   }}
                 >
-                  {data?.label || ''}
+                  {label || ''}
                 </div>
               )}
             </div>
