@@ -2,6 +2,8 @@ package com.dwaragesh.insights.service;
 
 import com.dwaragesh.insights.dto.Edge.EdgeConnectionPatchRequest;
 import com.dwaragesh.insights.dto.Edge.EdgeConnectionPatchResponse;
+import com.dwaragesh.insights.dto.Edge.EdgeLabelPatchRequest;
+import com.dwaragesh.insights.dto.Edge.EdgeLabelPatchResponse;
 import com.dwaragesh.insights.dto.Edge.EdgeRequest;
 import com.dwaragesh.insights.dto.Edge.EdgeResponse;
 import com.dwaragesh.insights.model.Canvas;
@@ -59,6 +61,20 @@ public class EdgeService {
         return new EdgeConnectionPatchResponse(
                 savedEdge.getSourceId(),
                 savedEdge.getTargetId()
+        );
+    }
+
+    //patch edgeLabel
+    public EdgeLabelPatchResponse patchEdgeLabel(int edgeId, EdgeLabelPatchRequest request) {
+        Edge edge = repository.findById(edgeId)
+                .orElseThrow(() -> new EntityNotFoundException("Edge not Found"));
+
+        edge.setEdgeName(request.edgeName());
+
+        Edge savedEdge = repository.save(edge);
+
+        return new EdgeLabelPatchResponse(
+                savedEdge.getEdgeName()
         );
     }
 

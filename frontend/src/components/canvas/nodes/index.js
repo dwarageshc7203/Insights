@@ -7,6 +7,7 @@ export const nodeTypes = {
   image: ImageNode,
   shape: ShapeNode,
 };
+
 console.log("NODE TYPES", nodeTypes);
 
 export { mapComponentToNode, componentTypeToNodeType } from './nodeUtils';

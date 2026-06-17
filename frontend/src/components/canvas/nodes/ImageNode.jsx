@@ -33,6 +33,13 @@ export default function ImageNode({ id, data, selected }) {
     fileInputRef.current?.click();
   };
 
+  const handleDoubleClick = (e) => {
+    e.stopPropagation();
+    if (selected) {
+      fileInputRef.current?.click();
+    }
+  };
+
   return (
     <div
       className={`canvas-node canvas-node--image${selected ? ' is-selected' : ''}`}
@@ -41,17 +48,19 @@ export default function ImageNode({ id, data, selected }) {
         width: data.width > 0 ? data.width : 260,
         height: data.height > 0 ? data.height : 200,
       }}
+      onDoubleClick={handleDoubleClick}
     >
       <NodeResizer
           isVisible={selected}
           minWidth={100}
           minHeight={100}
+          handleClassName="canvas-node-resizer"
       />
       <CanvasHandles />
-      <div 
-        className="canvas-node-image-frame" 
-        onClick={!hasImage ? handlePlaceholderClick : undefined} 
-        onDoubleClick={hasImage ? handlePlaceholderClick : undefined}
+      <div
+        className="canvas-node-image-frame"
+        onClick={!hasImage ? handlePlaceholderClick : undefined}
+        onDoubleClick={(e) => e.stopPropagation()}
         style={{ cursor: !hasImage ? 'pointer' : 'default' }}
       >
 

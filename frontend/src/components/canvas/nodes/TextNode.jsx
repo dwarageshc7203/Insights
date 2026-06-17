@@ -83,7 +83,7 @@ export default function TextNode({ id, data, selected }) {
       data-component-type="TEXT"
       style={{
         width: data.width > 0 ? data.width : 200,
-        height: data.height > 0 ? data.height : 'auto',
+        height: data.height > 0 ? data.height : 100,
       }}
       onDoubleClick={startEditing}
     >
@@ -91,6 +91,7 @@ export default function TextNode({ id, data, selected }) {
           isVisible={selected}
           minWidth={150}
           minHeight={60}
+          handleClassName="canvas-node-resizer"
       />
       <CanvasHandles />
       <div className="canvas-node-text-inner">

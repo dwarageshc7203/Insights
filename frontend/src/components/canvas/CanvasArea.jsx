@@ -11,6 +11,7 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { nodeTypes } from './nodes';
+import { edgeTypes } from './edges';
 import { CanvasInteractionProvider } from './CanvasInteractionContext';
 import './nodes/nodes.css';
 import './CanvasArea.css';
@@ -30,6 +31,8 @@ function CanvasFlow({
                       onNodeClick,
                       onPaneDeselect,
                       onPaneDropImage,
+                      onEdgeDoubleClick,
+                      onEdgeLabelChange,
                     }) {
   const { screenToFlowPosition } = useReactFlow();
   const lastPaneClick = useRef(null);
@@ -96,6 +99,7 @@ function CanvasFlow({
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           connectionMode={ConnectionMode.Loose}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
@@ -105,6 +109,7 @@ function CanvasFlow({
           onEdgesDelete={onEdgesDelete}
           onNodeDoubleClick={onNodeDoubleClick}
           onNodeClick={onNodeClick}
+          onEdgeDoubleClick={onEdgeDoubleClick}
           onPaneClick={handlePaneClick}
           zoomOnDoubleClick={false}
           panOnDrag
@@ -148,6 +153,8 @@ export default function CanvasArea({
     onSelectedNodeChange,
     onPaneDropImage,
     onImageChange,
+    onEdgeDoubleClick,
+    onEdgeLabelChange,
 }) {
   const [editingNodeId, setEditingNodeId] = useState(null);
   // const [selectedNodeId, setSelectedNodeId] = useState(null);
@@ -189,8 +196,13 @@ export default function CanvasArea({
 
     return {
       ...edge,
+      type: 'editable',
       sourceHandle: migrateHandleId(edge.sourceHandle, 'source') || 'source-right',
       targetHandle: migrateHandleId(edge.targetHandle, 'target') || 'target-left',
+      data: {
+        ...edge.data,
+        onLabelChange: onEdgeLabelChange,
+      },
     };
   });
 
@@ -221,6 +233,8 @@ export default function CanvasArea({
             onNodeClick={handleNodeClick}
             onPaneDeselect={() => onSelectedNodeChange(null)}
             onPaneDropImage={onPaneDropImage}
+            onEdgeDoubleClick={onEdgeDoubleClick}
+            onEdgeLabelChange={onEdgeLabelChange}
           />
         </ReactFlowProvider>
       </CanvasInteractionProvider>

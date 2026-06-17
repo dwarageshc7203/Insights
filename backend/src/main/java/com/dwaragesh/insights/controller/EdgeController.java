@@ -2,6 +2,8 @@ package com.dwaragesh.insights.controller;
 
 import com.dwaragesh.insights.dto.Edge.EdgeConnectionPatchRequest;
 import com.dwaragesh.insights.dto.Edge.EdgeConnectionPatchResponse;
+import com.dwaragesh.insights.dto.Edge.EdgeLabelPatchRequest;
+import com.dwaragesh.insights.dto.Edge.EdgeLabelPatchResponse;
 import com.dwaragesh.insights.dto.Edge.EdgeRequest;
 import com.dwaragesh.insights.dto.Edge.EdgeResponse;
 import com.dwaragesh.insights.service.EdgeService;
@@ -27,6 +29,12 @@ public class EdgeController {
     @PatchMapping("/{edgeId}/connection")
     public ResponseEntity<EdgeConnectionPatchResponse> patchEdgeConnection(@PathVariable int edgeId, @RequestBody EdgeConnectionPatchRequest request) {
         return new ResponseEntity<>(service.patchEdgeConnection(edgeId, request), HttpStatus.OK);
+    }
+
+    //patch edgeLabel
+    @PatchMapping("/{edgeId}/label")
+    public ResponseEntity<EdgeLabelPatchResponse> patchEdgeLabel(@PathVariable int edgeId, @RequestBody EdgeLabelPatchRequest request) {
+        return new ResponseEntity<>(service.patchEdgeLabel(edgeId, request), HttpStatus.OK);
     }
 
     //delete edge

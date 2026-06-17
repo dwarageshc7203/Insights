@@ -4,4 +4,4 @@ public record EdgeLabelPatchRequest(
 
         String edgeName
 
-) {}
+    ) {}

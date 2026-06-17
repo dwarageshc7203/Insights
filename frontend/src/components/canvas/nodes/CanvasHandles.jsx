@@ -12,11 +12,12 @@ export default function CanvasHandles() {
       <>
         {HANDLE_POSITIONS.map((position) => (
             <Handle
-                key={`source-${position}`}
-                id={`source-${position}`}
+                key={position}
+                id={position}
                 type="source"
                 position={position}
-                className="canvas-handle"
+                className="canvas-handle canvas-handle--source"
+                style={{ offset: 6 }}
             />
         ))}
         {HANDLE_POSITIONS.map((position) => (
@@ -25,7 +26,8 @@ export default function CanvasHandles() {
                 id={`target-${position}`}
                 type="target"
                 position={position}
-                className="canvas-handle"
+                className="canvas-handle canvas-handle--target"
+                style={{ offset: -6 }}
             />
         ))}
       </>

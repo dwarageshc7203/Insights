@@ -156,5 +156,26 @@ export const api = {
     return res.json();
   },
 
+  updateEdgeLabel: async (edgeId, edgeName) => {
+    const headers = await getHeaders();
+
+    const res = await fetch(
+        `${BASE_URL}/edge/${edgeId}/label`,
+        {
+          method: 'PATCH',
+          headers,
+          body: JSON.stringify({
+            edgeName,
+          }),
+        }
+    );
+
+    if (!res.ok) {
+      throw new Error(`Failed to update edge label: ${res.status}`);
+    }
+
+    return res.json();
+  },
+
 
 }

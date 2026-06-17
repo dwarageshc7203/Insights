@@ -157,6 +157,11 @@
   box-shadow: var(--shadow-sm);
   width: 100%;
   height: 100%;
+  pointer-events: none;
+}
+
+.canvas-node-image-frame > * {
+  pointer-events: auto;
 }
 
 .canvas-node--image:hover .canvas-node-image-frame {
@@ -341,4 +346,27 @@
   stroke-width: 1.5;
   stroke-dasharray: 6 4;
   opacity: 0.6;
+}
+
+/* ─── Node Resizer Handles ───────────────────────────────────────────────── */
+
+.react-flow__resize-control {
+  width: 16px !important;
+  height: 16px !important;
+  background: var(--accent-primary) !important;
+  border: 2px solid var(--surface-raised) !important;
+  border-radius: 4px !important;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+  z-index: 100 !important;
+}
+
+.react-flow__resize-control:hover {
+  background: var(--accent-primary-hover) !important;
+  transform: scale(1.2);
+}
+
+.canvas-node:hover .react-flow__resize-control,
+.canvas-node.is-selected .react-flow__resize-control {
+  opacity: 1;
 }

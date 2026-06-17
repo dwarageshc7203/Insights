@@ -99,6 +99,11 @@ export default function MainPage() {
       target: String(e.targetId),
       selectable: true,
       focusable: true,
+      markerEnd: { type: 'arrowclosed' },
+      label: e.edgeName || '',
+      labelStyle: { fontSize: 12, fill: '#333' },
+      labelBgStyle: { fill: '#ffffff', fillOpacity: 0.8 },
+      labelShow: true,
     })));
     setPendingEditNodeId(null);
   };
@@ -142,18 +147,33 @@ export default function MainPage() {
   // Canvas Actions
   const onNodesChange = useCallback(
       async (changes) => {
+        console.log('Node changes:', changes);
         setNodes((nds) => applyNodeChanges(changes, nds));
 
         for (const change of changes) {
           if (change.type === 'dimensions' && change.dimensions && !change.resizing) {
+            console.log('Dimension change for node:', change.id, change.dimensions);
             try {
-              await api.updateComponentSize(
+              const response = await api.updateComponentSize(
                   parseInt(change.id, 10),
                   Math.round(change.dimensions.width),
                   Math.round(change.dimensions.height)
               );
+              console.log('Size updated successfully for node:', change.id, response);
+              // Update local state with API response to ensure consistency
+              setNodes((nds) =>
+                nds.map((n) =>
+                  n.id === change.id
+                    ? {
+                        ...n,
+                        data: { ...n.data, width: response.width, height: response.height },
+                        style: { ...n.style, width: response.width, height: response.height }
+                      }
+                    : n
+                )
+              );
             } catch (err) {
-              console.error(err);
+              console.error('Failed to update size for node:', change.id, err);
             }
           }
         }
@@ -169,16 +189,22 @@ export default function MainPage() {
   const onConnect = useCallback(async (params) => {
     if (!selectedCanvas) return;
     // Set UI optimistically
-    setEdges((eds) => addEdge({ ...params, selectable: true, focusable: true }, eds));
+    setEdges((eds) => addEdge({ ...params, selectable: true, focusable: true, markerEnd: { type: 'arrowclosed' }, label: '', labelStyle: { fontSize: 12, fill: '#333' }, labelBgStyle: { fill: '#ffffff', fillOpacity: 0.8 }, labelShow: true }, eds));
     // Persist
     try {
       const edge = await api.createEdge(selectedCanvas.canvasId, {
         edgeName: 'connection',
         color: '#000000',
-        sourceId: params.source,
-        targetId: params.target
+        sourceId: parseInt(params.source, 10),
+        targetId: parseInt(params.target, 10)
       });
       console.log('Edge created successfully:', edge);
+      // Update the edge ID with the one from the backend
+      setEdges((eds) =>
+        eds.map((e) =>
+          e.id === params.id ? { ...e, id: String(edge.edgeId) } : e
+        )
+      );
     } catch (error) {
       console.error('Failed to create edge:', error);
       // Remove the optimistically added edge if creation failed
@@ -343,6 +369,35 @@ export default function MainPage() {
   const handleClearPendingEdit = useCallback(() => {
     setPendingEditNodeId(null);
   }, []);
+
+  const handleEdgeLabelChange = useCallback(async (edgeId, newLabel) => {
+    console.log('Edge label changed:', edgeId, newLabel);
+    // Update local state optimistically
+    setEdges((eds) => {
+      const updatedEdges = eds.map((e) =>
+        e.id === edgeId
+          ? { ...e, label: newLabel }
+          : e
+      );
+      return updatedEdges;
+    });
+    // Persist the label change
+    try {
+      const response = await api.updateEdgeLabel(parseInt(edgeId, 10), newLabel);
+      console.log('Edge label updated successfully:', response);
+      // Update local state with API response
+      setEdges((eds) => {
+        const updatedEdges = eds.map((e) =>
+          e.id === edgeId
+            ? { ...e, label: response.edgeName || newLabel }
+            : e
+        );
+        return updatedEdges;
+      });
+    } catch (err) {
+      console.error('Failed to update edge label:', err);
+    }
+  }, []);
 const handleShapePaletteClick = useCallback(
       async (color) => {
         console.log('PALETTE RECEIVED', color);
@@ -429,6 +484,7 @@ const handleShapePaletteClick = useCallback(
                     pendingEditNodeId={pendingEditNodeId}
                     onClearPendingEdit={handleClearPendingEdit}
                     onPaneDropImage={handleDropImage}
+                    onEdgeLabelChange={handleEdgeLabelChange}
                     toolbar={
                       <ComponentToolbar
                         onAddText={() => handleAddComponent('TEXT')}
