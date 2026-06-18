@@ -7,6 +7,8 @@ import { supabase } from '../supabaseClient';
 import { api } from '../services/api';
 
 import Sidebar from '../components/sidebar/Sidebar';
+import AiSidebar from '../components/canvas/ai/AiSidebar';
+import { extractGraphData } from '../services/graphExtractor';
 import TopBar from '../components/common/TopBar';
 import CanvasTabBar from '../components/canvas/CanvasTabBar';
 import CanvasArea from '../components/canvas/CanvasArea';
@@ -27,10 +29,15 @@ export default function MainPage() {
   const [selectedCanvas, setSelectedCanvas] = useState(null);
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
+  const [isAiOpen, setIsAiOpen] = useState(() => sessionStorage.getItem('aiSidebarOpen') === 'true');
   const [pendingEditNodeId, setPendingEditNodeId] = useState(null);
   const [selectedNodeId, setSelectedNodeId] = useState(null);
 
   // Auth and init
+  useEffect(() => {
+    sessionStorage.setItem('aiSidebarOpen', isAiOpen);
+  }, [isAiOpen]);
+
   useEffect(() => {
     const initApp = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
@@ -468,37 +475,49 @@ const handleShapePaletteClick = useCallback(
               />
               <div className="canvas-body">
                 {selectedCanvas ? (
-                  <CanvasArea
-                    nodes={nodes}
-                    edges={edges}
-                    onNodesChange={onNodesChange}
-                    onEdgesChange={onEdgesChange}
-                    onConnect={onConnect}
-                    onNodeDragStop={onNodeDragStop}
-                    onNodesDelete={onNodesDelete}
-                    onEdgesDelete={onEdgesDelete}
-                    onTextSave={handleTextSave}
-                    onColorChange={handleColorChange}
-                    onImageChange={handleImageChange}
-                    onPaneCreateText={handleCreateTextAt}
-                    onNodeEditRequest={handleNodeEditRequest}
-                    pendingEditNodeId={pendingEditNodeId}
-                    onClearPendingEdit={handleClearPendingEdit}
-                    onPaneDropImage={handleDropImage}
-                    onEdgeLabelChange={handleEdgeLabelChange}
-                    toolbar={
-                      <ComponentToolbar
-                        onAddText={() => handleAddComponent('TEXT')}
-                        onAddImage={() => handleAddComponent('IMAGE')}
-                        onAddShape={(shape, color) =>
+                  <>
+                    <CanvasArea
+                      nodes={nodes}
+                      edges={edges}
+                      onNodesChange={onNodesChange}
+                      onEdgesChange={onEdgesChange}
+                      onConnect={onConnect}
+                      onNodeDragStop={onNodeDragStop}
+                      onNodesDelete={onNodesDelete}
+                      onEdgesDelete={onEdgesDelete}
+                      onTextSave={handleTextSave}
+                      onColorChange={handleColorChange}
+                      onImageChange={handleImageChange}
+                      onPaneCreateText={handleCreateTextAt}
+                      onNodeEditRequest={handleNodeEditRequest}
+                      pendingEditNodeId={pendingEditNodeId}
+                      onClearPendingEdit={handleClearPendingEdit}
+                      onPaneDropImage={handleDropImage}
+                      onEdgeLabelChange={handleEdgeLabelChange}
+                      toolbar={
+                        <ComponentToolbar
+                          onAddText={() => handleAddComponent('TEXT')}
+                          onAddImage={() => handleAddComponent('IMAGE')}
+                          onAddShape={(shape, color) =>
                             handleAddComponent('NODE', null, shape, color)
-                        }
-                        onShapeColorSelect={handleShapePaletteClick}
-                      />
-                    }
-                    selectedNodeId={selectedNodeId}
-                    onSelectedNodeChange={setSelectedNodeId}
-                  />
+                          }
+                          onShapeColorSelect={handleShapePaletteClick}
+                        />
+                      }
+                      selectedNodeId={selectedNodeId}
+                      onSelectedNodeChange={setSelectedNodeId}
+                    />
+                    {/* AI Trigger Button */}
+                    <button className="ai-trigger-button" onClick={() => setIsAiOpen(true)} title="Open AI Analysis">
+                      🤖
+                    </button>
+                    {/* AI Sidebar */}
+                    <AiSidebar
+                      isOpen={isAiOpen}
+                      onClose={() => setIsAiOpen(false)}
+                      graphData={extractGraphData(nodes, edges)}
+                    />
+                  </>
                 ) : (
                   <div className="canvas-empty-state">
                     <div className="canvas-empty-state-visual" aria-hidden="true" />

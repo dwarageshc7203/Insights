@@ -26,16 +26,14 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/sync",
-
+                        .requestMatchers("/ai/**",
+                                "/auth/sync",
                                 "/workspace/**",
                                 "/canvas/**",
                                 "/component/**",
-                                "/edge/**"
-
-                        )
-                        .permitAll()  // only this is public
-                        .anyRequest().authenticated()               // everything else needs JWT
+                                "/edge/**")
+                        .permitAll()
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
