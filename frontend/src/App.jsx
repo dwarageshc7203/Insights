@@ -4,7 +4,7 @@ import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignUpPage'
 import MainPage from './pages/MainPage'
 
-import LandingPage from './pages/LandingPage'
+import LandingPage from './pages/LandingPage.jsx'
 
 function App() {
   return (

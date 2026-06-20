@@ -1,0 +1,269 @@
+/**
+ * Insights Design System — Tokens
+ * Single source of truth for spacing, color, type, radius, shadow, motion, and layout.
+ * Legacy aliases at the bottom preserve existing component styles unchanged.
+ */
+
+:root {
+  /* ─── Color primitives ─────────────────────────────────────────────────── */
+
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-gray-50: #f0f0f0;
+  --color-gray-100: #e8e8e8;
+  --color-gray-150: #e6e6e6;
+  --color-gray-200: #dcdcdc;
+  --color-gray-250: #d9d9d9;
+  --color-gray-300: #cccccc;
+  --color-gray-350: #c4c4c4;
+  --color-gray-400: #aaaaaa;
+  --color-gray-500: #888888;
+  --color-gray-600: #757575;
+  --color-gray-700: #606060;
+  --color-gray-800: #4c4c4c;
+  --color-gray-850: #474545;
+  --color-gray-900: #474343;
+  --color-gray-950: #414141;
+  --color-gray-1000: #3a3a3a;
+  --color-gray-1100: #333333;
+  --color-gray-1200: #2b2a2a;
+
+  --color-blue-50: #e3f2fd;
+  --color-blue-200: #90caf9;
+  --color-blue-600: #1a69a2;
+  --color-blue-700: #0d4a7a;
+  --color-blue-google: #4285f4;
+
+  --color-red-400: #e85c5c;
+  --color-red-500: #d64545;
+
+  --color-green-brand: #1e3b2b;
+  --color-green-ui: #4caf50;
+
+  --color-salmon: #d68989;
+  --color-salmon-light: #eeb2c6;
+
+  /* Node palette (canvas / landing mockup) */
+  --color-node-green: #8ac97a;
+  --color-node-yellow: #f0f048;
+  --color-node-yellow-soft: #e2f048;
+  --color-node-orange: #fca340;
+  --color-node-sky: #40bbfc;
+
+  /* ─── Semantic colors ──────────────────────────────────────────────────── */
+
+  --surface-base: var(--color-gray-50);
+  --surface-raised: var(--color-white);
+  --surface-sunken: var(--color-gray-250);
+  --surface-overlay: rgba(0, 0, 0, 0.5);
+  --surface-hover: rgba(0, 0, 0, 0.05);
+  --surface-accent-subtle: rgba(26, 105, 162, 0.05);
+  --surface-accent-muted: rgba(26, 105, 162, 0.08);
+  --surface-accent-hover: rgba(26, 105, 162, 0.15);
+  --surface-accent-active: rgba(26, 105, 162, 0.2);
+  --surface-danger-hover: rgba(232, 92, 92, 0.1);
+  --surface-note: rgba(255, 255, 255, 0.5);
+  --surface-toolbar: rgba(255, 255, 255, 0.95);
+  --surface-scrollbar: rgba(0, 0, 0, 0.2);
+  --surface-scrollbar-hover: rgba(0, 0, 0, 0.3);
+
+  --text-primary: var(--color-gray-1200);
+  --text-secondary: var(--color-gray-800);
+  --text-muted: var(--color-gray-700);
+  --text-heading: var(--color-gray-850);
+  --text-workspace: var(--color-gray-900);
+  --text-canvas-tab: var(--color-gray-950);
+  --text-planning: var(--color-gray-1000);
+  --text-inverse: var(--color-white);
+  --text-google: var(--color-gray-600);
+  --text-illustration: var(--color-gray-500);
+
+  --border-default: var(--color-gray-200);
+  --border-strong: var(--color-gray-300);
+  --border-tab: var(--color-gray-300);
+  --border-note: var(--color-gray-300);
+  --border-illustration: var(--color-gray-400);
+  --border-focus: var(--color-blue-600);
+  --border-danger: var(--color-red-400);
+
+  --accent-primary: var(--color-blue-600);
+  --accent-primary-hover: var(--color-blue-700);
+  --accent-primary-shadow: rgba(26, 105, 162, 0.3);
+  --accent-focus-ring: rgba(26, 105, 162, 0.1);
+  --accent-link-ui: var(--color-blue-google);
+  --accent-danger: var(--color-red-400);
+  --accent-danger-hover: var(--color-red-500);
+  --accent-danger-shadow: rgba(232, 92, 92, 0.3);
+
+  --icon-default: var(--color-gray-1100);
+
+  /* ─── Spacing (4px base grid) ──────────────────────────────────────────── */
+
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-9: 40px;
+  --space-10: 48px;
+  --space-11: 56px;
+  --space-12: 64px;
+  --space-14: 80px;
+  --space-16: 96px;
+
+  /* ─── Border radius ────────────────────────────────────────────────────── */
+
+  --radius-none: 0;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-pill: 20px;
+  --radius-nav: 40px;
+  --radius-full: 9999px;
+
+  /* ─── Shadows ──────────────────────────────────────────────────────────── */
+
+  --shadow-xs: 0 1px 4px rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 4px 10px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-2xl: 0 8px 24px rgba(0, 0, 0, 0.15);
+  --shadow-3xl: 0 8px 32px rgba(0, 0, 0, 0.15);
+  --shadow-dropdown: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-profile: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-button-primary: 0 4px 12px var(--accent-primary-shadow);
+  --shadow-button-danger: 0 4px 12px var(--accent-danger-shadow);
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.08);
+  --shadow-marketing: 0 12px 24px rgba(0, 0, 0, 0.08);
+  --shadow-mockup: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+  /* ─── Typography — families ────────────────────────────────────────────── */
+
+  --font-family-sans: 'Nunito', sans-serif;
+  --font-family-handwritten: 'Shadows Into Light', cursive;
+  --font-family-cursive: 'Satisfy', cursive;
+  --font-family-mono: ui-monospace, 'Cascadia Code', 'Consolas', monospace;
+
+  /* ─── Typography — scale ───────────────────────────────────────────────── */
+
+  --font-size-2xs: 11px;
+  --font-size-xs: 13px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 36px;
+  --font-size-4xl: 48px;
+  --font-size-5xl: 64px;
+  --font-size-display: 350px;
+
+  --font-weight-light: 200;
+  --font-weight-thin: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  --line-height-tight: 1;
+  --line-height-snug: 1.15;
+  --line-height-normal: 1.45;
+  --line-height-relaxed: 1.6;
+
+  --letter-spacing-tight: -0.24px;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.08px;
+  --letter-spacing-wider: 0.10px;
+  --letter-spacing-widest: 0.12px;
+  --letter-spacing-heading: 2.4px;
+
+  /* ─── Motion ───────────────────────────────────────────────────────────── */
+
+  --duration-instant: 100ms;
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+
+  --ease-default: ease;
+  --ease-in: ease-in;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: ease-in-out;
+  --ease-linear: linear;
+
+  --transition-fast: var(--duration-fast) var(--ease-default);
+  --transition-normal: var(--duration-normal) var(--ease-default);
+  --transition-slow: var(--duration-slow) var(--ease-out);
+
+  /* ─── Layout ───────────────────────────────────────────────────────────── */
+
+  --shell-topbar-height: 60px;
+  --shell-sidebar-width: 240px;
+  --shell-sidebar-collapsed-width: 48px;
+  --shell-canvas-padding-x: 28px;
+  --shell-canvas-padding-y: 24px;
+  --shell-canvas-radius: var(--radius-xl);
+
+  --z-base: 0;
+  --z-toolbar: 10;
+  --z-dropdown: 100;
+  --z-modal: 1000;
+
+  /* ─── Legacy aliases (backward compatibility — do not remove) ──────────── */
+
+  --font-primary: var(--font-family-sans);
+  --font-handwritten: var(--font-family-handwritten);
+  --font-cursive: var(--font-family-cursive);
+
+  --color-text-heading: var(--text-heading);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-workspace: var(--text-workspace);
+  --color-text-canvas-tab: var(--text-canvas-tab);
+  --color-text-planning: var(--text-planning);
+  --color-accent-link: var(--accent-primary);
+
+  --font-size-heading-xl: var(--font-size-display);
+  --font-size-heading-lg: var(--font-size-5xl);
+  --font-size-heading-md: var(--font-size-4xl);
+  --font-size-btn: var(--font-size-3xl);
+  --font-size-workspace: var(--font-size-2xl);
+  --font-size-body: var(--font-size-xl);
+  --font-size-small: var(--font-size-md);
+  --font-size-note-small: 15px;
+
+  --letter-spacing-workspace: var(--letter-spacing-widest);
+  --letter-spacing-body: var(--letter-spacing-wide);
+  --letter-spacing-ws-item: var(--letter-spacing-wider);
+
+  --bg-primary: var(--surface-base);
+  --bg-card: var(--surface-sunken);
+  --accent: var(--accent-link-ui);
+  --accent-link: var(--accent-primary);
+  --btn-google-bg: var(--color-white);
+  --btn-google-text: var(--text-google);
+  --note-bg: var(--surface-note);
+  --note-border: var(--border-note);
+  --illustration-border: var(--border-illustration);
+  --illustration-text: var(--text-illustration);
+  --btn-google-shadow: rgba(0, 0, 0, 0.1);
+  --card-shadow: rgba(0, 0, 0, 0.08);
+
+  --topbar-profile: var(--color-salmon);
+  --tab-active-bg: var(--surface-sunken);
+  --tab-inactive-bg: var(--color-gray-150);
+  --tab-border: var(--border-tab);
+  --canvas-bg: var(--surface-raised);
+  --toolbar-bg: var(--color-gray-350);
+  --icon-color: var(--icon-default);
+  --border-light: var(--border-default);
+}

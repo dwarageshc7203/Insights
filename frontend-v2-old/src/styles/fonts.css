@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Satisfy&display=swap');
+
+/* Dotted grid pattern for canvas areas */
+.canvas-grid {
+  background-color: #F8F9FA;
+  background-image: radial-gradient(circle, #C4CDD8 1.5px, transparent 1.5px);
+  background-size: 26px 26px;
+}
+
+/* Render-style shine sweep for Link-based button-like elements */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.13) 50%,
+    transparent 100%
+  );
+  transform: translateX(-105%);
+  transition: transform 0.5s ease;
+  pointer-events: none;
+}
+.btn-shine:hover::after {
+  transform: translateX(105%);
+}
+.btn-shine:hover {
+  transform: scale(1.02);
+  transition: transform 0.15s ease;
+}
+
+/* Hide scrollbars while preserving scroll functionality */
+.scrollbar-hidden {
+  scrollbar-width: none;
+}
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}

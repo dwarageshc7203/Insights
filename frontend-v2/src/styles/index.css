@@ -1,0 +1,19 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+@import './tokens.css';
+@import '../app/components/canvas/nodes/nodes.css';
+
+/* Toolbar slot — anchored to canvas, not viewport */
+.canvas-toolbar-slot {
+  position: absolute;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-toolbar);
+  pointer-events: none;
+}
+
+.canvas-toolbar-slot > * {
+  pointer-events: auto;
+}
