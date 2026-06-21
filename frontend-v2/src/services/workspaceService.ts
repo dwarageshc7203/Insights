@@ -13,4 +13,8 @@ export const workspaceService = {
   deleteWorkspace: async (workspaceId: number): Promise<void> => {
     return apiClient.delete<void>(`/workspace/${workspaceId}`);
   },
+
+  updateWorkspace: async (workspaceId: number, name: string): Promise<Workspace> => {
+    return apiClient.patch<Workspace>(`/workspace/${workspaceId}`, { workSpaceName: name });
+  },
 };

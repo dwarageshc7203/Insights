@@ -18,7 +18,7 @@ public class WorkSpace {
     @ManyToOne
     @JoinColumn(name = "userId")
     private User owner;
-    @OneToMany(mappedBy = "workSpace")
+    @OneToMany(mappedBy = "workSpace", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Canvas> canvas;
     @CreationTimestamp
     private Instant createdAt;

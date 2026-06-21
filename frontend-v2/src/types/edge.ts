@@ -3,5 +3,7 @@ export interface EdgeData {
   canvasId?: string;
   sourceId: string;
   targetId: string;
+  sourceHandle?: string;
+  targetHandle?: string;
   edgeName?: string;
 }

@@ -22,8 +22,8 @@ public class Canvas {
     @ManyToOne
     @JoinColumn(name = "workSpaceId")
     private WorkSpace workSpace;
-    @OneToMany(mappedBy = "canvas")
+    @OneToMany(mappedBy = "canvas", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Component> components;
-    @OneToMany(mappedBy = "canvas")
+    @OneToMany(mappedBy = "canvas", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Edge> edges;
 }

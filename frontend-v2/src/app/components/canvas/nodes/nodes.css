@@ -317,14 +317,14 @@
 }
 
 .canvas-node--shape-rhombus .canvas-node-shape-body {
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  transform: rotate(45deg) scale(0.7071);
 }
 .canvas-node--shape-square:hover .canvas-node-shape-body,
 .canvas-node--shape-oval:hover .canvas-node-shape-body {
   transform: scale(1.02);
 }
 .canvas-node--shape-rhombus:hover .canvas-node-shape-body {
-  transform: scale(1.02);
+  transform: rotate(45deg) scale(0.72);
 }
 
 .canvas-node--shape.is-selected .canvas-node-shape-body {
@@ -340,7 +340,7 @@
 }
 
 .canvas-node--shape-rhombus.is-selected:hover .canvas-node-shape-body {
-  transform: scale(1.02);
+  transform: rotate(45deg) scale(0.72);
 }
 
 /* ─── Edges — soft connectors, not flowchart wires ───────────────────────── */

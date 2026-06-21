@@ -99,13 +99,69 @@ export function useWorkspace() {
     }
   };
 
+  const deleteCanvas = async (workspaceId: string, canvasId: string) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      await canvasService.deleteCanvas(Number(canvasId));
+      setWorkspaces((prev) =>
+        prev.map((ws) =>
+          ws.id === workspaceId
+            ? { ...ws, canvases: ws.canvases.filter((c) => c.id !== canvasId) }
+            : ws
+        )
+      );
+    } catch (err: any) {
+      setError(err.message || 'Failed to delete canvas');
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const renameWorkspace = async (workspaceId: string, newName: string) => {
+    try {
+      await workspaceService.updateWorkspace(Number(workspaceId), newName);
+      setWorkspaces((prev) =>
+        prev.map((ws) => (ws.id === workspaceId ? { ...ws, name: newName } : ws))
+      );
+    } catch (err: any) {
+      console.error(err);
+      throw err;
+    }
+  };
+
+  const renameCanvas = async (workspaceId: string, canvasId: string, newName: string) => {
+    try {
+      await canvasService.updateCanvas(Number(canvasId), newName);
+      setWorkspaces((prev) =>
+        prev.map((ws) =>
+          ws.id === workspaceId
+            ? {
+                ...ws,
+                canvases: ws.canvases.map((c) =>
+                  c.id === canvasId ? { ...c, name: newName } : c
+                ),
+              }
+            : ws
+        )
+      );
+    } catch (err: any) {
+      console.error(err);
+      throw err;
+    }
+  };
+
   return {
     workspaces,
     isLoading,
     error,
     createWorkspace,
     deleteWorkspace,
+    renameWorkspace,
     createCanvas,
+    deleteCanvas,
+    renameCanvas,
     refreshWorkspaces: loadWorkspaces,
   };
 }

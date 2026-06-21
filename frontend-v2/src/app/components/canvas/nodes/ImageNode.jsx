@@ -37,15 +37,39 @@ export default function ImageNode({ id, data, selected }) {
     fileInputRef.current?.click();
   };
 
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const file = e.dataTransfer.files?.[0];
+    if (!file) return;
+
+    const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif'];
+    if (!validTypes.includes(file.type)) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const imgUrl = reader.result;
+      onImageChange(id, imgUrl);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
   return (
     <div
       className={`canvas-node canvas-node--image${selected ? ' is-selected' : ''}`}
       data-component-type="IMAGE"
       style={{
-        width: data.width > 0 ? data.width : 260,
-        height: data.height > 0 ? data.height : 200,
+        width: Number(data.width) > 0 ? Number(data.width) : 260,
+        height: Number(data.height) > 0 ? Number(data.height) : 200,
       }}
       onDoubleClick={handleDoubleClick}
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
     >
       <NodeResizer
           isVisible={selected}
@@ -57,7 +81,6 @@ export default function ImageNode({ id, data, selected }) {
       <div
         className="canvas-node-image-frame"
         onClick={!hasImage ? handlePlaceholderClick : undefined}
-        onDoubleClick={(e) => e.stopPropagation()}
         style={{ cursor: !hasImage ? 'pointer' : 'default' }}
       >
 

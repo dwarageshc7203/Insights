@@ -3,12 +3,11 @@ import { EdgeData } from '../types/edge';
 import { MarkerType } from '@xyflow/react';
 
 const SHAPE_PALETTE = [
-  '#e2f048',
-  '#8ac97a',
-  '#eeb2c6',
-  '#fca340',
-  '#40bbfc',
-  '#f0f048',
+  'rgba(255, 49, 49, 0.6)',
+  'rgba(255, 131, 0, 0.6)',
+  'rgba(255, 255, 0, 0.6)',
+  'rgba(57, 255, 20, 0.6)',
+  'rgba(0, 150, 255, 0.6)',
 ];
 
 export function componentTypeToNodeType(componentType: string | undefined) {
@@ -43,8 +42,8 @@ export function mapComponentToNode(component: ComponentData) {
   const defaultWidth = nodeType === 'text' ? 200 : nodeType === 'image' ? 260 : 140;
   const defaultHeight = nodeType === 'text' ? 80 : nodeType === 'image' ? 200 : 140;
 
-  const w = (component.width && component.width > 0) ? component.width : defaultWidth;
-  const h = (component.height && component.height > 0) ? component.height : defaultHeight;
+  const w = (component.width && Number(component.width) > 0) ? Number(component.width) : defaultWidth;
+  const h = (component.height && Number(component.height) > 0) ? Number(component.height) : defaultHeight;
 
   return {
     id: String(component.componentId),
@@ -72,6 +71,8 @@ export function mapEdgeToFlowEdge(edge: EdgeData) {
     id: String(edge.edgeId),
     source: String(edge.sourceId),
     target: String(edge.targetId),
+    sourceHandle: edge.sourceHandle || null,
+    targetHandle: edge.targetHandle || null,
     type: 'editable',
     selectable: true,
     focusable: true,

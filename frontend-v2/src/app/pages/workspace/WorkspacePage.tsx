@@ -7,6 +7,7 @@ import CreateWorkspaceModal from './components/modals/CreateWorkspaceModal'
 import CreateCanvasModal from './components/modals/CreateCanvasModal'
 import RenameModal from './components/modals/RenameModal'
 import ShortcutHelpModal from './components/modals/ShortcutHelpModal'
+import DeleteConfirmationModal from './components/modals/DeleteConfirmationModal'
 import { useKeyboardShortcuts } from '@/app/hooks/useKeyboardShortcuts'
 import { useIsMobile } from '@/app/components/ui/use-mobile'
 import type { Tab, RenameTarget } from './workspaceTypes'
@@ -18,7 +19,7 @@ export default function WorkspacePage() {
   const isMobile = useIsMobile()
   const searchRef = useRef<HTMLInputElement>(null)
 
-  const { workspaces, isLoading, createWorkspace, deleteWorkspace, createCanvas } = useWorkspace()
+  const { workspaces, isLoading, createWorkspace, deleteWorkspace, renameWorkspace, createCanvas, deleteCanvas, renameCanvas } = useWorkspace()
 
   const [activeWorkspace, setActiveWorkspace] = useState('')
   const [activeCanvas, setActiveCanvas] = useState('')
@@ -35,6 +36,8 @@ export default function WorkspacePage() {
   const [renameOpen, setRenameOpen] = useState(false)
   const [renameTarget, setRenameTarget] = useState<RenameTarget | null>(null)
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [deleteTarget, setDeleteTarget] = useState<{ type: 'workspace' | 'canvas', workspaceId: string, canvasId?: string } | null>(null)
 
   useEffect(() => {
     if (workspaces.length > 0 && !activeWorkspace) {
@@ -70,11 +73,9 @@ export default function WorkspacePage() {
   }
 
   const addNewTab = () => {
-    const id = `new-${++idCounter}`
-    const name = `Untitled ${idCounter - 199}`
-    setTabs((p) => [...p, { id, name }])
-    setActiveTab(id)
-    setActiveCanvas(id)
+    if (activeWorkspace) {
+      openCreateCanvas(activeWorkspace)
+    }
   }
 
   const handleCreateWorkspace = async (name: string) => {
@@ -121,6 +122,34 @@ export default function WorkspacePage() {
   const activeTabName = tabs.find((t) => t.id === activeTab)?.name ?? 'Canvas'
   const createCanvasWsName = workspaces.find((w) => w.id === createCanvasWorkspaceId)?.name ?? ''
 
+  const confirmDeleteWorkspace = (id: string) => {
+    setDeleteTarget({ type: 'workspace', workspaceId: id })
+    setDeleteModalOpen(true)
+  }
+
+  const confirmDeleteCanvas = (workspaceId: string, canvasId: string) => {
+    setDeleteTarget({ type: 'canvas', workspaceId, canvasId })
+    setDeleteModalOpen(true)
+  }
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteTarget) return;
+    try {
+      if (deleteTarget.type === 'workspace') {
+        await deleteWorkspace(deleteTarget.workspaceId)
+        if (activeWorkspace === deleteTarget.workspaceId) {
+          setActiveWorkspace('')
+          setActiveCanvas('')
+        }
+      } else if (deleteTarget.type === 'canvas' && deleteTarget.canvasId) {
+        await deleteCanvas(deleteTarget.workspaceId, deleteTarget.canvasId)
+        closeTab(deleteTarget.canvasId)
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   const sidebar = (
     <WorkspaceSidebar
       workspaces={workspaces}
@@ -132,7 +161,10 @@ export default function WorkspacePage() {
       onToggleCollapse={() => setSidebarCollapsed((v) => !v)}
       onOpenCreateWorkspace={() => setCreateWorkspaceOpen(true)}
       onOpenCreateCanvas={openCreateCanvas}
-      onOpenRename={openRename}
+      onRenameWorkspace={renameWorkspace}
+      onRenameCanvas={renameCanvas}
+      onDeleteWorkspace={confirmDeleteWorkspace}
+      onDeleteCanvas={confirmDeleteCanvas}
       searchQuery={searchQuery}
       onSearchChange={setSearchQuery}
       onFocusSearch={() => searchRef.current?.focus()}
@@ -214,6 +246,12 @@ export default function WorkspacePage() {
         onRename={handleRename}
       />
       <ShortcutHelpModal open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
+      <DeleteConfirmationModal
+        open={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={handleDeleteConfirm}
+        type={deleteTarget?.type || null}
+      />
     </div>
   )
 }

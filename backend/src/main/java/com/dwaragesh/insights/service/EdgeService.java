@@ -36,6 +36,8 @@ public class EdgeService {
         edge.setColor(request.color());
         edge.setSourceId(request.sourceId());
         edge.setTargetId(request.targetId());
+        edge.setSourceHandle(request.sourceHandle());
+        edge.setTargetHandle(request.targetHandle());
 
         Edge savedEdge = repository.save(edge);
 
@@ -44,7 +46,9 @@ public class EdgeService {
                 savedEdge.getEdgeName(),
                 savedEdge.getColor(),
                 savedEdge.getSourceId(),
-                savedEdge.getTargetId()
+                savedEdge.getTargetId(),
+                savedEdge.getSourceHandle(),
+                savedEdge.getTargetHandle()
         );
     }
 

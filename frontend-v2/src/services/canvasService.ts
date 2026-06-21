@@ -17,4 +17,8 @@ export const canvasService = {
   loadCanvas: async (canvasId: number): Promise<{ components: any[], edges: any[] }> => {
     return apiClient.get<{ components: any[], edges: any[] }>(`/canvas/${canvasId}/load`);
   },
+
+  updateCanvas: async (canvasId: number, name: string): Promise<Canvas> => {
+    return apiClient.patch<Canvas>(`/canvas/${canvasId}`, { canvasName: name });
+  },
 };

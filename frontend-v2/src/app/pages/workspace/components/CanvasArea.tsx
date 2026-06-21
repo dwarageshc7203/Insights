@@ -1,5 +1,5 @@
 import { ZoomIn, ZoomOut, Maximize2, Hand, MousePointer2 } from 'lucide-react'
-import { ReactFlow, Background, ReactFlowProvider, useReactFlow, useOnSelectionChange } from '@xyflow/react'
+import { ReactFlow, Background, ReactFlowProvider, useReactFlow, useOnSelectionChange, Panel } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useCanvasFlow } from '@/hooks/useCanvasFlow'
@@ -96,24 +96,24 @@ function CanvasInner({ canvasId, canvasName }: { canvasId?: string, canvasName: 
           className="react-flow-wrapper"
         >
           <Background variant="dots" gap={24} size={2} color="#cfcfcf" />
+          <Panel position="bottom-center">
+            <div className="canvas-toolbar-slot" style={{ position: 'relative', bottom: 'auto', left: 'auto', transform: 'none' }}>
+              <ComponentToolbar
+                onAddText={() => handleAddComponent('TEXT', getCenterPosition())}
+                onAddImage={() => handleAddComponent('IMAGE', getCenterPosition())}
+                onAddShape={(shape: string, color: string) =>
+                  handleAddComponent('NODE', getCenterPosition(), shape, color)
+                }
+                onShapeColorSelect={(color: string) => {
+                  if (selectedNodeId) {
+                    handleColorChange(selectedNodeId, color);
+                  }
+                }}
+              />
+            </div>
+          </Panel>
         </ReactFlow>
       </CanvasInteractionProvider>
-
-      {/* Legacy toolbar — bottom-center */}
-      <div className="canvas-toolbar-slot">
-        <ComponentToolbar
-          onAddText={() => handleAddComponent('TEXT', getCenterPosition())}
-          onAddImage={() => handleAddComponent('IMAGE', getCenterPosition())}
-          onAddShape={(shape: string, color: string) =>
-            handleAddComponent('NODE', getCenterPosition(), shape, color)
-          }
-          onShapeColorSelect={(color: string) => {
-            if (selectedNodeId) {
-              handleColorChange(selectedNodeId, color);
-            }
-          }}
-        />
-      </div>
     </div>
   );
 }

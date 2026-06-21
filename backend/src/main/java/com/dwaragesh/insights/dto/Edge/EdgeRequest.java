@@ -5,7 +5,9 @@ public record EdgeRequest(
         String edgeName,
         String color,
         int sourceId,
-        int targetId
+        int targetId,
+        String sourceHandle,
+        String targetHandle
 
 ) {
 }

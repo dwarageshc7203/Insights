@@ -1,12 +1,11 @@
 import {nodeTypes} from "./index.js";
 
 const SHAPE_PALETTE = [
-  '#e2f048',
-  '#8ac97a',
-  '#eeb2c6',
-  '#fca340',
-  '#40bbfc',
-  '#f0f048',
+  'rgba(255, 49, 49, 0.6)',
+  'rgba(255, 131, 0, 0.6)',
+  'rgba(255, 255, 0, 0.6)',
+  'rgba(57, 255, 20, 0.6)',
+  'rgba(0, 150, 255, 0.6)',
 ];
 
 export function componentTypeToNodeType(componentType) {

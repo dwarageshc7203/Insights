@@ -88,9 +88,11 @@ export function useCanvasFlow(canvasId: string | null) {
     
     try {
       const edge = await edgeService.createEdge(Number(canvasId), {
-        edgeName: 'connection',
+        edgeName: '',
         sourceId: params.source,
-        targetId: params.target
+        targetId: params.target,
+        sourceHandle: params.sourceHandle || undefined,
+        targetHandle: params.targetHandle || undefined
       });
       
       setEdges((eds) =>

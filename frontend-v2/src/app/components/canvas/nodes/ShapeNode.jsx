@@ -69,7 +69,14 @@ export default function ShapeNode({ id, data, selected }) {
     >
       <NodeResizer isVisible={selected} minWidth={60} minHeight={60} handleClassName="canvas-node-resizer" />
       {/* Shape background — behind text */}
-      <div className="canvas-node-shape-body" />
+      <div 
+        className="canvas-node-shape-body" 
+        style={{
+          '--shape-fill': data.color,
+          border: '2px solid black', 
+          borderRadius: variant === 'oval' ? '50%' : '8px' 
+        }} 
+      />
       {/* Text layer — above background, below handles */}
       <div className="canvas-node-shape-text">
         {isEditing ? (

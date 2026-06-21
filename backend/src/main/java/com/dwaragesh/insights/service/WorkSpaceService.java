@@ -75,4 +75,17 @@ public class WorkSpaceService {
         repository.delete(workSpace);
     }
 
+    //update WorkSpace
+    public WorkSpaceResponse updateWorkSpace(int workSpaceId, String newName) {
+        WorkSpace workSpace = repository.findById(workSpaceId)
+                .orElseThrow(() -> new EntityNotFoundException("WorkSpace not found"));
+        workSpace.setWorkSpaceName(newName);
+        WorkSpace saved = repository.save(workSpace);
+        return new WorkSpaceResponse(
+                saved.getWorkSpaceId(),
+                saved.getWorkSpaceName(),
+                saved.getOwner().getUserId(),
+                saved.getCreatedAt()
+        );
+    }
 }

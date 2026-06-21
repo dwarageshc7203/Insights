@@ -85,7 +85,7 @@ const CustomEdge = memo(
     return (
       <>
         <BaseEdge id={id} path={edgePath} style={style} markerEnd={markerEnd} />
-        {isValidPosition && (label || selected || isEditing) && (
+        {isValidPosition && (selected || label || isEditing) && (
           <EdgeLabelRenderer>
             <div
               style={{

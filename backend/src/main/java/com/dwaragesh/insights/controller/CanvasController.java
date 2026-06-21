@@ -48,4 +48,8 @@ public class CanvasController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @PatchMapping("/{canvasId}")
+    public ResponseEntity<CanvasResponse> updateCanvas(@PathVariable int canvasId, @RequestBody CanvasRequest request) {
+        return new ResponseEntity<>(service.updateCanvas(canvasId, request.canvasName()), HttpStatus.OK);
+    }
 }

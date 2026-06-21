@@ -47,11 +47,9 @@ public class WorkSpaceController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-//Update WorkSpace
-//    @GetMapping
-//    public ResponseEntity<Void> updateWorkSpace(int wid) {
-//        System.out.println("WorkSpace Delete controller called");
-//        return new ResponseEntity<>(service.updateWorkSpace(wid), HttpStatus.ACCEPTED);
-//    }
-//
+    //Update WorkSpace
+    @PatchMapping("/{workSpaceId}")
+    public ResponseEntity<WorkSpaceResponse> updateWorkSpace(@PathVariable int workSpaceId, @RequestBody WorkSpaceRequest request) {
+        return new ResponseEntity<>(service.updateWorkSpace(workSpaceId, request.workSpaceName()), HttpStatus.OK);
+    }
 }

@@ -99,7 +99,9 @@ public class CanvasService {
                         e.getEdgeName(),
                         e.getColor(),
                         e.getSourceId(),
-                        e.getTargetId()
+                        e.getTargetId(),
+                        e.getSourceHandle(),
+                        e.getTargetHandle()
                 ))
                 .toList();
 
@@ -117,8 +119,20 @@ public class CanvasService {
         Canvas canvas = repository.findById(canvasId)
                 .orElseThrow(() -> new EntityNotFoundException("Canvas not found"));
 
-        repository.deleteById(canvasId);
+        repository.delete(canvas);
     }
 
 
+    //update Canvas
+    public CanvasResponse updateCanvas(int canvasId, String newName) {
+        Canvas canvas = repository.findById(canvasId)
+                .orElseThrow(() -> new EntityNotFoundException("Canvas not found"));
+        canvas.setCanvasName(newName);
+        Canvas saved = repository.save(canvas);
+        return new CanvasResponse(
+                saved.getCanvasId(),
+                saved.getCanvasName(),
+                saved.getWorkSpace().getWorkSpaceId()
+        );
+    }
 }

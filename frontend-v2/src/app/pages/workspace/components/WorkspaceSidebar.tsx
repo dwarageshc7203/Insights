@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Search, Plus, ChevronRight, FileText, HelpCircle, LogOut, PanelLeft, MoreHorizontal } from 'lucide-react'
+import { Search, Plus, ChevronRight, FileText, HelpCircle, LogOut, PanelLeft, MoreHorizontal, Trash2 } from 'lucide-react'
 import { Link } from 'react-router'
 import { motion } from 'motion/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
@@ -17,7 +17,10 @@ type Props = {
   onToggleCollapse: () => void
   onOpenCreateWorkspace: () => void
   onOpenCreateCanvas: (workspaceId: string) => void
-  onOpenRename: (type: 'workspace' | 'canvas', id: string, name: string) => void
+  onRenameWorkspace?: (id: string, newName: string) => void
+  onRenameCanvas?: (wsId: string, canvasId: string, newName: string) => void
+  onDeleteWorkspace?: (id: string) => void
+  onDeleteCanvas?: (workspaceId: string, canvasId: string) => void
   searchQuery: string
   onSearchChange: (q: string) => void
   onFocusSearch: () => void
@@ -45,7 +48,8 @@ function SidebarTooltip({ label, children }: { label: string; children: React.Re
 export default function WorkspaceSidebar({
   workspaces, activeWorkspace, activeCanvas, collapsed,
   onSelectWorkspace, onSelectCanvas, onToggleCollapse,
-  onOpenCreateWorkspace, onOpenCreateCanvas, onOpenRename,
+  onOpenCreateWorkspace, onOpenCreateCanvas, onRenameWorkspace, onRenameCanvas,
+  onDeleteWorkspace, onDeleteCanvas,
   searchQuery, onSearchChange, searchRef,
 }: Props) {
   const { user, signOut } = useAuth()
@@ -55,6 +59,24 @@ export default function WorkspaceSidebar({
 
   const toggleExpanded = (id: string) => {
     setExpanded((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]))
+  }
+
+  const [editingWorkspace, setEditingWorkspace] = useState<string | null>(null)
+  const [editingCanvas, setEditingCanvas] = useState<string | null>(null)
+  const [renameDraft, setRenameDraft] = useState('')
+
+  const handleWorkspaceRenameSubmit = (wsId: string) => {
+    if (renameDraft.trim() && onRenameWorkspace) {
+      onRenameWorkspace(wsId, renameDraft.trim())
+    }
+    setEditingWorkspace(null)
+  }
+
+  const handleCanvasRenameSubmit = (wsId: string, canvasId: string) => {
+    if (renameDraft.trim() && onRenameCanvas) {
+      onRenameCanvas(wsId, canvasId, renameDraft.trim())
+    }
+    setEditingCanvas(null)
   }
 
   const filtered = workspaces.filter(
@@ -184,16 +206,44 @@ export default function WorkspaceSidebar({
                     >
                       {ws.name[0]}
                     </div>
-                    <span className="flex-1 text-left text-[13px] font-semibold truncate">{ws.name}</span>
+                    {editingWorkspace === ws.id ? (
+                      <input
+                        autoFocus
+                        value={renameDraft}
+                        onChange={(e) => setRenameDraft(e.target.value)}
+                        onBlur={() => handleWorkspaceRenameSubmit(ws.id)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') handleWorkspaceRenameSubmit(ws.id)
+                          if (e.key === 'Escape') setEditingWorkspace(null)
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        className="flex-1 bg-transparent text-left text-[13px] font-semibold truncate outline-none text-white border-b border-white/20"
+                      />
+                    ) : (
+                      <span 
+                        className="flex-1 text-left text-[13px] font-semibold truncate"
+                        onDoubleClick={(e) => {
+                          e.stopPropagation()
+                          setEditingWorkspace(ws.id)
+                          setRenameDraft(ws.name)
+                        }}
+                      >
+                        {ws.name}
+                      </span>
+                    )}
                     <ChevronRight className={`w-3 h-3 flex-shrink-0 transition-transform duration-150 ${isExpanded ? 'rotate-90' : ''} opacity-30`} />
                   </button>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); onOpenRename('workspace', ws.id, ws.name) }}
-                    className="opacity-0 group-hover:opacity-100 w-6 h-6 flex items-center justify-center rounded text-white/25 hover:text-white/60 hover:bg-white/[0.06] transition-all cursor-pointer mx-0.5"
-                    aria-label={`Rename ${ws.name}`}
-                  >
-                    <MoreHorizontal className="w-3 h-3" />
-                  </button>
+                  <div className="opacity-0 group-hover:opacity-100 flex items-center mr-1">
+                    {onDeleteWorkspace && (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); onDeleteWorkspace(ws.id) }}
+                        className="w-6 h-6 flex items-center justify-center rounded text-white/25 hover:text-red-400 hover:bg-white/[0.06] transition-all cursor-pointer"
+                        aria-label={`Delete ${ws.name}`}
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 {isExpanded && (
@@ -212,15 +262,43 @@ export default function WorkspaceSidebar({
                             aria-current={isCanvasActive ? 'true' : undefined}
                           >
                             <FileText className="w-3 h-3 flex-shrink-0 opacity-50" aria-hidden />
-                            <span className="truncate">{canvas.name}</span>
+                            {editingCanvas === canvas.id ? (
+                              <input
+                                autoFocus
+                                value={renameDraft}
+                                onChange={(e) => setRenameDraft(e.target.value)}
+                                onBlur={() => handleCanvasRenameSubmit(ws.id, canvas.id)}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') handleCanvasRenameSubmit(ws.id, canvas.id)
+                                  if (e.key === 'Escape') setEditingCanvas(null)
+                                }}
+                                onClick={(e) => e.stopPropagation()}
+                                className="bg-transparent truncate outline-none border-b border-white/20 w-full"
+                              />
+                            ) : (
+                              <span 
+                                className="truncate"
+                                onDoubleClick={(e) => {
+                                  e.stopPropagation()
+                                  setEditingCanvas(canvas.id)
+                                  setRenameDraft(canvas.name)
+                                }}
+                              >
+                                {canvas.name}
+                              </span>
+                            )}
                           </button>
-                          <button
-                            onClick={() => onOpenRename('canvas', canvas.id, canvas.name)}
-                            className="opacity-0 group-hover/canvas:opacity-100 w-5 h-5 flex items-center justify-center rounded text-white/25 hover:text-white/55 transition-all cursor-pointer mr-1"
-                            aria-label={`Rename ${canvas.name}`}
-                          >
-                            <MoreHorizontal className="w-2.5 h-2.5" />
-                          </button>
+                          <div className="opacity-0 group-hover/canvas:opacity-100 flex items-center mr-1">
+                            {onDeleteCanvas && (
+                              <button
+                                onClick={(e) => { e.stopPropagation(); onDeleteCanvas(ws.id, canvas.id) }}
+                                className="w-5 h-5 flex items-center justify-center rounded text-white/25 hover:text-red-400 hover:bg-white/[0.04] transition-all cursor-pointer"
+                                aria-label={`Delete ${canvas.name}`}
+                              >
+                                <Trash2 className="w-2.5 h-2.5" />
+                              </button>
+                            )}
+                          </div>
                         </div>
                       )
                     })}

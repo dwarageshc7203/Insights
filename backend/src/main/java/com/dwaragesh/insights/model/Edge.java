@@ -17,4 +17,6 @@ public class Edge {
     private String color;
     private int sourceId;
     private int targetId;
+    private String sourceHandle;
+    private String targetHandle;
 }

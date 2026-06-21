@@ -5,7 +5,7 @@ import './ComponentToolbar.css';
 
 export default function ComponentToolbar({ onAddText, onAddImage, onAddShape,onShapeColorSelect }) {
   const [showShapeMenu, setShowShapeMenu] = useState(false);
-    const [selectedColor, setSelectedColor] = useState('#39FF14');
+    const [selectedColor, setSelectedColor] = useState('rgba(0,255,0,0.6)');
   return (
     <div className="component-toolbar">
       <button
@@ -80,37 +80,46 @@ export default function ComponentToolbar({ onAddText, onAddImage, onAddShape,onS
 
                   <button
                       className="color-option"
-                      style={{ background: '#39FF14' }}
+                      style={{ background: 'rgba(255,0,0,0.6)' }}
                       onClick={() => {
-                          setSelectedColor('#39FF14');
-                          onShapeColorSelect?.('#39FF14');
+                          setSelectedColor('rgba(255,0,0,0.6)');
+                          onShapeColorSelect?.('rgba(255,0,0,0.6)');
                       }}
                   />
 
                   <button
                       className="color-option"
-                      style={{ background: '#FF1493' }}
+                      style={{ background: 'rgba(255,165,0,0.6)' }}
                       onClick={() => {
-                          setSelectedColor('#FF1493');
-                          onShapeColorSelect?.('#FF1493');
+                          setSelectedColor('rgba(255,165,0,0.6)');
+                          onShapeColorSelect?.('rgba(255,165,0,0.6)');
                       }}
                   />
 
                   <button
                       className="color-option"
-                      style={{ background: '#FF3131' }}
+                      style={{ background: 'rgba(255,255,0,0.6)' }}
                       onClick={() => {
-                          setSelectedColor('#FF3131');
-                          onShapeColorSelect?.('#FF3131');
+                          setSelectedColor('rgba(255,255,0,0.6)');
+                          onShapeColorSelect?.('rgba(255,255,0,0.6)');
                   }}
                   />
 
                   <button
                       className="color-option"
-                      style={{ background: '#FFFF33' }}
+                      style={{ background: 'rgba(0,255,0,0.6)' }}
                       onClick={() => {
-                          setSelectedColor('#FFFF33');
-                          onShapeColorSelect?.('#FFFF33');
+                          setSelectedColor('rgba(0,255,0,0.6)');
+                          onShapeColorSelect?.('rgba(0,255,0,0.6)');
+                      }}
+                  />
+
+                  <button
+                      className="color-option"
+                      style={{ background: 'rgba(0,0,255,0.6)' }}
+                      onClick={() => {
+                          setSelectedColor('rgba(0,0,255,0.6)');
+                          onShapeColorSelect?.('rgba(0,0,255,0.6)');
                       }}
                   />
 
