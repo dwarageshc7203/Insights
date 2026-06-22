@@ -20,7 +20,10 @@ export function useCanvasFlow(canvasId: string | null) {
     try {
       const data = await canvasService.loadCanvas(Number(id));
       setNodes(data.components.map(mapComponentToNode));
-      setEdges(data.edges.map(mapEdgeToFlowEdge));
+      setEdges(data.edges.map(edge => ({
+        ...mapEdgeToFlowEdge(edge),
+        data: { onLabelChange: handleEdgeLabelChange },
+      })));
       setPendingEditNodeId(null);
     } catch (err: any) {
       setError(err.message || 'Failed to load canvas');
@@ -65,7 +68,35 @@ export function useCanvasFlow(canvasId: string | null) {
   }, []);
 
   const onEdgesChange = useCallback((changes: EdgeChange[]) => {
-    setEdges((eds) => applyEdgeChanges(changes, eds));
+    setEdges((eds) => {
+      const updated = applyEdgeChanges(changes, eds);
+      return updated.map((e) => ({
+        ...e,
+        data: { ...(e.data || {}), onLabelChange: handleEdgeLabelChange },
+      }));
+    });
+  }, []);
+
+  const handleEdgeLabelChange = useCallback(async (edgeId: string, newLabel: string) => {
+    setEdges((eds) =>
+      eds.map((e) =>
+        e.id === edgeId
+          ? { ...e, label: newLabel }
+          : e
+      )
+    );
+    try {
+      const response = await edgeService.updateLabel(Number(edgeId), newLabel);
+      setEdges((eds) =>
+        eds.map((e) =>
+          e.id === edgeId
+            ? { ...e, label: response.edgeName || newLabel }
+            : e
+        )
+      );
+    } catch (err) {
+      console.error('Failed to update edge label', err);
+    }
   }, []);
 
   const onConnect = useCallback(async (params: Connection) => {
@@ -81,7 +112,8 @@ export function useCanvasFlow(canvasId: string | null) {
       label: '', 
       labelStyle: { fontSize: 12, fill: '#333' }, 
       labelBgStyle: { fill: '#ffffff', fillOpacity: 0.8 }, 
-      labelShow: true 
+      labelShow: true,
+      data: { onLabelChange: handleEdgeLabelChange },
     };
     
     setEdges((eds) => addEdge(newEdge, eds));
@@ -213,27 +245,6 @@ export function useCanvasFlow(canvasId: string | null) {
     }
   }, []);
 
-  const handleEdgeLabelChange = useCallback(async (edgeId: string, newLabel: string) => {
-    setEdges((eds) =>
-      eds.map((e) =>
-        e.id === edgeId
-          ? { ...e, label: newLabel }
-          : e
-      )
-    );
-    try {
-      const response = await edgeService.updateLabel(Number(edgeId), newLabel);
-      setEdges((eds) =>
-        eds.map((e) =>
-          e.id === edgeId
-            ? { ...e, label: response.edgeName || newLabel }
-            : e
-        )
-      );
-    } catch (err) {
-      console.error('Failed to update edge label', err);
-    }
-  }, []);
 
   return {
     nodes,

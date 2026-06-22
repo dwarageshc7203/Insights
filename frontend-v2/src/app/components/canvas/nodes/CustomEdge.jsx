@@ -48,8 +48,11 @@ const CustomEdge = memo(
 
     const handleDoubleClick = useCallback((e) => {
       e.stopPropagation();
+      console.log('CustomEdge handleDoubleClick', { id });
       setIsEditing(true);
     }, []);
+
+    console.log('CustomEdge data prop', data);
 
     const handleBlur = useCallback(() => {
       setIsEditing(false);
@@ -84,56 +87,58 @@ const CustomEdge = memo(
 
     return (
       <>
-        <BaseEdge id={id} path={edgePath} style={style} markerEnd={markerEnd} />
-        {isValidPosition && (selected || label || isEditing) && (
-          <EdgeLabelRenderer>
-            <div
-              style={{
-                position: 'absolute',
-                transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
-                pointerEvents: 'all',
-              }}
-              className="edge-label-container"
-            >
-              {isEditing ? (
-                <input
-                  ref={inputRef}
-                  type="text"
-                  className="edge-label-editor"
-                  value={draft}
-                  onChange={(e) => setDraft(e.target.value)}
-                  onBlur={handleBlur}
-                  onKeyDown={handleKeyDown}
-                  style={{
-                    background: 'white',
-                    border: selected ? '2px solid var(--accent-primary)' : '1px solid #ccc',
-                    borderRadius: '4px',
-                    padding: '4px 8px',
-                    fontSize: '12px',
-                    minWidth: '60px',
-                    textAlign: 'center',
-                  }}
-                />
-              ) : (
-                <div
-                  onDoubleClick={handleDoubleClick}
-                  className={`edge-label ${selected ? 'edge-label--selected' : ''}`}
-                  style={{
-                    background: 'white',
-                    border: selected ? '2px solid var(--accent-primary)' : '1px solid #ccc',
-                    borderRadius: '4px',
-                    padding: '4px 8px',
-                    fontSize: '12px',
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {label || ''}
-                </div>
-              )}
-            </div>
-          </EdgeLabelRenderer>
-        )}
+        {/* Wrap edge path and optional label to capture double‑clicks anywhere on the edge */}
+        <g onDoubleClick={handleDoubleClick}>
+          <BaseEdge id={id} path={edgePath} style={style} markerEnd={markerEnd} />
+          {isValidPosition && (isEditing || (label && label.trim())) && (
+            <EdgeLabelRenderer>
+              <div
+                style={{
+                  position: 'absolute',
+                  transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
+                  pointerEvents: 'all',
+                }}
+                className="edge-label-container"
+              >
+                {isEditing ? (
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    className="edge-label-editor"
+                    value={draft}
+                    onChange={(e) => setDraft(e.target.value)}
+                    onBlur={handleBlur}
+                    onKeyDown={handleKeyDown}
+                    style={{
+                      background: 'white',
+                      border: selected ? '2px solid var(--accent-primary)' : '1px solid #ccc',
+                      borderRadius: '4px',
+                      padding: '8px 12px',
+                      fontSize: '12px',
+                      minWidth: '60px',
+                      textAlign: 'center',
+                    }}
+                  />
+                ) : (
+                  <div
+                    className={`edge-label ${selected ? 'edge-label--selected' : ''}`}
+                    style={{
+                      background: 'white',
+                      border: selected ? '2px solid var(--accent-primary)' : '1px solid #ccc',
+                      borderRadius: '4px',
+                      padding: '8px 12px',
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {label}
+                  </div>
+                )}
+              </div>
+            </EdgeLabelRenderer>
+          )}
+        </g>
       </>
     );
   }
