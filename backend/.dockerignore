@@ -1,0 +1,28 @@
+# Exclude build output — only the Maven wrapper and source are needed
+target/
+
+# IDE project files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS artefacts
+.DS_Store
+Thumbs.db
+
+# Git metadata
+.git/
+.gitignore
+.gitattributes
+
+# Local secrets — NEVER bake into the image
+.env
+
+# Documentation and test reports
+*.md
+docs/
+
+# Maven wrapper JAR (downloaded at build time)
+.mvn/wrapper/maven-wrapper.jar

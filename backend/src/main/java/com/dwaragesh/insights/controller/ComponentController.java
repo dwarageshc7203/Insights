@@ -2,16 +2,18 @@ package com.dwaragesh.insights.controller;
 
 import com.dwaragesh.insights.dto.Component.*;
 import com.dwaragesh.insights.service.ComponentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/component")
 public class ComponentController {
+
+    private static final Logger log = LoggerFactory.getLogger(ComponentController.class);
 
     @Autowired
     private ComponentService service;
@@ -55,10 +57,9 @@ public class ComponentController {
     //patch imageComponent
     @PatchMapping("/{componentId}/image")
     public ResponseEntity<ComponentImagePatchResponse> patchImageComponent(@PathVariable int componentId, @RequestBody ComponentImagePatchRequest request) {
-        System.out.println("IMAGE PATCH HIT");
-        System.out.println("ID = " + componentId);
-        System.out.println("URL LENGTH = " +
-                (request.imgUrl() == null ? 0 : request.imgUrl().length()));
+        log.debug("IMAGE PATCH HIT — componentId={}, urlLength={}",
+                componentId,
+                request.imgUrl() == null ? 0 : request.imgUrl().length());
         return new ResponseEntity<>(service.patchImageComponent(componentId, request), HttpStatus.OK);
     }
 

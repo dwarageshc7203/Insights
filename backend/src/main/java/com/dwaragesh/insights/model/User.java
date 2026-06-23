@@ -3,7 +3,6 @@ package com.dwaragesh.insights.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.aot.generate.GeneratedTypeReference;
 
 import java.time.Instant;
 import java.util.List;

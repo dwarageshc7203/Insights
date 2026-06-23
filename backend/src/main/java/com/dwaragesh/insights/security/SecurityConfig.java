@@ -26,12 +26,17 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/ai/**",
+                        .requestMatchers(
+                                "/ai/**",
                                 "/auth/sync",
                                 "/workspace/**",
                                 "/canvas/**",
                                 "/component/**",
-                                "/edge/**")
+                                "/edge/**",
+                                "/health",
+                                "/actuator/health",
+                                "/actuator/health/**"
+                        )
                         .permitAll()
                         .anyRequest().authenticated()
                 )
