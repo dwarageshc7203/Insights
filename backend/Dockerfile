@@ -48,6 +48,12 @@ RUN chown appuser:appgroup app.jar
 
 USER appuser
 
+# Default Spring profile for this image is 'prod'.
+# Render (or any container platform) can override this by setting
+# the SPRING_PROFILES_ACTIVE environment variable in the service config.
+# Local developers can override it via their .env file (read by spring-dotenv).
+ENV SPRING_PROFILES_ACTIVE=prod
+
 # Render (and most container platforms) inject $PORT at runtime.
 # The app reads it via server.port=${PORT:8080} in application.properties.
 EXPOSE 8080
