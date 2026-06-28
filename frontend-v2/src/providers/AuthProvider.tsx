@@ -18,11 +18,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const hasSyncedRef = React.useRef(false);
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
-      if (session) {
+      if (session && !hasSyncedRef.current) {
+        hasSyncedRef.current = true;
         authService.syncUserWithBackend(session).catch(console.error);
       }
       setIsLoading(false);
@@ -31,7 +33,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
-      if (session) {
+      if (session && !hasSyncedRef.current) {
+        hasSyncedRef.current = true;
         authService.syncUserWithBackend(session).catch(console.error);
       }
       setIsLoading(false);
